@@ -21,11 +21,11 @@ const Cards = (props: Props) => {
 					<div className="flex justify-between ">
 						<div className='flex'>
 							{Array(5).fill(true).map((_, i) => (
-								<Icon size={17} name='star.png' key={i} />
+								<Icon classes='' size={17} name='star.png' key={i} />
 							))}
 						</div>
 
-						<Icon size={17} name={`${props.icon}.png`} />
+						<Icon classes='' size={17} name={`${props.icon}.png`} />
 
 					</div>
 				</div>
