@@ -1,5 +1,12 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { Icon } from './Icon'
+
+const icons = [
+	'profile-circle.png',
+	'shopping-cart.png',
+	'chart.png',
+]
 
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 	return (
@@ -19,37 +26,38 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
 						<div className='flex justify-between bg-[#4D4D4D]  w-[30%] a-center p-2 rounded-xl'>
 							<input className='input outline-none bg-transparent' type="text" placeholder='Games / Apps / Assets' />
-
-							<Image src="/images/icons/search-icon.png" alt="search icon" height={20} width={20} />
+							<Icon classes='' name='search-icon.png' size={20} />
 						</div>
 
 						<div className='flex space-x-5 pr-5 flex a-center'>
-							<Image src="/images/icons/profile-circle.png" alt="search icon" height={20} width={20} />
-							<Image src="/images/icons/shopping-cart.png" alt="search icon" height={20} width={20} />
-							<Image src="/images/icons/chart.png" alt="search icon" height={20} width={20} />
-							<Image src="/images/icons/frame 1073.png" alt="search icon" height={20} width={70} />
+							{icons.map((a, b) => (
+								<Icon classes='' name={a} size={20} />
+							))}
+
+							<Icon classes='' name={'wallet.png'} size={[20, 70]} />
+
 						</div>
 					</div>
 
 
 					<div className='fixed z-54 w-[65px] h-[100vh] bg-[#212121]'>
 						<div className='justify-center'>
-							<img src="../images/icons/vector.png" alt="" className='pt-3 w-15 h-15 m-auto' />
-
+							<Icon classes='pt-3 m-auto' name={'vector.png'} size={35} />
 						</div>
 
 						<div className="flex mt-16 flex-col">
 							<div className='space-y-4'>
 
-								<Image src="/images/icons/Frame 1090.png" alt="search icon" height={40} className='rounded-md shadow-md shadow-brandpink0 w-15  m-auto' width={40} />
+								<Icon classes='rounded-md shadow-md shadow-brandpink0 w-15  m-auto' name={'logo.png'} size={40} />
 
-								<Image src="/images/icons/Frame 1090_1.png" alt="search icon" height={40} className='w-15 hover:rounded-md hover:shadow-md hover:shadow-brandpink0 m-auto' width={40} />
+								<Icon classes='hover:rounded-md hover:shadow-md hover:shadow-brandpink0 m-auto' name={'profile.png'} size={40} />
 
-								<Image src="/images/icons/Frame 1091.png" alt="search icon" height={40} className='w-15 hover:rounded-md hover:shadow-md hover:shadow-brandpink0 m-auto' width={40} />
+								<Icon classes='hover:rounded-md hover:shadow-md hover:shadow-brandpink0 m-auto' name={'dev.png'} size={40} />
+
 							</div>
 
 							<div className='absolute bottom-4 left-5'>
-								<Image src="/images/icons/Frame 185.png" alt="search icon" height={26} className='w-15 m-auto' width={26} />
+								<Icon classes='w-15 m-auto' name={'comment.png'} size={26} />
 							</div>
 						</div>
 

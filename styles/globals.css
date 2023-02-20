@@ -60,7 +60,7 @@
   left: 46px;
   top: -9px;
   z-index: -500;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(146, 146, 146, 0) 135.21%), url('../public/images/Assassin-s\ Creed\ Valhalla.png');
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%), linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(146, 146, 146, 0) 135.21%), url('../public/images/Assassin-s_Creed_Valhalla.png');
   filter: blur(4px);
   background-size: cover;
 }
@@ -72,7 +72,7 @@
   left: 120px;
   top: 130px;
   z-index: -10;
-  background: linear-gradient(90deg, rgba(32, 32, 32, 0.74) 0%, rgba(0, 0, 0, 0) 100%), url('../public/images/Assassin-s\ Creed\ Valhalla.png');
+  background: linear-gradient(90deg, rgba(32, 32, 32, 0.74) 0%, rgba(0, 0, 0, 0) 100%), url('../public/images/Assassin-s_Creed_Valhalla.png');
   background-size: cover;
   /* artus pink 80% */
 
@@ -84,18 +84,8 @@
 .card {
   width: 212px;
   height: 236px;
-
-  background: #AEAEAE;
-  /* drop shadow 3 */
-
   box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-
-  /* Inside auto layout */
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
 }
 
 * {
