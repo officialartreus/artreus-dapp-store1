@@ -1,4 +1,5 @@
-import Cards from "@/components/Cards";
+import { Card, MiniCards } from "@/components/Cards";
+import { Icon } from "@/components/Icon";
 import Image from "next/image";
 
 const mostPopular = [
@@ -38,31 +39,75 @@ const mostPopular = [
 export default function Home() {
   return (
     <>
-      <div>
+      <div className="ml-[3rem]">
         <div className='hero'>
           {/* <Image alt='' className="w-full h-[480px] z-[-1000]" width={200} height={200} src='/images/Assassin-s_Creed_Valhalla.png' /> */}
         </div>
 
 
-        <div className='hero2 overflow-hidden ml-[10rem] w-[100%] max-h-[480px]'>
+        <div className='hero2 overflow-hidden m-auto w-[100%] max-h-[480px]'>
           {/* <Image unoptimized alt='' className="w-[100%] object-cover h-[480px]" width={200} height={200} src='/images/Assassin-s_Creed_Valhalla.png' /> */}
         </div>
-        <div className="h-[600px]"></div>
+        <div className="h-[180px]"></div>
       </div>
 
       <section className="ml-20">
         <div>
-          <p className="text-[32px] font-weight-600 my-2 mb-4">Most Popular Games</p>
-          <div className="flex space-x-5 overflow-auto">
+          <p className="text-[32px] font-semibold my-2  mb-4">Most Popular Games</p>
+          <div className="flex space-x-5 ">
 
             {
               mostPopular.map((game, index) => (
-                <Cards key={index} src={game.src} name={game.name} icon={game.icon} />
+                <Card key={index} src={game.src} name={game.name} icon={game.icon} />
               ))
             }
           </div>
         </div>
 
+      </section>
+
+      <section className="ml-20 mt-10">
+        <div>
+          <p className="text-[32px] font-semibold my-2 mb-4">Recently Added</p>
+          <div className="flex flex-wrap gap-[10px]">
+            {Array(16).fill(true).map((val, i) => {
+              return (
+                <MiniCards />
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="ml-20 mt-[70px]">
+        <div className="relative">
+          <Image unoptimized alt='' className="rounded-[30px] border-[3px] border-[#FF3880] w-[100%] object-cover h-[300px]" width={200} height={200} src='/images/Battle.png' />
+          <div className="absolute top-[17%] left-[10%] ">
+            <p className="text-[50px] leading-[60px] text-white font-bold">
+              Purchase and Sell <br />
+              in Game assets
+            </p>
+
+            <div className="flex mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
+              <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
+              <p className="ml-[5px] text-xl">Buy Assets</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section className="ml-20 mt-10">
+        <div>
+          <p className="text-[32px] font-semibold my-2 mb-4">Hot Assets</p>
+          <div className="flex flex-wrap gap-[10px]">
+            {Array(16).fill(true).map((val, i) => {
+              return (
+                <MiniCards />
+              )
+            })}
+          </div>
+        </div>
       </section>
 
     </>

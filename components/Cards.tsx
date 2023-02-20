@@ -9,7 +9,37 @@ type Props = {
 	icon: string
 }
 
-const Cards = (props: Props) => {
+export const MiniCards = () => {
+
+	return (
+		<>
+			<div className="rounded-md flex w-[261px]">
+				<div >
+					<Image className='minicard border-[3px] border-[#FF3880] object-cover w-[72px] h-[72px] ' src={`/images/Magequit_Cover.jpg`} width={212} height={212} alt={''} />
+				</div>
+				<div className='ml-2'>
+					<div>
+						<p className='text-[16px] font-semibold text-[#4D4D4D]'>Direct Money Szaz</p>
+						<p className='text-[#FF3880] text-[12px]'>App / Games</p>
+
+					</div>
+					<div className="flex space-x-2">
+						<div className='flex space-x-1 a-center'>
+							{Array(5).fill(true).map((_, i) => (
+								<Icon classes='h-[20px] w-[16px] cursor-pointer' size={12} name='star.png' key={i} />
+							))}
+						</div>
+						<button className='text-white font-semibold h-[27px] w-[54px] bg-[#212121] rounded-2xl'>Get</button>
+					</div>
+				</div>
+
+			</div >
+		</>
+	)
+}
+
+
+export const Card = (props: Props) => {
 
 	return (
 		<>
@@ -20,7 +50,7 @@ const Cards = (props: Props) => {
 				<div className='p-2'>
 					<p className='mb-2 text-[#FF3880] text-lg'>{props.name}</p>
 					<div className="flex justify-between ">
-						<div className='flex'>
+						<div className='flex space-x-1'>
 							{Array(5).fill(true).map((_, i) => (
 								<Icon classes='' size={17} name='star.png' key={i} />
 							))}
@@ -35,5 +65,3 @@ const Cards = (props: Props) => {
 		</>
 	)
 }
-
-export default Cards
