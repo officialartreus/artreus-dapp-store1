@@ -31,7 +31,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
 						<div className='flex space-x-5 pr-5 flex a-center'>
 							{icons.map((a, b) => (
-								<Icon classes='' name={a} size={20} />
+								<Icon key={b} classes='' name={a} size={20} />
 							))}
 
 							<Icon classes='' name={'wallet.png'} size={[20, 70]} />
