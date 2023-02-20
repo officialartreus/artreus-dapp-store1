@@ -103,7 +103,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-[10px]">
             {Array(16).fill(true).map((val, i) => {
               return (
-                <MiniCards />
+                <MiniCards key={i} />
               )
             })}
           </div>
