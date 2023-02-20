@@ -1,4 +1,5 @@
 import Cards from "@/components/Cards";
+import Image from "next/image";
 
 const mostPopular = [
   {
@@ -37,16 +38,22 @@ const mostPopular = [
 export default function Home() {
   return (
     <>
-      <div className='hero'>
+      <div>
+        <div className='hero'>
+          {/* <Image alt='' className="w-full h-[480px] z-[-1000]" width={200} height={200} src='/images/Assassin-s_Creed_Valhalla.png' /> */}
+        </div>
+
+
+        <div className='hero2 overflow-hidden ml-[10rem] w-[100%] max-h-[480px]'>
+          {/* <Image unoptimized alt='' className="w-[100%] object-cover h-[480px]" width={200} height={200} src='/images/Assassin-s_Creed_Valhalla.png' /> */}
+        </div>
+        <div className="h-[600px]"></div>
       </div>
-      <div className='hero2'>
-      </div>
-      <div className="h-[600px]"></div>
 
       <section className="ml-20">
         <div>
           <p className="text-[32px] font-weight-600 my-2 mb-4">Most Popular Games</p>
-          <div className="flex space-x-5">
+          <div className="flex space-x-5 overflow-auto">
 
             {
               mostPopular.map((game, index) => (

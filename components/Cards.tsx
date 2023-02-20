@@ -15,6 +15,7 @@ const Cards = (props: Props) => {
 		<>
 			<div className="card rounded-md bg-[#FFFFFF] w-[212px] h-[236px]">
 				<div className={`rounded-t-[20px] bg-no-repeat bg-cover bg-center w-[212px] h-[160px] bg-[url(/images/` + props.src + `)]`}>
+					<Image className='rounded-t-[20px] w-[212px] h-[160px] ' src={`/images/` + props.src} width={212} height={212} alt={props.src} />
 				</div>
 				<div className='p-2'>
 					<p className='mb-2 text-[#FF3880] text-lg'>{props.name}</p>

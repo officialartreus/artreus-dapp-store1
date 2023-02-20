@@ -40,15 +40,15 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 					</div>
 
 
-					<div className='fixed z-54 w-[65px] h-[100vh] bg-[#212121]'>
+					<div className='fixed side-nav z-504 w-[55px] h-[100vh] bg-[#212121]'>
 						<div className='justify-center'>
-							<Icon classes='pt-3 m-auto' name={'vector.png'} size={35} />
+							<Icon classes='pt-3 m-auto' name={'logo.png'} size={35} />
 						</div>
 
 						<div className="flex mt-16 flex-col">
 							<div className='space-y-4'>
 
-								<Icon classes='rounded-md shadow-md shadow-brandpink0 w-15  m-auto' name={'logo.png'} size={40} />
+								<Icon classes='rounded-md shadow-md shadow-brandpink0 w-15  m-auto' name={'market.png'} size={40} />
 
 								<Icon classes='hover:rounded-md hover:shadow-md hover:shadow-brandpink0 m-auto' name={'profile.png'} size={40} />
 
