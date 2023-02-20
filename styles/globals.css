@@ -91,7 +91,11 @@
   filter: drop-shadow(0px 12px 24px rgba(0, 0, 0, 0.1));
 }
 
-
+.cloud-section {
+  background: linear-gradient(266.19deg, #FF0660 0%, #6039CF 100.76%);
+  box-shadow: 0.5px 0.5px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 36px;
+}
 
 
 

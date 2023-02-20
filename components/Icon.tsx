@@ -8,11 +8,11 @@ type Props = {
 export const Icon = (props: Props) => {
     if (typeof props.size == 'number') {
         return (
-            <Image className={`${props.classes}`} width={props.size} alt={props.name} height={props.size} src={`/images/icons/${props.name}`} />
+            <Image unoptimized className={`${props.classes}`} width={props.size} alt={props.name} height={props.size} src={`/images/icons/${props.name}`} />
         )
     } else {
         return (
-            <Image className={`${props.classes}`} width={props.size[1]} alt={props.name} height={props.size[0]} src={`/images/icons/${props.name}`} />
+            <Image unoptimized className={`${props.classes}`} width={props.size[1]} alt={props.name} height={props.size[0]} src={`/images/icons/${props.name}`} />
         )
     }
 }
