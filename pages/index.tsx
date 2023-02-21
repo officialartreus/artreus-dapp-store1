@@ -1,7 +1,7 @@
 import { Card, MiniCards } from "@/components/Cards";
 import { Icon } from "@/components/Icon";
 import Image from "next/image";
-
+import Hotlist from '../components/Hotlist';
 const mostPopular = [
   {
     src: 'A_Plague_Tale_Requiem_1.jpg',
@@ -147,6 +147,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <Hotlist/>
 
     </>
   )
