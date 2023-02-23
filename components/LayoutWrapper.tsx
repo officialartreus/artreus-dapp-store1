@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Icon } from './Utils/Icon'
 
 const icons = [
@@ -42,7 +43,9 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
 					<div className='fixed side-nav z-5104 w-[55px] h-[100vh] bg-[#212121]'>
 						<div className='justify-center'>
-							<Icon classes='pt-3 m-auto' name={'logo.png'} size={35} />
+							<Link href={'/'}>
+								<Icon classes='pt-3 m-auto' name={'logo.png'} size={35} />
+							</Link>
 						</div>
 
 						<div className="flex mt-16 flex-col">

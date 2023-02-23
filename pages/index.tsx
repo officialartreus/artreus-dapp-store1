@@ -2,6 +2,7 @@
 import { Icon } from "@/components/Utils/Icon";
 import Image from "next/image";
 import { Hero, HotAssets, MostPopular } from "@/components/Homepage";
+import Link from "next/link";
 
 
 
@@ -26,11 +27,13 @@ export default function Home() {
               Purchase and Sell <br />
               in Game assets
             </p>
+            <Link href={'/buyassets'}>
+              <div className="flex mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
+                <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
+                <p className="ml-[5px] text-xl">Buy Assets</p>
+              </div>
+            </Link>
 
-            <div className="flex mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
-              <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
-              <p className="ml-[5px] text-xl">Buy Assets</p>
-            </div>
 
           </div>
         </div>

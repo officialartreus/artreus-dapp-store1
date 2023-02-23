@@ -34,16 +34,11 @@ const BuyAssets = () => {
 				<div className="relative absolute top-[85px]">
 					<Image unoptimized alt='' className="rounded-[30px] border-[3px] border-[#FF3880] w-[100%] object-cover h-[300px]" width={500} height={200} src='/images/Battle.png' />
 
-					<div className="absolute top-[17%] left-[10%] ">
+					<div className="absolute top-[27%] left-[10%] ">
 						<p className="text-[50px] leading-[60px] text-white font-bold">
 							Purchase and Sell <br />
 							in Game assets
 						</p>
-
-						<div className="flex mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
-							<Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
-							<p className="ml-[5px] text-xl">Buy Assets</p>
-						</div>
 
 					</div>
 
