@@ -1,0 +1,1 @@
+export { MostPopularAssets } from './MostPopularAssets'

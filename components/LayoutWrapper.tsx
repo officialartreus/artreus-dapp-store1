@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Icon } from './Icon'
+import { Icon } from './Utils/Icon'
 
 const icons = [
 	'profile-circle.png',
@@ -40,7 +40,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 					</div>
 
 
-					<div className='fixed side-nav z-504 w-[55px] h-[100vh] bg-[#212121]'>
+					<div className='fixed side-nav z-5104 w-[55px] h-[100vh] bg-[#212121]'>
 						<div className='justify-center'>
 							<Icon classes='pt-3 m-auto' name={'logo.png'} size={35} />
 						</div>

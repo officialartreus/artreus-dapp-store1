@@ -1,84 +1,23 @@
-import { Card, MiniCards } from "@/components/Cards";
-import { Icon } from "@/components/Icon";
+
+import { Icon } from "@/components/Utils/Icon";
 import Image from "next/image";
+import { Hero, HotAssets, MostPopular } from "@/components/Homepage";
 
-const mostPopular = [
-  {
-    src: 'A_Plague_Tale_Requiem_1.jpg',
-    name: 'Plague Tale Requiem',
-    icon: 'game',
-  },
-  {
-    src: 'Crossfire_Legion.jpg',
-    name: 'Crossfire Legion',
-    icon: 'gamepad',
-  },
-  {
-    src: 'Gamedec.png',
-    name: 'Gamedec',
-    icon: 'gamepad',
-  },
-  {
-    src: 'Assassin-s_Creed_Valhalla.png',
-    name: 'Assassin`s Creed Valhalla',
-    icon: 'gamepad',
-  },
-  {
-    src: 'HordeCore.jpg',
-    name: 'HordeCore',
-    icon: 'gamepad',
-  },
-  {
-    src: 'Kitaria_Fables_2.jpg',
-    name: 'Kitaria Fables',
-    icon: 'gamepad',
-  },
 
-]
 
 export default function Home() {
   return (
     <>
-      <div className="ml-[3rem]">
-        <div className='hero'>
-          {/* <Image alt='' className="w-full h-[480px] z-[-1000]" width={200} height={200} src='/images/Assassin-s_Creed_Valhalla.png' /> */}
-        </div>
+      <Hero />
+      <MostPopular />
 
-
-        <div className='hero2 overflow-hidden m-auto w-[100%] max-h-[480px]'>
-          {/* <Image unoptimized alt='' className="w-[100%] object-cover h-[480px]" width={200} height={200} src='/images/Assassin-s_Creed_Valhalla.png' /> */}
-        </div>
-        <div className="h-[180px]"></div>
+      {/* recently added  */}
+      <div className='mt-10 ml-20'>
+        <p className="text-[32px] font-semibold my-2 mb-4">Recently Added</p>
+        <HotAssets len={12} />
       </div>
 
-      <section className="ml-20">
-        <div>
-          <p className="text-[32px] font-semibold my-2  mb-4">Most Popular Games</p>
-          <div className="flex space-x-5 ">
-
-            {
-              mostPopular.map((game, index) => (
-                <Card key={index} src={game.src} name={game.name} icon={game.icon} />
-              ))
-            }
-          </div>
-        </div>
-
-      </section>
-
-      <section className="ml-20 mt-10">
-        <div>
-          <p className="text-[32px] font-semibold my-2 mb-4">Recently Added</p>
-          <div className="flex flex-wrap gap-[10px]">
-            {Array(16).fill(true).map((val, i) => {
-              return (
-                <MiniCards key={i} />
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
+      {/* Purchase and Sell  */}
       <section className="ml-20 mt-[70px]">
         <div className="relative">
           <Image unoptimized alt='' className="rounded-[30px] border-[3px] border-[#FF3880] w-[100%] object-cover h-[300px]" width={200} height={200} src='/images/Battle.png' />
@@ -97,19 +36,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="ml-20 mt-10">
-        <div>
-          <p className="text-[32px] font-semibold my-2 mb-4">Hot Assets</p>
-          <div className="flex flex-wrap gap-[10px]">
-            {Array(16).fill(true).map((val, i) => {
-              return (
-                <MiniCards key={i} />
-              )
-            })}
-          </div>
-        </div>
-      </section>
+      {/* hot assets  */}
+      <div className='mt-10 ml-20'>
+        <p className="text-[32px] font-semibold my-2 mb-4">Hot Assets</p>
+        <HotAssets len={12} />
+      </div>
 
+      {/* Cyberpunk2077_1  */}
       <section className="ml-20 mt-[70px]">
         <div className="relative">
           <Image unoptimized alt='' className="object-center rounded-[30px] border-[3px] border-[#FF3880] w-[100%] object-cover h-[430px]" width={200} height={200} src='/images/Cyberpunk2077_1.png' />
@@ -119,6 +52,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Buy and Sell NFTs section  */}
       <section className="ml-20 relative mt-[70px]">
         <div className="cloud-section w-[100%] overflow-hidden h-[312px]">
 
