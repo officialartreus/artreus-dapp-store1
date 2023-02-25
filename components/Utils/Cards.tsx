@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import { Icon } from './Icon'
 
@@ -29,7 +30,9 @@ export const MiniCards = () => {
 								<Icon classes='h-[20px] w-[16px] cursor-pointer' size={12} name='star.png' key={i} />
 							))}
 						</div>
-						<button className='text-white font-semibold h-[27px] w-[54px] bg-[#212121] rounded-2xl'>Get</button>
+						<Link href='/app/cyberpunk'>
+							<button className='text-white font-semibold h-[27px] w-[54px] bg-[#212121] rounded-2xl'>Get</button>
+						</Link>
 					</div>
 				</div>
 
