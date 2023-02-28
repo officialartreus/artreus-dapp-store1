@@ -159,7 +159,7 @@ const AppDetails = () => {
 							<p className='text-[16px] font-semibold text-[#212121]'>Price History</p>
 						</div>
 
-						<Icon classes='' name='vector 91.svg' size={20} />
+						<Icon classes='' name='Vector 91.svg' size={20} />
 					</div>
 
 					<div className='p-5'>
@@ -168,11 +168,11 @@ const AppDetails = () => {
 
 							<p className='text-[16px] text-center font-medium text-[#666666] '>Week</p>
 
-							<Icon classes='ml-2 w-[12px] h-[12px]' name='vector 91.svg' size={20} />
+							<Icon classes='ml-2 w-[12px] h-[12px]' name='Vector 91.svg' size={20} />
 
 						</div>
 
-						<Icon classes='mt-5 w-[668px] h-[200px]' name='chart-det.svg' size={20} />
+						<Icon classes='mt-5 w-[668px] h-[200px]' name='Chart-Det.svg' size={20} />
 					</div>
 
 				</div>
