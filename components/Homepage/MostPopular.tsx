@@ -44,19 +44,13 @@ export const MostPopular = () => {
     ]
     return (
         <div>
-            <section className="ml-20">
-                <div>
-                    <p className="text-[32px] font-semibold my-2  mb-4">Most Popular Games</p>
-                    <div className="flex space-x-5 ">
-                        {
-                            mostPopular.map((game: Game, index: number) => (
-                                <Card key={index} src={game.src} name={game.name} icon={game.icon} />
-                            ))
-                        }
-                    </div>
-                </div>
-
-            </section>
+            <div className="flex space-x-5 ">
+                {
+                    mostPopular.map((game: Game, index: number) => (
+                        <Card key={index} src={game.src} name={game.name} icon={game.icon} />
+                    ))
+                }
+            </div>
         </div>
     )
 }

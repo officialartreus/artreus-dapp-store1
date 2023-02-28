@@ -10,7 +10,13 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <MostPopular />
+
+      <section className="ml-20">
+        <div>
+          <p className="text-[32px] font-semibold my-2  mb-4">Most Popular Games</p>
+        </div>
+        <MostPopular />
+      </section>
 
       {/* recently added  */}
       <div className='mt-10 ml-20'>

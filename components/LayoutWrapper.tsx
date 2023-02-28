@@ -44,7 +44,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 					<div className='fixed side-nav z-5104 w-[55px] h-[100vh] bg-[#212121]'>
 						<div className='justify-center'>
 							<Link href={'/'}>
-								<Icon classes='pt-3 m-auto' name={'logo.png'} size={35} />
+								<Icon classes='pt-3 m-auto' name={'logo.svg'} size={35} />
 							</Link>
 						</div>
 
@@ -59,8 +59,9 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
 							</div>
 
-							<div className='absolute bottom-4 left-5'>
-								<Icon classes='w-15 m-auto' name={'comment.png'} size={26} />
+							<div className='absolute space-y-[20px] bottom-4 left-3'>
+								<Icon classes='w-[24px] m-auto' name={'comment.png'} size={26} />
+								<Icon classes='w-[24px] m-auto' name={'information.svg'} size={26} />
 							</div>
 						</div>
 

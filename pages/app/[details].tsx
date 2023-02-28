@@ -2,8 +2,9 @@ import Image from 'next/image'
 import React from 'react'
 
 import heart from '@/public/images/icons/Heart.svg'
-import { Icon } from '@/components/Utils'
+import { Card, Icon } from '@/components/Utils'
 import AreaChart from '@/components/AppDetails/Chart'
+import { MostPopular } from '@/components/Homepage'
 
 const AppDetails = () => {
 	return (
@@ -217,7 +218,7 @@ const AppDetails = () => {
 					</div>
 
 					{/* rating  */}
-					<div className='p-5 px-10 space-x-[33px] flex'>
+					<div className='p-8 px-10 space-x-[33px] flex'>
 						<div>
 							<p className='text-[50px] text-[#000000] font-semibold '>4.0</p>
 							<p className='text-[12px]'>17,567 Ratings</p>
@@ -290,11 +291,82 @@ const AppDetails = () => {
 							<Icon classes='w-[13px] h-[13px]' name='cup.svg' size={20} />
 							<p className='ml-1 text-[12px] text-[#6039CF]'>Most helpful Review</p>
 						</div>
+
+						<p className='text-[24px] text-[#000000] font-semibold '>Very Great Game</p>
+						<p className='text-[16px] mt-[11px]'>tbh this game is superb, i wasnt expecting it to be so good, the game play and the quality is so perfect. i will give it a 5 star for the effort by Dimension studios. the only issue i have with the game is that it keeps updating on its own even tho i havent told it to update. i know this is not a big issue but i will like if the app will only updates when user wants it to.</p>
+
+						<div className="flex mt-[22px]">
+
+							<div className="flex flex-1">
+								<p>Show all</p>
+								<Icon classes='w-[24px] h-[24px] object-contain' name='arrow-up.png' size={20} />
+							</div>
+
+							<div className='flex items-center space-x-[32px]'>
+								<p className='flex items-center '>
+									<Icon classes='w-[24px] mr-1 rotate-[180deg] h-[24px]' name='dislike.svg' size={20} />
+									<span>200</span>
+								</p>
+								<p className='flex items-center '>
+									<Icon classes='w-[24px] mr-1 h-[24px]' name='dislike.svg' size={20} />
+									<span>0</span>
+								</p>
+								<Icon classes='w-[24px] h-[24px]' name='flag.svg' size={20} />
+
+							</div>
+						</div>
+
 					</div>
 
 				</div>
 			</div>
 
+			<div>
+				<div className='bg-[#FFFFFF] mt-[30px] w-[1197px] h-[332px] border border-[#e6e6e6] rounded-[12px] '>
+
+					<div className='w-full flex px-5 h-[50px] border-b justify-between items-center border-[#e6e6e6]'>
+
+						<p className='text-[16px] font-semibold text-[#212121]'>System requirements</p>
+						<Icon classes='rotate-[-90deg] ' name='vector 91.svg' size={20} />
+					</div>
+
+					<div className='p-5 text-[14px] space-y-[16px]'>
+						<p className='flex '>
+							<Icon classes='w-[24px] h-[24px] mr-[21px]' name='tick-circle.svg' size={20} />
+							This Product should work on your Device Items with a check mark meets developers requirement
+						</p>
+						<p className='flex items-end'>
+							<Icon classes='w-[24px] h-[24px] mr-[21px]' name='tick.svg' size={20} />
+							<span className='text-[16px] font-semibold #4D4D4D'>Available on</span>: PC
+						</p>
+						<p className='flex items-end'>
+							<Icon classes='w-[24px] h-[24px] mr-[21px]' name='tick.svg' size={20} />
+							<span className='text-[16px] font-semibold #4D4D4D'>OS</span>: Windows 10 Version 17763.0 or Higher
+						</p>
+						<p className='flex items-end'>
+							<Icon classes='w-[24px] h-[24px] mr-[21px]' name='tick.svg' size={20} />
+							<span className='text-[16px] font-semibold #4D4D4D'>Architecture</span>: x86
+						</p>
+						<p className='flex items-end'>
+							<Icon classes='w-[24px] h-[24px] mr-[21px]' name='tick.svg' size={20} />
+							<span className='text-[16px] font-semibold #4D4D4D'>Keyboard</span>: Not specified (Minimum), Integrated Keyboard (recomended)
+						</p>
+						<p className='flex items-end'>
+							<Icon classes='w-[24px] h-[24px] mr-[21px]' name='tick.svg' size={20} />
+							<span className='text-[16px] font-semibold #4D4D4D'>Mouse</span>: Not specified (Minimum), Integrated Mouse (recomended)
+						</p>
+
+
+					</div>
+
+				</div>
+			</div>
+
+			<div>
+				<p className="mt-[31px] text-[32px] text-[#4D4D4D] font-semibold"> More Like This</p>
+
+				<MostPopular />
+			</div>
 		</div>
 	)
 }
