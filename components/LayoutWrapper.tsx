@@ -53,7 +53,8 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
 								<Icon classes='rounded-md shadow-md shadow-brandpink0 w-15  m-auto' name={'market.png'} size={40} />
 
-								<Icon classes='hover:rounded-md hover:shadow-md hover:shadow-brandpink0 m-auto' name={'profiles.png'} size={40} />
+								<Link href={'/myapps'} className='' >
+									<Icon classes='hover:rounded-md hover:shadow-md mt-[10px] hover:shadow-brandpink0 m-auto' name={'profiles.png'} size={40} /></Link>
 
 								<Icon classes='hover:rounded-md hover:shadow-md hover:shadow-brandpink0 m-auto' name={'dev.png'} size={40} />
 
