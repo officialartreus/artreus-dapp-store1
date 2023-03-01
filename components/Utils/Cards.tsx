@@ -10,6 +10,43 @@ type Props = {
 	icon: string
 }
 
+export const HotListCard = () => {
+
+	return (
+		<>
+			<div className="rounded-md  flex mr-[64px] mb-[20px]">
+
+				<div className="rounded-[16px] flex border-[2px] border-[#FFC005] bg-[#C4C4C4] h-[56px] w-[56px]">
+				</div>
+
+				<div className='ml-2'>
+					<div className='flex flex-col'>
+						<p className='text-[20px] font-semibold text-[#4D4D4D]'>Pain and Glory</p>
+
+						<div className='flex space-x-[20px]'>
+							<div>
+								<p className='text-[#7A7A7A] text-[12px]'>Floor price</p>
+								<p className='text-[#8061D9] text-[14px]'>15.25 ETH</p>
+							</div>
+
+							<div>
+								<p className='text-[#7A7A7A] text-[12px]'>Volume <span className='text-[#029507]'>+36%</span></p>
+								<p className='text-[#8061D9] text-[14px]'>1234 ETH</p>
+							</div>
+
+
+						</div>
+
+
+					</div>
+
+				</div>
+
+			</div >
+		</>
+	)
+}
+
 export const MiniCards = () => {
 
 	return (

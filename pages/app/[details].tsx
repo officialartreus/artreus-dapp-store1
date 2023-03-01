@@ -188,7 +188,7 @@ const AppDetails = () => {
 							<p className='text-[16px] font-semibold text-[#212121]'>Listing</p>
 						</div>
 
-						<Icon classes='' name='vector 91.svg' size={20} />
+						<Icon classes='' name='Vector 91.svg' size={20} />
 					</div>
 
 
@@ -196,7 +196,7 @@ const AppDetails = () => {
 
 						<div>
 							<div className='rounded-full flex items-center m-auto w-[64px] h-[64px] bg-[#FFCC37] '>
-								<Icon classes='w-[30px] mx-auto' name='group 81.svg' size={20} />
+								<Icon classes='w-[30px] mx-auto' name='Group 81.svg' size={20} />
 							</div>
 							<p className='mt-2'>No Official Listing Yet</p>
 						</div>

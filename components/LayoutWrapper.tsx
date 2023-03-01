@@ -23,20 +23,23 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
 			<header>
 				<nav className='relative'>
-					<div className='navbar w-[100%] py-2 fixed space-x-16 flex a-center justify-end'>
+					<div className='navbar w-[100%] fixed '>
 
-						<div className='flex justify-between bg-[#4D4D4D]  w-[30%] a-center p-2 rounded-xl'>
-							<input className='input outline-none bg-transparent' type="text" placeholder='Games / Apps / Assets' />
-							<Icon classes='' name='search-icon.png' size={20} />
-						</div>
+						<div className='space-x-16 flex a-center justify-end bg-[#212121] py-2'>
 
-						<div className='flex space-x-5 pr-5 flex a-center'>
-							{icons.map((a, b) => (
-								<Icon key={b} classes='' name={a} size={20} />
-							))}
+							<div className='flex justify-between bg-[#4D4D4D]  w-[30%] a-center p-2 rounded-xl'>
+								<input className='input outline-none bg-transparent' type="text" placeholder='Games / Apps / Assets' />
+								<Icon classes='' name='search-icon.png' size={20} />
+							</div>
 
-							<Icon classes='' name={'wallet.png'} size={[20, 70]} />
+							<div className='flex space-x-5 pr-5 flex a-center'>
+								{icons.map((a, b) => (
+									<Icon key={b} classes='' name={a} size={20} />
+								))}
 
+								<Icon classes='' name={'wallet.png'} size={[20, 70]} />
+
+							</div>
 						</div>
 					</div>
 
@@ -73,6 +76,20 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
 
 			<div>{children}</div>
+
+
+			<div className="bg-[#FFFFFF] pt-[69px] w-[1440px] ">
+				<div className="border-t ml-20 border-[#FF0660] w-[1270px]" />
+
+				<div className="flex items-center h-[48px] justify-center space-x-[15px]">
+					<p className="text-[#5D50C6] text-[12px]">Copyright 2022 Artreus.</p>
+					<p className="text-[#5D50C6] text-[12px]">All right reserved</p>
+					<p className="text-[#5D50C6] text-[12px]">Terms</p>
+					<p className="text-[#5D50C6] text-[12px]">Privacy policy</p>
+
+				</div>
+
+			</div>
 		</>
 	)
 }

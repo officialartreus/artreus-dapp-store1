@@ -1,2 +1,3 @@
 export { Icon } from './Icon'
-export { Card, MiniCards } from './Cards'
+export { Footer } from './Footer'
+export { Card, MiniCards, HotListCard } from './Cards'

@@ -3,10 +3,30 @@ import { Icon } from "@/components/Utils/Icon";
 import Image from "next/image";
 import { Hero, HotAssets, MostPopular } from "@/components/Homepage";
 import Link from "next/link";
+import { HotLists } from "@/components/Homepage/HotLists";
+import { Footer } from "@/components/Utils";
 
 
 
 export default function Home() {
+
+  const src = [
+    'A Plague Tale Requiem 2.png',
+    'Kitaria_Fables_2.jpg',
+    'Gamedec.png',
+    'A Plague Tale Requiem 10.png', 'Crossfire Legion - Base Defense 2.jpg',
+    'A Plague Tale Requiem 11.png',
+    'Gamedec-1.png',
+    'Crookz Key Art.jpg',
+    'HordeCore Screenshot 02.png', 'Crossfire_Legion.jpg',
+    'A Plague Tale Requiem 11.png', 'Crookz Key Art.jpg',
+    'Cyberpunk2077 13.png', 'Cyberpunk2077 8.png',
+    'A Plague Tale Requiem 4.png',
+    'Gamedec-5.png',
+    'Cyberpunk2077_1.png',
+    'A Plague Tale Requiem 4.png'
+  ]
+
   return (
     <>
       <Hero />
@@ -90,6 +110,82 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+
+      {/* Hotlists nfts section  */}
+      <div className='mt-10 ml-20'>
+        <p className="text-[32px] text-[#4D4D4D] font-semibold my-2 mb-4">Hotlists NFTs</p>
+
+
+        <div className="w-[1203px] px-[30px] h-[525px] rounded-[24px] border-[2px] border-[#E6E6E6]">
+
+          <div className="border-b h-[69px] pace-x-[32px] flex ">
+
+            <div className="space-x-[32px] flex items-end">
+              <button className="border-b-[3px] font-semibold text-[24px] border-[#FFC005]">Trending</button>
+              <button className="font-semibold text-[#212121] text-[24px] ">Popular</button>
+            </div>
+
+
+            <div className="flex space-x-[11px] ml-auto items-center">
+              <div className='bg-[#EBEBEB] rounded-[12px] items-center justify-center w-[137px] h-[38px] flex'>
+
+                <p className='text-[18px] text-center font-medium text-[#292D32] '>Ethereum</p>
+
+                <Icon classes='ml-2 w-[12px] h-[12px]' name='Vector 91.svg' size={20} />
+              </div>
+
+              <div className='bg-[#EBEBEB] rounded-[12px] items-center justify-center w-[102px] h-[38px] flex'>
+
+                <p className='text-[18px] text-center font-medium text-[#292D32] '>15hrs</p>
+
+                <Icon classes='ml-2 w-[12px] h-[12px]' name='Vector 91.svg' size={20} />
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className="py-[30px]">
+            <HotLists len={16} />
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* images section  */}
+      <div className='mt-10'>
+        <div className="flex flex-wrap">
+          {src.map((src, i) => (
+            <Image key={i} unoptimized className="w-[196px] h-[97px] rounded-[11px] mr-[16px] mb-[15px]" alt={src} width={200} height={200} src={'/images/' + src} />
+          ))}
+        </div>
+      </div>
+
+
+      <div className='mt-10 ml-20'>
+
+        <div className="mt-[45px]">
+          <p className="text-[32px] text-[#4D4D4D] font-semibold my-2  mb-4">Top Nfts</p>
+          <MostPopular />
+        </div>
+
+        <div className="mt-[45px]">
+          <p className="text-[32px] text-[#4D4D4D] font-semibold my-2  mb-4">Nft Games</p>
+          <MostPopular />
+        </div>
+
+        <div className="mt-[45px]">
+          <p className="text-[32px] text-[#4D4D4D] font-semibold my-2  mb-4">Nft Apps</p>
+          <MostPopular />
+        </div>
+
+      </div>
+
+      <div className="h-[110px]"></div>
+
+      <Footer />
 
     </>
   )
