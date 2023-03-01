@@ -21,7 +21,9 @@ export const HotListCard = () => {
 
 				<div className='ml-2'>
 					<div className='flex flex-col'>
-						<p className='text-[20px] font-semibold text-[#4D4D4D]'>Pain and Glory</p>
+						<Link href={'/app/hotlist'}>
+							<p className='text-[20px] font-semibold text-[#4D4D4D]'>Pain and Glory</p>
+						</Link>
 
 						<div className='flex space-x-[20px]'>
 							<div>
@@ -47,6 +49,47 @@ export const HotListCard = () => {
 	)
 }
 
+export const CountDownCard = () => {
+
+	return (
+		<>
+			<div className="rounded-md  flex mr-[43px] mb-[20px]">
+
+				<div className="rounded-[16px] flex bg-[#A7A7A7] h-[56px] w-[56px]">
+				</div>
+
+				<div className='ml-2'>
+					<div className='flex flex-col'>
+						<Link href={'/app/game'}>
+							<p className='text-[20px] font-semibold text-[#000000]'>Direct Money Szaz</p>
+						</Link>
+
+						<p className='text-[14px] font-medium text-[#FF0660]'>12hr 36mins 15 sec</p>
+
+						<div className='flex space-x-[20px]'>
+							<div>
+								<p className='text-[#000000] text-[12px]'>Floor price</p>
+								<p className='text-[#000000] font-semibold text-[14px]'>15.25 ETH</p>
+							</div>
+
+							<div>
+								<p className='text-[#000000] text-[12px]'>Volume <span className='text-[#029507]'>+36%</span></p>
+								<p className='font-semibold text-[#000000] text-[14px]'>1234 ETH</p>
+							</div>
+
+
+						</div>
+
+
+					</div>
+
+				</div>
+
+			</div >
+		</>
+	)
+}
+
 export const MiniCards = () => {
 
 	return (
@@ -57,7 +100,9 @@ export const MiniCards = () => {
 				</div>
 				<div className='ml-2'>
 					<div>
-						<p className='text-[16px] font-semibold text-[#4D4D4D]'>Direct Money Szaz</p>
+						<Link href={'/app/games'}>
+							<p className='text-[16px] font-semibold text-[#4D4D4D]'>Direct Money Szaz</p>
+						</Link>
 						<p className='text-[#FF3880] text-[12px]'>App / Games</p>
 
 					</div>
@@ -108,7 +153,6 @@ export const OwnedCards = () => {
 	)
 }
 
-
 export const Card = (props: Props) => {
 
 	return (
@@ -118,7 +162,9 @@ export const Card = (props: Props) => {
 					<Image className='rounded-t-[20px] w-[212px] h-[160px] ' src={`/images/` + props.src} width={212} height={212} alt={props.src} />
 				</div>
 				<div className='p-2'>
-					<p className='mb-2 text-[#FF3880] text-lg'>{props.name}</p>
+					<Link href={'/app/games'}>
+						<p className='mb-2 text-[#FF3880] text-lg'>{props.name}</p>
+					</Link>
 					<div className="flex justify-between ">
 						<div className='flex space-x-1'>
 							{Array(5).fill(true).map((_, i) => (

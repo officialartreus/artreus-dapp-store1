@@ -6,7 +6,7 @@ export const Footer = () => {
 	const social = ['twitter', 'instagram', 'discord', 'telegram', 'youtube']
 
 	return (
-		<div className="bg-[#FFFFFF] w-[1440px] h-[460px] pt-[97px] px-[166px]">
+		<div className="bg-[#FFFFFF] flex w-[1440px] h-[460px] p-[97px] pl-[130px]">
 
 			<div className="flex flex-col">
 				<div className="mb-[107px]">
@@ -34,7 +34,36 @@ export const Footer = () => {
 				</div>
 			</div>
 
-			<div>
+			<div className='mt-[57px] ml-auto flex space-x-[66px]'>
+				<div className='space-y-[26px]'>
+					<p className="font-semibold text-[24px]">Marketplace</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Explore</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Blog</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">How it works</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Jobs</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Help Center</p>
+
+				</div>
+
+				<div className='space-y-[26px]'>
+					<p className="font-semibold text-[24px]">Dapp Store</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Apps</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Games</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Blog</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Jobs</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Help Center</p>
+
+				</div>
+
+				<div className='space-y-[26px]'>
+					<p className="font-semibold text-[24px]">Creators</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Quick start</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">JS SDK</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">UI Kit</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">The Graph</p>
+					<p className="font-medium text-[#6039CF] text-[16px]">Resources</p>
+
+				</div>
 
 			</div>
 

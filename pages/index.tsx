@@ -102,10 +102,12 @@ export default function Home() {
               NFTs
             </p>
 
-            <div className="flex ml-auto object-right mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
-              <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
-              <p className="ml-[5px] text-xl">Buy NFTs</p>
-            </div>
+            <Link href={'/buynft'}>
+              <div className="flex ml-auto object-right mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
+                <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
+                <p className="ml-[5px] text-xl">Buy NFTs</p>
+              </div>
+            </Link>
 
           </div>
         </div>
@@ -117,9 +119,9 @@ export default function Home() {
         <p className="text-[32px] text-[#4D4D4D] font-semibold my-2 mb-4">Hotlists NFTs</p>
 
 
-        <div className="w-[1203px] px-[30px] h-[525px] rounded-[24px] border-[2px] border-[#E6E6E6]">
+        <div className="w-[1203px] h-[495px] rounded-[24px] border-[2px] border-[#E6E6E6]">
 
-          <div className="border-b h-[69px] pace-x-[32px] flex ">
+          <div className="border-b h-[69px] px-[30px] flex ">
 
             <div className="space-x-[32px] flex items-end">
               <button className="border-b-[3px] font-semibold text-[24px] border-[#FFC005]">Trending</button>
@@ -146,7 +148,7 @@ export default function Home() {
 
           </div>
 
-          <div className="py-[30px]">
+          <div className="p-[30px]">
             <HotLists len={16} />
           </div>
 
