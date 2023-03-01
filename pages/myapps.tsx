@@ -20,7 +20,7 @@ const Myapps = () => {
 			<div className="absolte t-0 h-[140px]"></div>
 
 			<div className="cloud-section p-[26px] pb-[39px] relative w-[1192px] h-[270px] flex">
-				<Image className='w-[690px] absolute left-[-10px] top-[-60px] h-[322px] mb-[20px]' width={20} height={40} src={'/images/splashes.svg'} alt='Splashes.svg' />
+				<Image className='w-[690px] absolute left-[-10px] top-[-60px] h-[322px] mb-[20px]' width={20} height={40} src={'/images/Splashes.svg'} alt='Splashes.svg' />
 				<p className='text-[#FFFFFF] flex mt-auto ml-auto text-[50px] font-bold '>My Art Space</p>
 			</div>
 

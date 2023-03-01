@@ -91,7 +91,6 @@ export const CountDownCard = () => {
 }
 
 export const MiniCards = () => {
-
 	return (
 		<>
 			<div className="rounded-md flex w-[261px]">
