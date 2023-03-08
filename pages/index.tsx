@@ -27,11 +27,7 @@ export default function Home() {
     try {
       l = l.reverse()
 
-      let newerData = l.map(async (e) => {
-        let requestOptions = {
-          method: 'GET',
-          redirect: 'follow'
-        };
+      let newerData = l.map(async (e: any) => {
 
         try {
           let m = []
@@ -45,7 +41,10 @@ export default function Home() {
           }
 
           let a;
-          await fetch("https://ipfs.io/ipfs/" + m[0].metadata.media, requestOptions)
+          await fetch("https://ipfs.io/ipfs/" + m[0].metadata.media, {
+            method: 'GET',
+            redirect: 'follow'
+          })
             .then(response => response.json().then(res => a = res))
             .catch(error => console.log('error', error));
 
