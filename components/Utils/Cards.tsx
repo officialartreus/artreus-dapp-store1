@@ -157,8 +157,8 @@ export const Card = (props: Props) => {
 	return (
 		<>
 			<div className="card rounded-md bg-[#FFFFFF] w-[212px] h-[236px]">
-				<div className={`rounded-t-[20px] bg-no-repeat bg-cover bg-center w-[212px] h-[160px] bg-[url(/images/` + props.src + `)]`}>
-					<Image className='rounded-t-[20px] w-[212px] h-[160px] ' src={`/images/` + props.src} width={212} height={212} alt={props.src} />
+				<div className={`rounded-t-[20px] bg-no-repeat bg-center w-[212px] h-[160px] bg-[url(/images/` + props.src + `)]`}>
+					<Image unoptimized className='rounded-t-[20px] w-[212px] h-[160px] ' src={props.src} width={212} height={212} alt={props.src} />
 				</div>
 				<div className='p-2'>
 					<Link href={'/app/games'}>

@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@near-wallet-selector/core": "^7.9.0",
+    "@near-wallet-selector/ledger": "^7.9.0",
+    "@near-wallet-selector/modal-ui": "^7.9.0",
+    "@near-wallet-selector/my-near-wallet": "^7.9.0",
     "@next/font": "13.1.6",
     "@types/node": "18.13.0",
     "@types/react": "18.0.28",
@@ -16,6 +20,7 @@
     "chart.js": "^4.2.1",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
+    "near-api-js": "^0.44.2",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",

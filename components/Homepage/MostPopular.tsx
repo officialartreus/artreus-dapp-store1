@@ -7,8 +7,13 @@ type Game = {
     icon: string
 }
 
+type GameData = {
+    data: []
+}[]
 
-export const MostPopular = () => {
+
+export const MostPopular = ({ data }) => {
+
     const mostPopular = [
         {
             src: 'A_Plague_Tale_Requiem_1.jpg',
@@ -42,15 +47,22 @@ export const MostPopular = () => {
         },
 
     ]
+
     return (
         <div>
             <div className="flex space-x-5 ">
                 {
-                    mostPopular.map((game: Game, index: number) => (
-                        <Card key={index} src={game.src} name={game.name} icon={game.icon} />
+                    data != undefined ? data.map((data) => (
+                        <Card key={data.data.id} src={`https://ipfs.io/ipfs/${data.data.image_url}`} name={data.data.name} icon={'game'} />
                     ))
+                        :
+                        mostPopular.map((game: Game, index: number) => (
+                            <Card key={index} src={'/images/' + game.src} name={game.name} icon={game.icon} />
+                        ))
                 }
             </div>
         </div>
     )
 }
+
+
