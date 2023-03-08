@@ -12,7 +12,7 @@ type GameData = {
 }[]
 
 
-export const MostPopular = ({ data }) => {
+export const MostPopular = ({ data }: any) => {
 
     const mostPopular = [
         {
@@ -52,7 +52,7 @@ export const MostPopular = ({ data }) => {
         <div>
             <div className="flex space-x-5 ">
                 {
-                    data != undefined ? data.map((data) => (
+                    data != undefined ? data.map((data: any) => (
                         <Card key={data.data.id} src={`https://ipfs.io/ipfs/${data.data.image_url}`} name={data.data.name} icon={'game'} />
                     ))
                         :
