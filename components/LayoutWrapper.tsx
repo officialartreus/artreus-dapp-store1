@@ -1,6 +1,8 @@
+import { nearWallet } from '@/contracts-connector/near/near-interface'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { Icon } from './Utils/Icon'
 
 const icons = [
@@ -10,6 +12,19 @@ const icons = [
 ]
 
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
+
+	useEffect(() => {
+		nearWallet.startUp()
+	}, [])
+
+	const handleConnectButton = () => {
+		try {
+			!nearWallet.connected ? nearWallet.signIn() : nearWallet.signOut()
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
 	return (
 		<>
 			<div>
@@ -37,7 +52,10 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 									<Icon key={b} classes='' name={a} size={20} />
 								))}
 
-								<Icon classes='' name={'wallet.png'} size={[20, 70]} />
+								<div onClick={handleConnectButton}>
+
+									<Icon classes='' name={'wallet.png'} size={[20, 70]} />
+								</div>
 
 							</div>
 						</div>

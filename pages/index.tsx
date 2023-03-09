@@ -98,13 +98,12 @@ export default function Home() {
     'A Plague Tale Requiem 4.png'
   ]
 
-  console.log(data.length)
 
   return (
     <>
       <Hero />
 
-      {/* most popular */}
+      {/* most popular  */}
       <section className="ml-20">
         <div>
           <p className="text-[32px] font-semibold my-2  mb-4">Most Popular Games</p>
