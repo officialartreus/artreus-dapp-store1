@@ -34,41 +34,44 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 			catch (e) {
 				console.log(e)
 			}
-
-			try {
-				const l = await nft_tokens(
-					{
-						from_index: token_id.toString(),
-						limit: 1
-					}
-				)
-
-				var requestOptions: any = {
-					method: 'GET',
-					redirect: 'follow'
-				};
-				const newerData: any = await
-					fetch("https://ipfs.io/ipfs/" + l[0].metadata.media, requestOptions)
-						.then(response => response.json())
-						.catch(error => console.log('error', error))
-
-				setData(await newerData)
-
-
-			} catch (e) {
-				console.log(e)
-			}
 		} else console.log('Not Connected')
+
+		try {
+			const l = await nft_tokens(
+				{
+					from_index: token_id.toString(),
+					limit: 1
+				}
+			)
+
+			var requestOptions: any = {
+				method: 'GET',
+				redirect: 'follow'
+			};
+			const newerData: any = await
+				fetch("https://ipfs.io/ipfs/" + l[0].metadata.media, requestOptions)
+					.then(response => response.json())
+					.catch(error => console.log('error', error))
+
+			setData(await newerData)
+
+
+		} catch (e) {
+			console.log(e)
+		}
+
+
 	}
 
 	useEffect(() => {
 		main()
 	}, [])
 
-	if (!data)
+	if (data == null) {
 		return
+	}
 
-	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data.image_url : ''
+	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data.image_url : '/images/Cyberpunk2077_1.png'
 
 	return (
 		<>
@@ -100,7 +103,7 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 						<div className='w-[742px] h-[313px] p-[30px] bg-[#FFFFFF] rounded-[24px] flex '>
 							<div className='flex-1 space-y-3'>
 								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='text-[#6039CF]'>{owner}</span></p>
-								<p className="font-semibold text-[32px] text-[#000000]">{data.name}</p>
+								<p className="font-semibold text-[32px] text-[#000000]">{data?.name}</p>
 								<p className='text-[14px]'>{data?.description}<span className='text-[#6039CF]'>Show more</span></p>
 
 								<div className='flex space-x-6 items-center'>
