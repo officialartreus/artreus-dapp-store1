@@ -65,7 +65,8 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 		main()
 	}, [])
 
-	// console.log(data)
+	if (!data)
+		return
 
 	return (
 		<>
