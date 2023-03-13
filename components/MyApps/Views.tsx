@@ -9,7 +9,7 @@ export const GridView = ({ data }: any) => {
     return (
         <div className="flex mt-[34px] gap-[29px]">
 
-            {data ? data.map((data) => {
+            {data ? data.map((data: any) => {
                 return <Image key={data.token_id} className='w-[82px] h-[82px] rounded-[11px] image-center' unoptimized width={20} height={40} src={"https://ipfs.io/ipfs/" + data.data?.image_url} alt={data.data?.name} />
             }) : (
                 <div className="flex gap-[29px]">
@@ -33,11 +33,11 @@ export const GridView = ({ data }: any) => {
     )
 }
 
-export const ListView = ({ data }) => {
+export const ListView = ({ data }: any) => {
     return (
         <div className="flex  flex-wrap mt-[34px] gap-[29px]">
 
-            {data ? data.map((data) => {
+            {data ? data.map((data: any) => {
                 return <OwnedCards key={data.token_id} data={data} />
             }) :
                 Array(8).fill(true).map((_, i) => (
