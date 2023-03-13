@@ -10,7 +10,7 @@ import { NEAR_MARKETPLACE_ADDRESS } from '@/config/constants'
 import { utils } from 'near-api-js'
 import { GetServerSidePropsContext } from 'next'
 
-const AppDetails = ({ token_id, owner, gName }) => {
+const AppDetails = ({ token_id, owner, gName }: any) => {
 
 	const [storageBalance, setStorageBalance] = useState('0')
 	const [data, setData] = useState(null);
