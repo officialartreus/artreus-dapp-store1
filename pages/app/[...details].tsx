@@ -68,6 +68,8 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 	if (!data)
 		return
 
+	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data.image_url : ''
+
 	return (
 		<>
 			<div className='ml-20 text-[#7A7A7A]'>
@@ -78,7 +80,7 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 
 				<div className='flex space-x-[55px]'>
 					<div>
-						<Image unoptimized alt='' className="rounded-[20px]  w-[396px] object-cover h-[486px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.image_url}`} />
+						<Image unoptimized alt='' className="rounded-[20px]  w-[396px] object-cover h-[486px]" width={500} height={200} src={imgSrc} />
 						<div className='bg-[#FCFCFC] flex rounded-b-[20px] pt-3 w-[270px] h-[62px] mt-[-15px]'>
 
 							<div className='flex space-x-3 m-auto'>
