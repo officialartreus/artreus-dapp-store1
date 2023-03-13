@@ -3,7 +3,9 @@ import React from 'react'
 import { Icon } from '../Utils'
 import { OwnedCards } from '../Utils/Cards'
 
-export const GridView = ({ data }) => {
+
+
+export const GridView = ({ data }: any) => {
     return (
         <div className="flex mt-[34px] gap-[29px]">
 
