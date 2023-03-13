@@ -78,7 +78,7 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 
 				<div className='flex space-x-[55px]'>
 					<div>
-						<Image unoptimized alt='' className="rounded-[20px]  w-[396px] object-cover h-[486px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data?.image_url}`} />
+						<Image unoptimized alt='' className="rounded-[20px]  w-[396px] object-cover h-[486px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.image_url}`} />
 						<div className='bg-[#FCFCFC] flex rounded-b-[20px] pt-3 w-[270px] h-[62px] mt-[-15px]'>
 
 							<div className='flex space-x-3 m-auto'>
