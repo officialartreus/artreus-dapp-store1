@@ -62,9 +62,7 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 	}
 
 	useEffect(() => {
-		setTimeout(() => {
-			main()
-		}, 2000);
+		main()
 	}, [])
 
 	// console.log(data)
@@ -79,7 +77,7 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 
 				<div className='flex space-x-[55px]'>
 					<div>
-						<Image unoptimized alt='' className="rounded-[20px]  w-[396px] object-cover h-[486px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.image_url}`} />
+						<Image unoptimized alt='' className="rounded-[20px]  w-[396px] object-cover h-[486px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data?.image_url}`} />
 						<div className='bg-[#FCFCFC] flex rounded-b-[20px] pt-3 w-[270px] h-[62px] mt-[-15px]'>
 
 							<div className='flex space-x-3 m-auto'>
@@ -100,7 +98,7 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 							<div className='flex-1 space-y-3'>
 								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='text-[#6039CF]'>{owner}</span></p>
 								<p className="font-semibold text-[32px] text-[#000000]">{data.name}</p>
-								<p className='text-[14px]'>{data.description}<span className='text-[#6039CF]'>Show more</span></p>
+								<p className='text-[14px]'>{data?.description}<span className='text-[#6039CF]'>Show more</span></p>
 
 								<div className='flex space-x-6 items-center'>
 									<div className='flex flex-col items-center'>
