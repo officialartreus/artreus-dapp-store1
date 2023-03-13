@@ -51,7 +51,7 @@ const Myapps = () => {
 
   useEffect(() => {
     main()
-  }, [nearWallet.connected])
+  }, [])
 
 
 

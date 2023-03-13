@@ -122,7 +122,7 @@ export const MiniCards = () => {
 	)
 }
 
-export const OwnedCards = ({ data }) => {
+export const OwnedCards = ({ data }: any) => {
 	if (data) {
 		return (
 			<>
