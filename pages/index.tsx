@@ -7,6 +7,7 @@ import { HotLists } from "@/components/Homepage/HotLists";
 import { Footer } from "@/components/Utils";
 
 import { get_sales_by_nft_contract_id, nearWallet, nft_tokens } from '../contracts-connector/near/near-interface'
+
 import { useEffect, useState } from "react";
 import { NEAR_MARKETPLACE_ADDRESS } from "@/config/constants";
 
@@ -108,7 +109,7 @@ export default function Home() {
         <div>
           <p className="text-[32px] font-semibold my-2  mb-4">Most Popular Games</p>
         </div>
-        {data.length > 1 && <MostPopular data={data} />}
+        {data.length > 1 ? <MostPopular data={data} /> : <MostPopular />}
       </section>
 
       {/* recently added  */}

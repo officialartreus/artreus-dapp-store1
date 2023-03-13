@@ -1,12 +1,74 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import heart from '@/public/images/icons/Heart.svg'
 import { Card, Footer, Icon } from '@/components/Utils'
 import AreaChart from '@/components/AppDetails/Chart'
 import { MostPopular } from '@/components/Homepage'
+import { nearWallet, nft_tokens, storage_balance_of } from '@/contracts-connector/near/near-interface'
+import { NEAR_MARKETPLACE_ADDRESS } from '@/config/constants'
+import { utils } from 'near-api-js'
+import { GetServerSidePropsContext } from 'next'
 
-const AppDetails = () => {
+const AppDetails = ({ token_id, owner, gName }) => {
+
+	const [storageBalance, setStorageBalance] = useState('0')
+	const [data, setData] = useState(null);
+	const walletId = nearWallet.accountId
+
+	useEffect(() => {
+		nearWallet.startUp()
+	}, [])
+
+	async function main() {
+		if (nearWallet.connected) {
+			try {
+				let bal = ''
+				bal = await storage_balance_of({
+					account_id: nearWallet.accountId,
+					contractId: NEAR_MARKETPLACE_ADDRESS
+				})
+				bal = utils.format.formatNearAmount(bal)
+				setStorageBalance(bal)
+			}
+			catch (e) {
+				console.log(e)
+			}
+
+			try {
+				const l = await nft_tokens(
+					{
+						from_index: token_id.toString(),
+						limit: 1
+					}
+				)
+
+				var requestOptions: any = {
+					method: 'GET',
+					redirect: 'follow'
+				};
+				const newerData: any = await
+					fetch("https://ipfs.io/ipfs/" + l[0].metadata.media, requestOptions)
+						.then(response => response.json())
+						.catch(error => console.log('error', error))
+
+				setData(await newerData)
+
+
+			} catch (e) {
+				console.log(e)
+			}
+		} else console.log('Not Connected')
+	}
+
+	useEffect(() => {
+		setTimeout(() => {
+			main()
+		}, 2000);
+	}, [])
+
+	// console.log(data)
+
 	return (
 		<>
 			<div className='ml-20 text-[#7A7A7A]'>
@@ -17,7 +79,7 @@ const AppDetails = () => {
 
 				<div className='flex space-x-[55px]'>
 					<div>
-						<Image unoptimized alt='' className="rounded-[20px]  w-[396px] object-cover h-[486px]" width={500} height={200} src='/images/Cyberpunk2077_1.png' />
+						<Image unoptimized alt='' className="rounded-[20px]  w-[396px] object-cover h-[486px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.image_url}`} />
 						<div className='bg-[#FCFCFC] flex rounded-b-[20px] pt-3 w-[270px] h-[62px] mt-[-15px]'>
 
 							<div className='flex space-x-3 m-auto'>
@@ -36,9 +98,9 @@ const AppDetails = () => {
 					<div className='space-y-6'>
 						<div className='w-[742px] h-[313px] p-[30px] bg-[#FFFFFF] rounded-[24px] flex '>
 							<div className='flex-1 space-y-3'>
-								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='text-[#6039CF]'>Dimension Studios</span></p>
-								<p className="font-semibold text-[32px] text-[#000000]">CyberPunk 2077</p>
-								<p className='text-[14px]'>The MUTANT APE YACHT CLUB is a collection of up to 20,000 Mutant Apes that can only be created by exposing an existing Bored Ape to a vial of MUTANT SERUM. <span className='text-[#6039CF]'>Show more</span></p>
+								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='text-[#6039CF]'>{owner}</span></p>
+								<p className="font-semibold text-[32px] text-[#000000]">{data.name}</p>
+								<p className='text-[14px]'>{data.description}<span className='text-[#6039CF]'>Show more</span></p>
 
 								<div className='flex space-x-6 items-center'>
 									<div className='flex flex-col items-center'>
@@ -126,7 +188,7 @@ const AppDetails = () => {
 
 								<div className='bg-[#D3D3D3] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center'>
 									<Icon classes='mr-5' name='document.svg' size={20} />
-									<p className='text-[#A6A6A6] text-[16px] font-semibold'>Relist</p>
+									<p className='text-[#A6A6A6] text-[16px] font-semibold'>Buy</p>
 								</div>
 							</div>
 
@@ -376,3 +438,19 @@ const AppDetails = () => {
 }
 
 export default AppDetails
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const params = context.params;
+	const path: any = params?.details
+
+	console.log(path)
+	return {
+		props: {
+			token_id: path[1],
+			owner: path[2],
+			gName: path[0],
+		}
+	}
+
+}
+

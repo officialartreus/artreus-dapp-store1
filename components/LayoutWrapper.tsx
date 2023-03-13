@@ -5,6 +5,13 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 import { Icon } from './Utils/Icon'
 
+
+import "@near-wallet-selector/modal-ui-js/styles.css";
+import { setupWalletSelector } from "@near-wallet-selector/core";
+import { setupModal } from "@near-wallet-selector/modal-ui-js";
+import { setupNearWallet } from "@near-wallet-selector/near-wallet";
+import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet";
+
 const icons = [
 	'profile-circle.png',
 	'shopping-cart.png',
@@ -17,7 +24,22 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 		nearWallet.startUp()
 	}, [])
 
-	const handleConnectButton = () => {
+
+
+	const handleConnectButton = async () => {
+
+		// const selector = await setupWalletSelector({
+		// 	network: "testnet",
+		// 	modules: [setupMyNearWallet(), setupNearWallet()],
+		// });
+
+		// const modal = setupModal(selector, {
+		// 	contractId: "test.testnet",
+		// });
+
+		// modal.show();
+
+
 		try {
 			!nearWallet.connected ? nearWallet.signIn() : nearWallet.signOut()
 		} catch (err) {

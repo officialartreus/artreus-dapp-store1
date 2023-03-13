@@ -1,5 +1,6 @@
-
+import 'regenerator-runtime/runtime';
 import { Wallet } from './near-wallet';
+
 
 const CONTRACT_ADDRESS = 'newminter.danieldave.testnet';
 

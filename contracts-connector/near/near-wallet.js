@@ -1,19 +1,16 @@
-/* A helper file that simplifies using the wallet selector */
 
-// near api js
 import { providers } from 'near-api-js';
 
 // wallet selector UI
-import '@near-wallet-selector/modal-ui/styles.css';
-import { setupModal } from '@near-wallet-selector/modal-ui';
+import { setupModal } from '@near-wallet-selector/modal-ui-js';
 
 // wallet selector options
-import { setupWalletSelector } from '@near-wallet-selector/core';
-import { setupLedger } from '@near-wallet-selector/ledger';
-import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
+import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupNearWallet } from "@near-wallet-selector/near-wallet";
+import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 
-const THIRTY_TGAS = '30000000000000';
+
+const THIRTY_TGAS = '300000000000000';
 const NO_DEPOSIT = '0';
 
 // Wallet that simplifies using the wallet selector
@@ -25,21 +22,17 @@ export class Wallet {
     createAccessKeyFor;
 
     constructor({ createAccessKeyFor = undefined, network = 'testnet' }) {
-        // Login to a wallet passing a contractId will create a local
-        // key, so the user skips signing non-payable transactions.
-        // Omitting the accountId will result in the user being
-        // asked to sign all transactions.
         this.createAccessKeyFor = createAccessKeyFor
-        this.network = network
+        this.network = 'testnet'
     }
 
     // To be called when the website loads
     async startUp() {
         this.walletSelector = await setupWalletSelector({
             network: this.network,
-            modules: [setupMyNearWallet(),
-            setupNearWallet(),
-            setupLedger()
+            modules: [
+                setupNearWallet(),
+                setupMyNearWallet()
             ],
         });
 
@@ -52,6 +45,10 @@ export class Wallet {
         }
 
         return isSignedIn;
+    }
+
+    checkIfSignedIn() {
+        return this.walletSelector.isSignedIn()
     }
 
     // Sign-in method

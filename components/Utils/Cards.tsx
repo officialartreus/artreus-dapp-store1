@@ -122,7 +122,35 @@ export const MiniCards = () => {
 	)
 }
 
-export const OwnedCards = () => {
+export const OwnedCards = ({ data }) => {
+	if (data) {
+		return (
+			<>
+				<div className={`rounded-md items-center flex mr-[35px]`}>
+					<div >
+						<Image className='minicard border-[3px] border-[#FF3880] object-cover w-[72px] h-[72px] ' src={"https://ipfs.io/ipfs/" + data.data?.image_url} alt={data.data?.name} width={212} height={212} />
+					</div>
+
+					<div className='ml-3 flex space-y-[4px] flex-col '>
+						<div>
+							<p className='text-[32px] font-semibold text-[#4D4D4D]'>{data.data?.name}</p>
+
+						</div>
+						<div className="flex space-x-2">
+							<div className='flex space-x-1 a-center'>
+								<p className='text-[#FF3880] text-[12px]'>Assets</p>
+								{Array(4).fill(true).map((_, i) => (
+									<Icon classes='h-[14px] w-[14px] cursor-pointer' size={12} name='star.svg' key={i} />
+								))}
+								<Icon classes='h-[14px] w-[14px] cursor-pointer' size={12} name='star-white-nofill.svg' />
+							</div>
+						</div>
+					</div>
+
+				</div >
+			</>
+		)
+	}
 
 	return (
 		<>
@@ -161,9 +189,7 @@ export const Card = (props: Props) => {
 					<Image unoptimized className='rounded-t-[20px] w-[212px] h-[160px] ' src={props.src} width={212} height={212} alt={props.src} />
 				</div>
 				<div className='p-2'>
-					<Link href={'/app/games'}>
-						<p className='mb-2 text-[#FF3880] text-lg'>{props.name}</p>
-					</Link>
+					<p className='mb-2 text-[#FF3880] text-lg'>{props.name}</p>
 					<div className="flex justify-between ">
 						<div className='flex space-x-1'>
 							{Array(5).fill(true).map((_, i) => (

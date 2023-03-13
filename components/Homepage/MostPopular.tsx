@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Card } from "../Utils"
 
 
@@ -51,14 +52,16 @@ export const MostPopular = ({ data }: any) => {
     return (
         <div>
             <div className="flex space-x-5 ">
-                {
-                    data != undefined ? data.map((data: any) => (
+                {data ? data.map((data: any) => {
+                    console.log(data)
+                    return <Link key={data.id} href={`/app/${data.data.name}/${data.id}/${data.owner_id}/${data.price}`}>
                         <Card key={data.data.id} src={`https://ipfs.io/ipfs/${data.data.image_url}`} name={data.data.name} icon={'game'} />
+                    </Link>
+                })
+                    :
+                    mostPopular.map((game: Game, index: number) => (
+                        <Card key={index} src={'/images/' + game.src} name={game.name} icon={game.icon} />
                     ))
-                        :
-                        mostPopular.map((game: Game, index: number) => (
-                            <Card key={index} src={'/images/' + game.src} name={game.name} icon={game.icon} />
-                        ))
                 }
             </div>
         </div>
