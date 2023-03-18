@@ -53,6 +53,7 @@ const Myapps = () => {
     main()
   }, [])
 
+  console.log(data)
 
 
   const handleViewChange = (view: string) => {

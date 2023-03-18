@@ -53,8 +53,10 @@ export const MostPopular = ({ data }: any) => {
         <div>
             <div className="flex space-x-5 ">
                 {data ? data.map((data: any) => {
-                    console.log(data)
-                    return <Link key={data.id} href={`/app/${data.data.name}/${data.id}/${data.owner_id}/${data.price}`}>
+
+                    const encoded = window.btoa(`${data.data.name}/${data.id}/${data.owner_id}/${data.price}`)
+
+                    return <Link key={data.id} href={`/app/${encoded}`}>
                         <Card key={data.data.id} src={`https://ipfs.io/ipfs/${data.data.image_url}`} name={data.data.name} icon={'game'} />
                     </Link>
                 })

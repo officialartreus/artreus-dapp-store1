@@ -1,31 +1,51 @@
 import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
 
-import heart from '@/public/images/icons/Heart.svg'
 import { Card, Footer, Icon } from '@/components/Utils'
-import AreaChart from '@/components/AppDetails/Chart'
 import { MostPopular } from '@/components/Homepage'
-import { nearWallet, nft_tokens, storage_balance_of } from '@/contracts-connector/near/near-interface'
+import { nearWallet, nft_tokens, storage_deposit, nft_approve, storage_balance_of, offer } from '@/contracts-connector/near/near-interface'
 import { NEAR_MARKETPLACE_ADDRESS } from '@/config/constants'
 import { utils } from 'near-api-js'
 import { GetServerSidePropsContext } from 'next'
+import RelistModal from '@/components/AppDetails/RelistModal'
 
-const AppDetails = ({ token_id, owner, gName }: any) => {
+const AppDetails = (path: { path: string }) => {
+
+	let [isOpen, setIsOpen] = useState(false)
+
+
+	const [gName, setgName] = useState('')
+	const [price, setprice] = useState('')
+	const [owner, setowner] = useState('')
+	const [token_id, settoken_id] = useState('')
+
 
 	const [storageBalance, setStorageBalance] = useState('0')
 	const [data, setData] = useState(null);
 	const walletId = nearWallet.accountId
 
-	useEffect(() => {
-		nearWallet.startUp()
-	}, [])
+
+	async function BuyOffer() {
+		try {
+			const tx = offer({
+				nft_contract_id: 'newminter.danieldave.testnet',
+				token_id: String(token_id),
+				contractId: NEAR_MARKETPLACE_ADDRESS,
+				deposit: String(price)
+			})
+
+			return tx
+		} catch (buy_error: any) {
+			console.log(buy_error)
+		}
+	}
 
 	async function main() {
 		if (nearWallet.connected) {
 			try {
 				let bal = ''
 				bal = await storage_balance_of({
-					account_id: nearWallet.accountId,
+					account_id: walletId,
 					contractId: NEAR_MARKETPLACE_ADDRESS
 				})
 				bal = utils.format.formatNearAmount(bal)
@@ -44,6 +64,8 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 				}
 			)
 
+			console.log(l)
+
 			var requestOptions: any = {
 				method: 'GET',
 				redirect: 'follow'
@@ -53,7 +75,11 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 					.then(response => response.json())
 					.catch(error => console.log('error', error))
 
-			setData(await newerData)
+			const dataJson = {
+				data: await newerData,
+				owner: l[0].owner_id
+			}
+			setData(dataJson)
 
 
 		} catch (e) {
@@ -64,14 +90,47 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 	}
 
 	useEffect(() => {
-		main()
-	}, [])
+
+		const [token_id, price] = window.atob(path.path).split('/')
+
+		setprice(price)
+		settoken_id(token_id)
+
+		nearWallet.startUp()
+
+		setTimeout(() => {
+			main()
+		}, 2000);
+	}, [token_id])
 
 	if (data == null) {
 		return
 	}
 
-	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data.image_url : '/images/Cyberpunk2077_1.png'
+	const handleRelist = () => {
+		if (data.owner != walletId) return
+		console.log('clicked')
+		if (nearWallet.connected) {
+			setIsOpen(true)
+		} else {
+			alert('You`re not Connected')
+		}
+	}
+
+	const handleBuy = () => {
+		console.log('clicked')
+		if (nearWallet.connected) {
+			try {
+				BuyOffer()
+			} catch (err) {
+				console.log(err)
+			}
+		} else {
+			alert('You`re not Connected')
+		}
+	}
+
+	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data.data.image_url : '/images/Cyberpunk2077_1.png'
 
 	return (
 		<>
@@ -102,9 +161,9 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 					<div className='space-y-6'>
 						<div className='w-[742px] h-[313px] p-[30px] bg-[#FFFFFF] rounded-[24px] flex '>
 							<div className='flex-1 space-y-3'>
-								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='text-[#6039CF]'>{owner}</span></p>
-								<p className="font-semibold text-[32px] text-[#000000]">{data?.name}</p>
-								<p className='text-[14px]'>{data?.description}<span className='text-[#6039CF]'>Show more</span></p>
+								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='text-[#6039CF]'>{data.owner}</span></p>
+								<p className="font-semibold text-[32px] text-[#000000]">{data?.data?.name}</p>
+								<p className='text-[14px]'>{data?.data?.description}<span className='text-[#6039CF]'>Show more</span></p>
 
 								<div className='flex space-x-6 items-center'>
 									<div className='flex flex-col items-center'>
@@ -172,25 +231,34 @@ const AppDetails = ({ token_id, owner, gName }: any) => {
 							<div className='px-5 py-2 justify-between flex'>
 								<div className=''>
 									<p className='text-[#FF9CBF] tracking-tight  font-medium text-[14px] '>Current Price</p>
-									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>15.25 ETH</p>
+									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>{utils.format.formatNearAmount(price)} NEAR</p>
 								</div>
 								<div className=''>
 									<p className='text-[#FF9CBF] tracking-tight  font-medium text-[14px] '>24H Volume</p>
-									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>15.25 ETH</p>
+									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>15.25 NEAR</p>
 								</div>
 								<div className=''>
 									<p className='text-[#FF9CBF] tracking-tight  font-medium text-[14px] '>Total Volume</p>
-									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>15.25 ETH</p>
+									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>15.25 NEAR</p>
 								</div>
 							</div>
 
 							<div className='px-5 flex space-x-3'>
-								<div className='bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center'>
+
+								<RelistModal setIsOpen={setIsOpen} isOpen={isOpen} token_id={token_id} />
+
+
+
+								<div className={`${data.owner == walletId ? 'bg-[#6039CF]' : 'bg-[#D3D3D3] '} bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
+									onClick={handleRelist}>
 									<Icon classes='mr-5' name='document.svg' size={20} />
 									<p className='text-[#FFFFFF] text-[16px] font-semibold'>Relist</p>
 								</div>
 
-								<div className='bg-[#D3D3D3] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center'>
+
+
+								<div className={`${data.owner != walletId ? 'bg-[#6039CF]' : 'bg-[#D3D3D3] '} rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
+									onClick={handleBuy}>
 									<Icon classes='mr-5' name='document.svg' size={20} />
 									<p className='text-[#A6A6A6] text-[16px] font-semibold'>Buy</p>
 								</div>
@@ -447,12 +515,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const params = context.params;
 	const path: any = params?.details
 
-	console.log(path)
 	return {
 		props: {
-			token_id: path[1],
-			owner: path[2],
-			gName: path[0],
+			path
 		}
 	}
 

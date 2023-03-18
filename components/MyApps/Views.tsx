@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import { Icon } from '../Utils'
 import { OwnedCards } from '../Utils/Cards'
@@ -10,7 +11,12 @@ export const GridView = ({ data }: any) => {
         <div className="flex mt-[34px] gap-[29px]">
 
             {data ? data.map((data: any) => {
-                return <Image key={data.token_id} className='w-[82px] h-[82px] rounded-[11px] image-center' unoptimized width={20} height={40} src={"https://ipfs.io/ipfs/" + data.data?.image_url} alt={data.data?.name} />
+                console.log(data)
+                const encoded = window.btoa(`${data.token_id}`)
+
+                return <Link key={data.token_id} href={`/app/${encoded}`}>
+                    <Image className='w-[82px] h-[82px] rounded-[11px] image-center' unoptimized width={20} height={40} src={"https://ipfs.io/ipfs/" + data.data?.image_url} alt={data.data?.name} />
+                </Link>
             }) : (
                 <div className="flex gap-[29px]">
                     <Image className='w-[82px] h-[82px] rounded-[11px] image-center' unoptimized width={20} height={40} src={'/images/Jurassic_World_Evolution_2_8.jpg'} alt='Jurassic_World_Evolution_2_8' />
@@ -38,7 +44,11 @@ export const ListView = ({ data }: any) => {
         <div className="flex  flex-wrap mt-[34px] gap-[29px]">
 
             {data ? data.map((data: any) => {
-                return <OwnedCards key={data.token_id} data={data} />
+                const encoded = window.btoa(`${data.id}/${data.price}`)
+
+                return <Link key={data.token_id} href={`/app/${encoded}`}>
+                    <OwnedCards data={data} />
+                </Link>
             }) :
                 Array(8).fill(true).map((_, i) => (
                     <OwnedCards key={i} data={''} />
