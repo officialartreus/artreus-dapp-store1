@@ -11,7 +11,7 @@ export const GridView = ({ data }: any) => {
         <div className="flex mt-[34px] gap-[29px]">
 
             {data ? data.map((data: any) => {
-                console.log(data)
+
                 const encoded = window.btoa(`${data.token_id}`)
 
                 return <Link key={data.token_id} href={`/app/${encoded}`}>

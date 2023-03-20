@@ -4,81 +4,26 @@ import Image from "next/image";
 import { Hero, HotAssets, MostPopular } from "@/components/Homepage";
 import Link from "next/link";
 import { HotLists } from "@/components/Homepage/HotLists";
-import { Footer } from "@/components/Utils";
+import { Footer, getListedNft, getListedNfts, } from "@/components/Utils";
 
-import { get_sales_by_nft_contract_id, nearWallet, nft_tokens } from '../contracts-connector/near/near-interface'
+import { nearWallet } from '../contracts-connector/near/near-interface'
 
 import { useEffect, useState } from "react";
-import { NEAR_MARKETPLACE_ADDRESS } from "@/config/constants";
 
 
 
 export default function Home() {
   const [data, setData] = useState([]);
 
-  async function main() {
-    let l = []
-    l = await get_sales_by_nft_contract_id({
-      nft_contract_id: 'newminter.danieldave.testnet',
-      from_index: "0",
-      limit: 200,
-      contractId: NEAR_MARKETPLACE_ADDRESS
-    })
-
-    try {
-      l = l.reverse()
-
-      let newerData = l.map(async (e: any) => {
-
-        try {
-          let m = []
-          try {
-            m = await nft_tokens({
-              from_index: e.token_id,
-              limit: 1
-            })
-          } catch (error) {
-            console.log(error)
-          }
-
-          let a;
-          await fetch("https://ipfs.io/ipfs/" + m[0].metadata.media, {
-            method: 'GET',
-            redirect: 'follow'
-          })
-            .then(response => response.json().then(res => a = res))
-            .catch(error => console.log('error', error));
-
-          return {
-            id: e.token_id,
-            data: a,
-            price: e.sale_conditions,
-            owner_id: e.owner_id
-          }
-
-        } catch (e) {
-          console.log(e)
-        }
-
-      })
-
-      newerData = await Promise.all(newerData)
-      setData(newerData)
-    } catch (e) {
-      console.log(e)
-    }
+  const MarketPlaceNafts = async () => {
+    setData(await getListedNfts(20))
   }
-
-  // console.log(!data.data)
-
-  useEffect(() => {
-    setTimeout(() => {
-      main()
-    }, 2000);
-  }, [])
 
   useEffect(() => {
     nearWallet.startUp()
+    setTimeout(() => {
+      MarketPlaceNafts()
+    }, 2000);
   }, [])
 
 
