@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { Icon } from './Utils/Icon'
 
 
+
 const icons = [
 	'profile-circle.png',
 	'shopping-cart.png',
@@ -17,8 +18,6 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 	useEffect(() => {
 		nearWallet.startUp()
 	}, [])
-
-
 
 	const handleConnectButton = async () => {
 		console.log('clicked')
