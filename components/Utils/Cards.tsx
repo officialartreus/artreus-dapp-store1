@@ -128,7 +128,7 @@ export const OwnedCards = ({ data }: any) => {
 			<>
 				<div className={`rounded-md items-center flex mr-[35px]`}>
 					<div >
-						<Image className='minicard border-[3px] border-[#FF3880] object-cover w-[72px] h-[72px] ' src={"https://ipfs.io/ipfs/" + data.data?.image_url} alt={data.data?.name} width={212} height={212} />
+						<Image className='minicard border-[3px] border-[#FF3880] object-cover w-[72px] h-[72px] ' src={"https://ipfs.io/ipfs/" + data.data?.images_url?.icon} alt={data.data?.name} width={212} height={212} />
 					</div>
 
 					<div className='ml-3 flex space-y-[4px] flex-col '>

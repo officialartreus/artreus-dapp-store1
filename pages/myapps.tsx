@@ -49,8 +49,11 @@ const Myapps = () => {
     }
   }
 
+  console.log(data)
   useEffect(() => {
-    main()
+    setTimeout(() => {
+      main()
+    }, 2000);
   }, [])
 
   const handleViewChange = (view: string) => {
@@ -80,9 +83,6 @@ const Myapps = () => {
         </div>
 
       </div>
-
-
-
 
       <div className="absolute flex flex-col top-[440px] myapp w-[1190px] h-[598px] p-[32px] border-[3px] border-[#FF0660]">
 

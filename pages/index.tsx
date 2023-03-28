@@ -15,14 +15,14 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [data, setData] = useState([]);
 
-  const MarketPlaceNafts = async () => {
+  const MarketPlaceNfts = async () => {
     setData(await getListedNfts(20))
   }
 
   useEffect(() => {
     nearWallet.startUp()
     setTimeout(() => {
-      MarketPlaceNafts()
+      MarketPlaceNfts()
     }, 2000);
   }, [])
 
@@ -44,6 +44,7 @@ export default function Home() {
     'A Plague Tale Requiem 4.png'
   ]
 
+  console.log(data)
 
   return (
     <>

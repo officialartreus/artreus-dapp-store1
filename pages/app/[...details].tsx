@@ -68,7 +68,6 @@ const AppDetails = (path: { path: string }) => {
 	}, [token_id])
 
 	const MarketPlaceNfts = async (token_id: string) => {
-		console.log(token_id)
 		setData(await getListedNft(200, token_id))
 	}
 
@@ -99,7 +98,9 @@ const AppDetails = (path: { path: string }) => {
 		}
 	}
 
-	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data.data.image_url : '/images/Cyberpunk2b077_1.png'
+	console.log(data)
+
+	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data.data.images_url?.banner : '/images/Cyberpunk2b077_1.png'
 
 	return (
 		<>
@@ -240,7 +241,7 @@ const AppDetails = (path: { path: string }) => {
 				<div className='mt-[30px]'>
 					<div className='bg-[#FCFCFC] flex space-x-[23px] p-[28px] rounded-[20px] w-[1194px] h-[287px] '>
 
-						<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src='/images/Cyberpunk2077 8.png' />
+						<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.data.images_url?.image1}`} />
 
 						<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src='/images/Cyberpunk2077 13.png' />
 
