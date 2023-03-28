@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 import { Card, Footer, getListedNft, Icon } from '@/components/Utils'
 import { MostPopular } from '@/components/Homepage'
-import { nearWallet, nft_tokens, storage_deposit, nft_approve, storage_balance_of, offer } from '@/contracts-connector/near/near-interface'
+import { nearWallet, nft_tokens, storage_deposit, nft_approve, storage_balance_of, offer, remove_sale } from '@/contracts-connector/near/near-interface'
 import { NEAR_MARKETPLACE_ADDRESS } from '@/config/constants'
 import { utils } from 'near-api-js'
 import { GetServerSidePropsContext } from 'next'
@@ -16,7 +16,23 @@ const AppDetails = (path: { path: string }) => {
 	const [token_id, settoken_id] = useState('')
 
 	const [storageBalance, setStorageBalance] = useState('0')
-	const [data, setData] = useState(null);
+	const [data, setData] = useState({
+		id: 0,
+		price: '',
+		data: {
+			name: '',
+			description: '',
+			images_url: {
+				icon: '',
+				banner: '',
+				image1: '',
+				image2: '',
+				image3: '',
+				appFile: ''
+			}
+		},
+		owner_id: ''
+	});
 	const walletId = nearWallet.accountId
 
 
@@ -77,16 +93,29 @@ const AppDetails = (path: { path: string }) => {
 
 	const handleRelist = () => {
 		if (data.owner_id != walletId) return
-		console.log('clicked')
 		if (nearWallet.connected) {
 			setIsOpen(true)
 		} else {
 			alert('You`re not Connected')
 		}
 	}
+	const handleUnlist = async () => {
+		if (data.owner_id != walletId) return
+
+		// try {
+		// 	const tx = await remove_sale({
+		// 		nft_contract_id: 'newminter.danieldave.testnet',
+		// 		token_id: String(token_id)
+		// 	})
+
+		// 	return tx
+		// } catch (unlistErr: any) {
+		// 	console.log(unlistErr)
+		// }
+	}
+
 
 	const handleBuy = () => {
-		console.log('clicked')
 		if (nearWallet.connected) {
 			try {
 				BuyOffer()
@@ -100,7 +129,7 @@ const AppDetails = (path: { path: string }) => {
 
 	console.log(data)
 
-	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data.data.images_url?.banner : '/images/Cyberpunk2b077_1.png'
+	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data?.data?.images_url?.banner : '/images/Cyberpunk2b077_1.png'
 
 	return (
 		<>
@@ -217,19 +246,45 @@ const AppDetails = (path: { path: string }) => {
 
 
 								<button className={`${data.owner_id == walletId ? 'bg-[#6039CF]' : 'bg-[#D3D3D3] '} bg-[#6039CF] rounded-[12px] pointer w-[280px] h-[48px] flex items-center justify-center`}
-									onClick={handleRelist}
+									onClick={Number(data.price) > 0 ? handleUnlist : handleRelist}
 									disabled={data.owner_id != walletId}>
 									<Icon classes='mr-5' name='document.svg' size={20} />
-									<p className='text-[#FFFFFF] text-[16px] font-semibold'>Relist</p>
+									<p className='text-[#FFFFFF] text-[16px] font-semibold'>{Number(data.price) > 0 ? 'Unlist' : 'Relist'}</p>
 								</button>
 
-								<button className={`${data.owner_id != walletId ? 'bg-[#6039CF] ' : 'bg-[#D3D3D3] '} rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
-									onClick={handleBuy}
-									disabled={data.owner_id == walletId}>
+								{Number(data.price) > 0 ?
+									(
+										data.owner_id != walletId ?
+											(
+												<button className={`bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
+													onClick={handleBuy}
+													disabled={data.owner_id == walletId}>
 
-									<Icon classes='mr-5' name='document.svg' size={20} />
-									<p className='text-[#A6A6A6] text-[16px] font-semibold'>Buy</p>
-								</button>
+													<Icon classes='mr-5' name='document.svg' size={20} />
+													<p className='text-[#A6A6A6] text-[16px] font-semibold'>Buy</p>
+												</button>
+											)
+											:
+
+											(<a href={`https://ipfs.io/ipfs/${data.data.images_url?.appFile}`} download={data.data.name}>
+												<button className={`bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
+												>
+													<Icon classes='mr-5' name='document.svg' size={20} />
+													<p className='text-[#A6A6A6] text-[16px] font-semibold'>Download App</p>
+												</button>
+											</a>)
+									)
+									:
+									(
+										<a href={`https://ipfs.io/ipfs/${data.data.images_url?.appFile}`} download={data.data.name}>
+											<button className={`bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
+											>
+												<Icon classes='mr-5' name='document.svg' size={20} />
+												<p className='text-[#A6A6A6] text-[16px] font-semibold'>Download App</p>
+											</button>
+										</a>
+									)
+								}
 							</div>
 
 						</div>

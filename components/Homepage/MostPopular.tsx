@@ -57,7 +57,7 @@ export const MostPopular = ({ data }: any) => {
                     const encoded = window.btoa(`${data.id}`)
 
                     return <Link key={data.id} href={`/app/${encoded}`}>
-                        <Card key={data.data.id} src={`https://ipfs.io/ipfs/${data.data.image_url}`} name={data.data.name} icon={'game'} />
+                        <Card key={data.data.id} src={`https://ipfs.io/ipfs/${data.data.images_url?.icon}`} name={data.data.name} icon={'game'} />
                     </Link>
                 })
                     :

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Hero, HotAssets, MostPopular } from "@/components/Homepage";
 import Link from "next/link";
 import { HotLists } from "@/components/Homepage/HotLists";
-import { Footer, getListedNft, getListedNfts, } from "@/components/Utils";
+import { Footer, getListedNfts, } from "@/components/Utils";
 
 import { nearWallet } from '../contracts-connector/near/near-interface'
 
@@ -43,8 +43,6 @@ export default function Home() {
     'Cyberpunk2077_1.png',
     'A Plague Tale Requiem 4.png'
   ]
-
-  console.log(data)
 
   return (
     <>
