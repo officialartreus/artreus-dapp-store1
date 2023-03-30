@@ -14,61 +14,115 @@ import { publicProvider } from 'wagmi/providers/public';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
 
-// const Toronet: Chain = {
-//   id: 54321,
-//   name: 'Toronet',
-//   network: 'Toronet',
-//   iconUrl: 'https://example.com/icon.svg',
-//   iconBackground: '#fff',
-//   nativeCurrency: {
-//     decimals: 18,
-//     name: 'Toronet',
-//     symbol: 'Toro',
-//   },
-//   rpcUrls: {
-//     default: {
-//       http: ['https://testnet.toronet.org/rpc/'],
-//     },
-//   },
-//   blockExplorers: {
-//     default: {
-//       name: 'SnowTrace', url: 'https://testnet.toronet.org/'
-//     },
-//   },
-//   testnet: true,
-// };
+const ZetaChain: Chain = {
+  id: 7001,
+  name: 'ZetaChain Testnet',
+  network: ' ZetaChain Testnet',
+  iconUrl: '/images/icons/zetachain-logo.png',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'ZetaChain',
+    symbol: 'ZETA',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://api.athens2.zetachain.com/evm'],
+    },
+    public: {
+      http: ['https://api.athens2.zetachain.com/evm'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'ZetaChain', url: 'https://explorer.zetachain.com'
+    },
+  },
+  testnet: true,
+};
+
+const Toronet: Chain = {
+  id: 54321,
+  name: 'Toronet',
+  network: 'Toronet',
+  iconUrl: '/images/icons/toronet-logo.svg',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Toronet',
+    symbol: 'Toro',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://testnet.toronet.org/rpc/'],
+    },
+    public: {
+      http: ['https://testnet.toronet.org/rpc/'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Toronet', url: 'https://testnet.toronet.org/'
+    },
+  },
+  testnet: true,
+};
+
+const IoTex: Chain = {
+  id: 4690,
+  name: 'IoTex',
+  network: 'IoTex',
+  iconUrl: '/images/icons/iotex-logo.svg',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'IoTex',
+    symbol: 'IOTX',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://babel-api.testnet.iotex.io'],
+    },
+    public: {
+      http: ['https://babel-api.testnet.iotex.io'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'IoTex', url: 'https://testnet.iotexscan.io'
+    },
+  },
+  testnet: true,
+};
 
 
-// const { chains, provider } = configureChains(
-//   [mainnet, polygon, optimism, arbitrum, Toronet],
-//   [
-//     jsonRpcProvider({
-//       rpc: chain => ({ http: chain.rpcUrls.default.http[0] }),
-//     }),
-//     publicProvider()
-//   ]
-// );
+const { chains, provider } = configureChains(
+  [polygon, optimism, arbitrum, Toronet, ZetaChain, IoTex],
+  [
+    publicProvider()
+  ]
+);
 
-// const { connectors } = getDefaultWallets({
-//   appName: 'My RainbowKit App',
-//   chains
-// });
+const { connectors } = getDefaultWallets({
+  appName: 'My RainbowKit App',
+  chains
+});
 
-// const wagmiClient = createClient({
-//   autoConnect: true,
-//   connectors,
-//   provider
-// })
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider
+})
 
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    // <WagmiConfig client={wagmiClient}>
-    //   <RainbowKitProvider chains={chains}>
-    <LayoutWrapper>
-      <Component {...pageProps} />
-    </LayoutWrapper>
-    //   </RainbowKitProvider>
-    // </WagmiConfig>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <LayoutWrapper>
+          <Component {...pageProps} />
+        </LayoutWrapper>
+      </RainbowKitProvider>
+    </WagmiConfig>
   )
 }

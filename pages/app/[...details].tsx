@@ -127,8 +127,6 @@ const AppDetails = (path: { path: string }) => {
 		}
 	}
 
-	console.log(data)
-
 	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data?.data?.images_url?.banner : '/images/Cyberpunk2b077_1.png'
 
 	return (
@@ -257,8 +255,7 @@ const AppDetails = (path: { path: string }) => {
 										data.owner_id != walletId ?
 											(
 												<button className={`bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
-													onClick={handleBuy}
-													disabled={data.owner_id == walletId}>
+													onClick={handleBuy}>
 
 													<Icon classes='mr-5' name='document.svg' size={20} />
 													<p className='text-[#A6A6A6] text-[16px] font-semibold'>Buy</p>
@@ -278,6 +275,7 @@ const AppDetails = (path: { path: string }) => {
 									(
 										<a href={`https://ipfs.io/ipfs/${data.data.images_url?.appFile}`} download={data.data.name}>
 											<button className={`bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
+												disabled={data.owner_id != walletId}
 											>
 												<Icon classes='mr-5' name='document.svg' size={20} />
 												<p className='text-[#A6A6A6] text-[16px] font-semibold'>Download App</p>
