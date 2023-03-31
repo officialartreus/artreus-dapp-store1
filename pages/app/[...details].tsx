@@ -158,7 +158,7 @@ const AppDetails = (path: { path: string }) => {
 					<div className='space-y-6'>
 						<div className='w-[742px] h-[313px] p-[30px] bg-[#FFFFFF] rounded-[24px] flex '>
 							<div className='flex-1 space-y-3'>
-								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='text-[#6039CF]'>{data.owner_id}</span></p>
+								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='capitalize text-[#6039CF]'>{data.owner_id}</span></p>
 								<p className="font-semibold text-[32px] text-[#000000]">{data?.data?.name}</p>
 								<p className='text-[14px]'>{data?.data?.description}<span className='text-[#6039CF]'> Show more</span></p>
 
@@ -296,9 +296,9 @@ const AppDetails = (path: { path: string }) => {
 
 						<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.data.images_url?.image1}`} />
 
-						<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src='/images/Cyberpunk2077 13.png' />
+						<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.data.images_url?.image2}`} />
 
-						<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src='/images/Cyberpunk2077 17.png' />
+						<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.data.images_url?.image3}`} />
 
 					</div>
 				</div>

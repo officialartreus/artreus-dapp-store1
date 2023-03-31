@@ -7,7 +7,7 @@ import { utils } from 'near-api-js';
 import { ImagePreview, Input, UploadButton } from '@/components/Utils';
 
 
-export default function Create() {
+export default function Dev() {
 
   const [fileObject, setFileObject] = React.useState({})
   const [supply, setSupply] = React.useState(0)

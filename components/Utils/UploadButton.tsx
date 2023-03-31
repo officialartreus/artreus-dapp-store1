@@ -10,6 +10,8 @@ export function UploadButton({ handleChange, ...props }: prop) {
     'icon': undefined,
     'banner': undefined,
     'image1': undefined,
+    'image2': undefined,
+    'image3': undefined,
     'appFile': undefined
   })
   const [icon, seticon] = useState('')
@@ -23,7 +25,7 @@ export function UploadButton({ handleChange, ...props }: prop) {
 
   const handleFileChange = () => {
     if (files.icon != undefined && files.banner != undefined
-      && files.image1 != undefined && files.appFile != undefined) {
+      && files.image1 != undefined && files.image2 != undefined && files.image3 != undefined && files.appFile != undefined) {
       handleChange(files)
       alert('Files Uploaded Succesfully')
     } else alert('Please Uplaod compulsory files')
@@ -39,6 +41,8 @@ export function UploadButton({ handleChange, ...props }: prop) {
       'icon': undefined,
       'banner': undefined,
       'image1': undefined,
+      'image2': undefined,
+      'image3': undefined,
       'appFile': undefined
     })
     seticon('')

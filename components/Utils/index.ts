@@ -6,4 +6,5 @@ export { Input } from './Input'
 export { ImagePreview } from './ImagePreview'
 export { UploadButton } from './UploadButton'
 export { CustomButton } from './CustomButton'
+export { ConnectModal } from './ConnectModal'
 

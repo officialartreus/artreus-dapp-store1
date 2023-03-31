@@ -16,7 +16,8 @@ export default function Home() {
   const [data, setData] = useState([]);
 
   const MarketPlaceNfts = async () => {
-    setData(await getListedNfts(20))
+    const d = await getListedNfts(20)
+    setData(() => { if (d) return d; else return [] })
   }
 
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function Home() {
     }, 2000);
   }, [])
 
+  console.log(data)
 
   const src = [
     'A Plague Tale Requiem 2.png',

@@ -75,12 +75,10 @@ export const CustomButton = () => {
 												)}
 											</div>
 										) : chain.name}
-										{/* <Icon classes='' name={'dropdown-arrow.svg'} size={[24, 24]} /> */}
 									</button>
 									<button onClick={openAccountModal} className='flex text-white bg-[#6039CF] hover:bg-[#8061D9] w-[135px] h-[38px] items-center whitespace-nowrap rounded-[8px] gap-[8px] px-[12px] overflow-hidden' type="button">
 										<Icon classes='' name={'link-square.svg'} size={[24, 24]} />
 										{account.displayName}
-
 									</button>
 								</div>
 							);
