@@ -45,7 +45,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const uDauth = new UAuth({
       clientID: "37a2f337-c4b9-465d-86df-efa58498ac20",
-      redirectUri: `${location.href}`,
+      redirectUri: `${location.origin}`,
       scope: "openid wallet email profile:optional social:optional"
     })
     setUDauth(uDauth)
@@ -169,7 +169,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
             <div className='space-x-16 flex a-center justify-end bg-[#212121] py-2'>
 
               <div className='flex bg-[#4D4D4D]  w-[30%] a-center p-2 rounded-xl'>
-                <Icon classes='' name='search-icon.png' size={20} />
+                <Icon classes='mr-2' name='search-icon.png' size={20} />
                 <input className='input flex-1 outline-none bg-transparent' type="text" placeholder='Games / Apps / Assets' />
               </div>
 
