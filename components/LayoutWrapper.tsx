@@ -155,10 +155,10 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
     <>
       <div>
         <Head>
-          <title>Artreus Dapp Store</title>
-          <meta name="description" content="Artreus Dapp Store" />
+          <title>Artreus DApp Store</title>
+          <meta name="description" content="Artreus DApp Store" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/images/icons/logo.svg" />
         </Head>
       </div>
 
@@ -168,9 +168,9 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
             <div className='space-x-16 flex a-center justify-end bg-[#212121] py-2'>
 
-              <div className='flex justify-between bg-[#4D4D4D]  w-[30%] a-center p-2 rounded-xl'>
+              <div className='flex bg-[#4D4D4D]  w-[30%] a-center p-2 rounded-xl'>
                 <Icon classes='' name='search-icon.png' size={20} />
-                <input className='input outline-none bg-transparent' type="text" placeholder='Games / Apps / Assets' />
+                <input className='input flex-1 outline-none bg-transparent' type="text" placeholder='Games / Apps / Assets' />
               </div>
 
               <div className='flex space-x-5 pr-5 flex a-center'>
