@@ -9,10 +9,37 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum, Chain } from 'wagmi/chains';
+import { mainnet, polygon, optimism, arbitrum, Chain, telos, telosTestnet } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
+
+const Shardeum: Chain = {
+  id: 8082,
+  name: 'Shardeum',
+  network: ' Shardeum',
+  iconUrl: '/images/icons/shardeum-logo.svg',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Shardeum',
+    symbol: 'SHM',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://sphinx.shardeum.org/'],
+    },
+    public: {
+      http: ['https://sphinx.shardeum.org/'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Telos', url: 'https://explorer-sphinx.shardeum.org/'
+    },
+  },
+  testnet: false,
+};
 
 const ZetaChain: Chain = {
   id: 7001,
@@ -97,7 +124,7 @@ const IoTex: Chain = {
 
 
 const { chains, provider } = configureChains(
-  [polygon, optimism, arbitrum, Toronet, ZetaChain, IoTex],
+  [IoTex, polygon, telosTestnet, Shardeum, arbitrum, Toronet, ZetaChain],
   [
     publicProvider()
   ]
