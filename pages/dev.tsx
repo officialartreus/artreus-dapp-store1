@@ -187,6 +187,8 @@ export default function Dev() {
 
               <Input placeholder='Enter Total Supply' label="Total Supply *" type='text' onChange={handleSupplyChange} />
 
+              {/* <Input placeholder='Enter App Type' label="App Type (game or ap)*" type='text' onChange={handleSupplyChange} /> */}
+
               <label>Description *</label>
               <textarea className='placeholder-black/50 block bg-[#2F2F2F1A] outline-[#AEACAB] w-full p-2 mt-2 rounded-md' rows={4} placeholder='Enter a Short Description' name="Description *" onChange={handleDescChange} />
 

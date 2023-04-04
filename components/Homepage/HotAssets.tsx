@@ -3,19 +3,32 @@ import { MiniCards } from '../Utils'
 
 
 type Props = {
-    len: number
+    len: number;
+    data: any
 }
 
 export const HotAssets = (props: Props) => {
+    const { data, len } = props
     return (
         <div>
             <section className="">
                 <div className="flex flex-wrap gap-[15px]">
-                    {Array(props.len).fill(true).map((val, i) => {
+
+                    {data ? data.map((data: any, i: number) => {
+                        if (i > len) return
                         return (
-                            <MiniCards key={i} />
+                            <div key={data.id}>
+                                <MiniCards data={data} />
+                            </div>
                         )
-                    })}
+                    }) : (
+                        Array(len).fill(true).map((val, i) => {
+                            return (
+                                <MiniCards key={i} />
+                            )
+                        })
+                    )}
+
                 </div>
             </section>
         </div>

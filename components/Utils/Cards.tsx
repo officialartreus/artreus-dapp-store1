@@ -90,7 +90,40 @@ export const CountDownCard = () => {
 	)
 }
 
-export const MiniCards = () => {
+export const MiniCards = ({ data }: any) => {
+	if (data) {
+		const encoded = window.btoa(`${data.id}`)
+		return (
+			<div>
+				<div className="rounded-md flex w-[261px]">
+					<div >
+						<Image className='minicard border-[3px] border-[#FF3880] object-cover w-[72px] h-[72px] ' src={`https://ipfs.io/ipfs/${data.data?.images_url?.icon}`} width={212} height={212} alt={''} />
+					</div>
+					<div className='ml-2'>
+						<div>
+							<Link href={'/app/games'}>
+								<p className='text-[16px] font-semibold text-[#4D4D4D]'>{data.data.name}</p>
+							</Link>
+							<p className='text-[#FF3880] text-[12px]'>App / Games</p>
+
+						</div>
+						<div className="flex space-x-2">
+							<div className='flex space-x-1 a-center'>
+								{Array(5).fill(true).map((_, i) => (
+									<Icon classes='h-[20px] w-[16px] cursor-pointer' size={12} name='star.png' key={i} />
+								))}
+							</div>
+							<Link href={`app/${encoded}`}>
+								<button className='text-white font-semibold h-[27px] w-[54px] bg-[#212121] rounded-2xl'>Get</button>
+							</Link>
+						</div>
+					</div>
+
+				</div >
+			</div>
+		)
+	}
+
 	return (
 		<>
 			<div className="rounded-md flex w-[261px]">

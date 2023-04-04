@@ -14,6 +14,33 @@ import { publicProvider } from 'wagmi/providers/public';
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
 
+const Telos: Chain = {
+  id: 41,
+  name: 'Telos',
+  network: ' Telos',
+  iconUrl: '/images/icons/telos-logo.png',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Telos',
+    symbol: 'TLOS',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://testnet.telos.net/evm'],
+    },
+    public: {
+      http: ['https://testnet.telos.net/evm'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Teloscan (testnet)', url: 'https://testnet.teloscan.io/'
+    },
+  },
+  testnet: true,
+};
+
 const Shardeum: Chain = {
   id: 8082,
   name: 'Shardeum',
@@ -35,7 +62,7 @@ const Shardeum: Chain = {
   },
   blockExplorers: {
     default: {
-      name: 'Telos', url: 'https://explorer-sphinx.shardeum.org/'
+      name: 'Shardeum', url: 'https://explorer-sphinx.shardeum.org/'
     },
   },
   testnet: false,
@@ -124,14 +151,14 @@ const IoTex: Chain = {
 
 
 const { chains, provider } = configureChains(
-  [IoTex, polygon, telosTestnet, Shardeum, arbitrum, Toronet, ZetaChain],
+  [IoTex, polygon, Telos, Shardeum, arbitrum, Toronet, ZetaChain],
   [
     publicProvider()
   ]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
+  appName: 'Artreus DApp Store',
   chains
 });
 
