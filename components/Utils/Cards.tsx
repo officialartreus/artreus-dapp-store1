@@ -101,7 +101,7 @@ export const MiniCards = ({ data }: any) => {
 					</div>
 					<div className='ml-2'>
 						<div>
-							<Link href={'/app/games'}>
+							<Link href={`app/${encoded}`}>
 								<p className='text-[16px] font-semibold text-[#4D4D4D]'>{data.data.name}</p>
 							</Link>
 							<p className='text-[#FF3880] text-[12px]'>App / Games</p>

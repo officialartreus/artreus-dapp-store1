@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
 
-import { Card, Footer, getListedNft, Icon } from '@/components/Utils'
+import { Footer, getListedNft, Icon } from '@/components/Utils'
 import { MostPopular } from '@/components/Homepage'
-import { nearWallet, nft_tokens, storage_deposit, nft_approve, storage_balance_of, offer, remove_sale } from '@/contracts-connector/near/near-interface'
+import { nearWallet, storage_balance_of, offer, remove_sale } from '@/contracts-connector/near/near-interface'
 import { NEAR_MARKETPLACE_ADDRESS } from '@/config/constants'
 import { utils } from 'near-api-js'
 import { GetServerSidePropsContext } from 'next'
@@ -12,7 +12,6 @@ import RelistModal from '@/components/AppDetails/RelistModal'
 const AppDetails = (path: { path: string }) => {
 
 	let [isOpen, setIsOpen] = useState(false)
-
 	const [token_id, settoken_id] = useState('')
 
 	const [storageBalance, setStorageBalance] = useState('0')
@@ -99,21 +98,23 @@ const AppDetails = (path: { path: string }) => {
 			alert('You`re not Connected')
 		}
 	}
+
 	const handleUnlist = async () => {
 		if (data.owner_id != walletId) return
 
-		// try {
-		// 	const tx = await remove_sale({
-		// 		nft_contract_id: 'newminter.danieldave.testnet',
-		// 		token_id: String(token_id)
-		// 	})
+		try {
+			const tx = await remove_sale({
+				nft_contract_id: 'newminter.danieldave.testnet',
+				contractId: NEAR_MARKETPLACE_ADDRESS,
+				token_id: String(token_id),
+				deposit: String('1')
+			})
 
-		// 	return tx
-		// } catch (unlistErr: any) {
-		// 	console.log(unlistErr)
-		// }
+			return tx
+		} catch (unlistErr: any) {
+			console.log(unlistErr)
+		}
 	}
-
 
 	const handleBuy = () => {
 		if (nearWallet.connected) {

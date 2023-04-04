@@ -132,9 +132,9 @@ export async function storage_balance_of({ account_id, contractId }) {
     return await nearWallet.viewMethod({ method: 'storage_balance_of', args: { account_id }, contractId: contractId });
 }
 
-export async function remove_sale({ nft_contract_id, token_id }) {
+export async function remove_sale({ nft_contract_id, token_id, deposit, contractId }) {
     nearWallet.startUp()
-    return await nearWallet.callMethod({ method: 'remove_sale', args: { nft_contract_id, token_id }, contractId: CONTRACT_ADDRESS });
+    return await nearWallet.callMethod({ method: 'remove_sale', args: { nft_contract_id, token_id }, contractId: contractId, deposit: deposit });
 }
 
 export async function update_price({ nft_contract_id, token_id, price }) {
