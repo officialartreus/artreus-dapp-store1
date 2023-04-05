@@ -27,7 +27,7 @@ export function UploadButton({ handleChange, ...props }: prop) {
     if (files.icon != undefined && files.banner != undefined
       && files.image1 != undefined && files.image2 != undefined && files.image3 != undefined && files.appFile != undefined) {
       handleChange(files)
-      alert('Files Uploaded Succesfully')
+      alert('Files Saved Succesfully')
     } else alert('Please Uplaod compulsory files')
 
   }
@@ -185,7 +185,7 @@ export function UploadButton({ handleChange, ...props }: prop) {
 
 
         <div className="flex space-x-6">
-          <button {...props as any} onClick={handleFileChange} tabIndex={0} className='rounded-md bg-brandpink0 font-bold capitalize mt-4 md:mt-6 py-2 px-4 w-fit'>Upload All Files</button>
+          <button {...props as any} onClick={handleFileChange} tabIndex={0} className='rounded-md bg-brandpink0 font-bold capitalize mt-4 md:mt-6 py-2 px-4 w-fit'>Save Files</button>
 
           <button {...props as any} onClick={handleClear} tabIndex={0} className='rounded-md bg-brandpink0 font-bold capitalize mt-4 md:mt-6 py-2 px-4 w-fit'>Clear Selection</button>
         </div>

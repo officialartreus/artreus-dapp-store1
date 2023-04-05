@@ -14,6 +14,9 @@ export default function Dev() {
   const [name, setName] = React.useState('')
   const [desc, setDesc] = React.useState('')
   const [mintText, setMintText] = React.useState('Create Item')
+  const [uploadStatus, setUploadStatus] = React.useState(0)
+
+
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -83,9 +86,20 @@ export default function Dev() {
     return cid
   }
 
+  useEffect(() => {
+    if (uploadStatus > 0)
+      setMintText(`Minting ... ${uploadStatus}%`)
+  }, [uploadStatus])
+
+
+  console.log(uploadStatus)
+
   const UploadImages: any = async (files: any, item_name: any, description: any, category: any) => {
 
     let cid: {} = {}
+
+    const total = Object.keys(files).length
+
 
     for (const key in files) {
       let a = await storeFiles(files[key]);
@@ -93,6 +107,8 @@ export default function Dev() {
         ...cid,
         [key]: a + '/' + files[key][0].name
       }
+      const done = Object.keys(cid).length
+      setUploadStatus(Math.floor((done / total) * 100))
     }
 
     const obj = {
@@ -140,14 +156,13 @@ export default function Dev() {
       return
     }
 
+    setUploadStatus(0)
     const data: any = await UploadImages(fileObject, name, desc, "image")
 
     if (!data) {
-      alert('Please Enter All The Fields To Mint Your Nfts')
+      alert('Error... Please Try Again Later')
       return
     }
-
-    console.log(data)
 
     try {
       let totalNfts = await nft_total_supply()
@@ -197,11 +212,16 @@ export default function Dev() {
                 <UploadButton handleChange={handleFilesChange} />
               </div>
 
-              <input type="submit" value={mintText} className='cursor-pointer py-2 px-4 mt-8 font-bold rounded-md bg-[#6039CF]' onClick={() => {
-                handleNearSubmit()
-              }} />
-              <div>
+              <div className={`my-5 shadow-md bg-brandpink0 rounded-md overflow-hidden w-fit `}>
+
+                <div style={{ width: `${uploadStatus}%` }} className={`rounded-l-md ${uploadStatus > 0 ? 'bg-[#6039CF]' : 'bg-brandpink0'}`}>
+                  <input type="submit" value={mintText} className={`cursor-pointer py-2 px-4  font-bold`} onClick={() => {
+                    handleNearSubmit()
+                  }} />
+                </div>
+
               </div>
+
             </div>
           </div>
         </div>

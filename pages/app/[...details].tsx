@@ -14,6 +14,8 @@ const AppDetails = (path: { path: string }) => {
 	let [isOpen, setIsOpen] = useState(false)
 	const [token_id, settoken_id] = useState('')
 
+	const [Desc, setDesc] = useState('desc1')
+
 	const [storageBalance, setStorageBalance] = useState('0')
 	const [data, setData] = useState({
 		id: 0,
@@ -130,13 +132,20 @@ const AppDetails = (path: { path: string }) => {
 
 	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data?.data?.images_url?.banner : '/images/Cyberpunk2b077_1.png'
 
+	console.log(Desc)
+	useEffect(() => {
+		let des = data?.data?.description
+		des = des.length > 300 ? des.slice(0, 300) : des
+		setDesc(des)
+	}, [data])
+
+
 	return (
 		<>
 			<div className='ml-20 text-[#7A7A7A]'>
 
 				{/* clear fix */}
 				<div className="absolte t-0 h-[80px]"></div>
-
 
 				<div className='flex space-x-[55px]'>
 					<div>
@@ -157,11 +166,22 @@ const AppDetails = (path: { path: string }) => {
 					</div>
 
 					<div className='space-y-6'>
-						<div className='w-[742px] h-[313px] p-[30px] bg-[#FFFFFF] rounded-[24px] flex '>
+						<div className='w-[742px] p-[30px] bg-[#FFFFFF] rounded-[24px] flex '>
 							<div className='flex-1 space-y-3'>
 								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='capitalize text-[#6039CF]'>{data.owner_id}</span></p>
 								<p className="font-semibold text-[32px] text-[#000000]">{data?.data?.name}</p>
-								<p className='text-[14px]'>{data?.data?.description}<span className='text-[#6039CF]'> Show more</span></p>
+								<p className='text-[14px]'>
+									{Desc}
+									{Desc.length > 300 ? (
+										<button className='text-[#6039CF] ml-2'
+											onClick={() => setDesc(data?.data?.description.slice(0, 300))}
+										> Show less
+										</button>) : (
+										<button className='text-[#6039CF] ml-2'
+											onClick={() => setDesc(data?.data?.description)}
+										> Show more
+										</button>)}
+								</p>
 
 								<div className='flex space-x-6 items-center'>
 									<div className='flex flex-col items-center'>
