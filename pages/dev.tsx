@@ -3,19 +3,68 @@ import React, { useEffect } from 'react'
 import { Web3Storage } from 'web3.storage'
 import { nft_mint, nft_total_supply, nearWallet } from '../contracts-connector/near/near-interface';
 
-import { utils } from 'near-api-js';
-import { ImagePreview, Input, UploadButton } from '@/components/Utils';
+import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useSigner } from 'wagmi'
 
+import { utils } from 'near-api-js';
+import { Input, UploadButton } from '@/components/Utils';
+import { Contract } from 'ethers/lib/ethers';
+
+import contract from '../contracts-connector/evm/addresses.json'
+
+import { ContractFactory } from 'ethers';
 
 export default function Dev() {
 
   const [fileObject, setFileObject] = React.useState({})
   const [supply, setSupply] = React.useState(0)
+  const [tsupply, settSupply] = React.useState({})
   const [name, setName] = React.useState('')
   const [desc, setDesc] = React.useState('')
   const [mintText, setMintText] = React.useState('Create Item')
   const [uploadStatus, setUploadStatus] = React.useState(0)
+  const [nftContract, setNftContract] = React.useState<Contract>()
 
+  const { address, isConnected } = useAccount()
+
+  const zetaContractMarket = '0x894e97fEbBAfB2beaF8d3f207520Ca81047DD471'
+  const zetaContractNFT = '0x9A93a2f45AC4aDcA85CC9dF8539eB50eECf87708'
+  const cmpContract = '0xea781635AC8bDdAca2BDC7C2043A7573C7092786'
+
+  const { data: Signer, error: err, isLoading, refetch } = useSigner()
+
+
+
+  const querContract = async () => {
+
+    // console.log((await nftContract?.totalSupply()).toString())
+    console.log(nftContract?.address)
+
+  }
+
+  querContract()
+
+
+  const { config } = usePrepareContractWrite({
+    address: zetaContractMarket,
+    abi: contract.marketAbi,
+    functionName: 'getTokenURI',
+    args: [nftContract?.address],
+    enabled: true
+  })
+
+
+
+  const { write, error, isSuccess } = useContractWrite(config)
+
+
+  const { data } = useContractRead({
+    address: zetaContractMarket,
+    abi: contract.marketAbi,
+    functionName: 'getAllDappsListed'
+  })
+
+
+  console.log(data)
 
 
   useEffect(() => {
@@ -26,6 +75,9 @@ export default function Dev() {
       window.location.replace(window.location.origin + '/myapps')
     }
   }, [])
+
+
+  // console.log(data)
 
 
   useEffect(() => {
@@ -91,9 +143,6 @@ export default function Dev() {
       setMintText(`Minting ... ${uploadStatus}%`)
   }, [uploadStatus])
 
-
-  console.log(uploadStatus)
-
   const UploadImages: any = async (files: any, item_name: any, description: any, category: any) => {
 
     let cid: {} = {}
@@ -125,7 +174,6 @@ export default function Dev() {
     return [ufiles, cid, metaCid + "/" + item_name + ".json", item_name, description, category];
   }
 
-
   const handleFilesChange = (files: {}) => {
     setFileObject(files);
   }
@@ -145,24 +193,21 @@ export default function Dev() {
     setDesc(val)
   }
 
-  const handleNearSubmit = async () => {
-    if (!nearWallet.connected) {
-      alert('Not Connected')
-      return
+  const evmChainMint = async (name: string, maxSupply: number, uri: string) => {
+
+
+    console.log(err)
+    console.log(uri)
+    if (Signer != undefined) {
+      const factory = new ContractFactory(contract.minterAbi, contract.nftContractByteCode, Signer);
+
+      const nftCon = await factory.deploy(name, maxSupply, uri, zetaContractMarket);
+      setNftContract(nftCon)
     }
 
-    if (name == '' && desc == '' && supply == 0 && Object.keys(fileObject).length < 3) {
-      alert('Please fill all compulsory fields')
-      return
-    }
+  }
 
-    setUploadStatus(0)
-    const data: any = await UploadImages(fileObject, name, desc, "image")
-
-    if (!data) {
-      alert('Error... Please Try Again Later')
-      return
-    }
+  const handleNearSubmit = async (data: any) => {
 
     try {
       let totalNfts = await nft_total_supply()
@@ -183,6 +228,32 @@ export default function Dev() {
       console.log(mint_error)
     }
   }
+
+  const handleMint = async () => {
+
+    if (name == '' && desc == '' && supply == 0 && Object.keys(fileObject).length < 3) {
+      alert('Please fill all compulsory fields')
+      return
+    }
+
+    setUploadStatus(0)
+    const data: any = await UploadImages(fileObject, name, desc, "image")
+
+    if (!data) {
+      alert('Error... Please Try Again Later')
+      return
+    }
+
+    if (nearWallet.connected) {
+      handleNearSubmit(data)
+    } else if (isConnected) {
+      evmChainMint(name, supply, data[2].toString())
+    } else {
+      alert('Not Connected')
+    }
+
+  }
+
 
   return (
     <div className='ml-20'>
@@ -216,7 +287,7 @@ export default function Dev() {
 
                 <div style={{ width: `${uploadStatus}%` }} className={`rounded-l-md ${uploadStatus > 0 ? 'bg-[#6039CF]' : 'bg-brandpink0'}`}>
                   <input type="submit" value={mintText} className={`cursor-pointer py-2 px-4  font-bold`} onClick={() => {
-                    handleNearSubmit()
+                    handleMint()
                   }} />
                 </div>
 

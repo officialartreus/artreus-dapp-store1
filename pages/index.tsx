@@ -9,11 +9,47 @@ import { Footer, getListedNfts, } from "@/components/Utils";
 import { nearWallet } from '../contracts-connector/near/near-interface'
 
 import { useEffect, useState } from "react";
+import contract from '../contracts-connector/evm/addresses.json'
+import { useContractRead } from "wagmi";
+import { useIsMounted } from "@/hooks/useIsMounted";
+
 
 
 
 export default function Home() {
   const [data, setData] = useState([]);
+
+  const mounted = useIsMounted()
+  const zetaContractMarket = '0x894e97fEbBAfB2beaF8d3f207520Ca81047DD471'
+
+  const { data: readData } = useContractRead({
+    address: zetaContractMarket,
+    abi: contract.marketAbi,
+    functionName: 'getAllDappsListed'
+  })
+
+  const getAllDappsListed = async (limit: number) => {
+    let newerData = readData?.map(async (data: any, index: number) => {
+      if (data.uri != '') {
+        let a;
+        await fetch("https://ipfs.io/ipfs/" + data.uri, {
+          method: 'GET',
+          redirect: 'follow'
+        })
+          .then(response => response.json().then(res => {
+            a = res
+          }))
+          .catch(error => console.log('error', error));
+        return a;
+      }
+    })
+
+    if (newerData != undefined) {
+      newerData = await Promise.all(newerData)
+      newerData = newerData.filter((data: any) => data != undefined)
+      setData(newerData)
+    }
+  }
 
   const MarketPlaceNfts = async () => {
     const d = await getListedNfts(20)
@@ -21,13 +57,12 @@ export default function Home() {
   }
 
   useEffect(() => {
-    nearWallet.startUp()
-    setTimeout(() => {
-      MarketPlaceNfts()
-    }, 2000);
+    // nearWallet.startUp()
+    // setTimeout(() => {
+    // }, 2000);
+    getAllDappsListed(20)
   }, [])
 
-  console.log(data)
 
   const src = [
     'A Plague Tale Requiem 2.png',
@@ -46,6 +81,7 @@ export default function Home() {
     'A Plague Tale Requiem 4.png'
   ]
 
+
   return (
     <>
       <Hero />
@@ -55,7 +91,7 @@ export default function Home() {
         <div>
           <p className="text-[32px] font-semibold my-2  mb-4">Most Popular Games</p>
         </div>
-        {data.length > 1 ? <MostPopular data={data} /> : <MostPopular />}
+        {data.length > 0 ? <MostPopular data={data} /> : <MostPopular />}
       </section>
 
       {/* recently added  */}

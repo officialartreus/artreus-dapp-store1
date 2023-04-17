@@ -9,9 +9,8 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum, Chain, telos, telosTestnet } from 'wagmi/chains';
+import { mainnet, polygon, arbitrum, Chain } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
 
 const Telos: Chain = {
@@ -42,7 +41,7 @@ const Telos: Chain = {
 };
 
 const Shardeum: Chain = {
-  id: 8082,
+  id: 8081,
   name: 'Shardeum',
   network: ' Shardeum',
   iconUrl: '/images/icons/shardeum-logo.svg',
@@ -54,15 +53,15 @@ const Shardeum: Chain = {
   },
   rpcUrls: {
     default: {
-      http: ['https://sphinx.shardeum.org/'],
+      http: ['https://liberty20.shardeum.org/'],
     },
     public: {
-      http: ['https://sphinx.shardeum.org/'],
+      http: ['https://liberty20.shardeum.org/'],
     },
   },
   blockExplorers: {
     default: {
-      name: 'Shardeum', url: 'https://explorer-sphinx.shardeum.org/'
+      name: 'Shardeum', url: 'https://explorer-liberty20.shardeum.org/'
     },
   },
   testnet: false,
@@ -122,6 +121,33 @@ const Toronet: Chain = {
   testnet: true,
 };
 
+const Caduceus: Chain = {
+  id: 512512,
+  name: 'Caduceus',
+  network: 'Caduceus',
+  iconUrl: '/images/icons/iotex-logo.svg',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Caduceus',
+    symbol: 'CMP',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://galaxy.block.caduceus.foundation'],
+    },
+    public: {
+      http: ['https://galaxy.block.caduceus.foundation'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'caduceus', url: 'https://galaxy.scan.caduceus.foundation'
+    },
+  },
+  testnet: true,
+};
+
 const IoTex: Chain = {
   id: 4690,
   name: 'IoTex',
@@ -151,7 +177,7 @@ const IoTex: Chain = {
 
 
 const { chains, provider } = configureChains(
-  [IoTex, polygon, Telos, Shardeum, arbitrum, Toronet, ZetaChain],
+  [Caduceus, IoTex, polygon, Telos, Shardeum, arbitrum, Toronet, ZetaChain],
   [
     publicProvider()
   ]

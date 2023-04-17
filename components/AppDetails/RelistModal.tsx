@@ -2,9 +2,10 @@ import { NEAR_MARKETPLACE_ADDRESS } from '@/config/constants'
 import { nearWallet, nft_approve, storage_deposit } from '@/contracts-connector/near/near-interface'
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState, useEffect } from 'react'
-
+import contract from '../../contracts-connector/evm/addresses.json'
 import { utils } from 'near-api-js'
 
+import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useSigner } from 'wagmi'
 
 
 export default function RelistModal({ storageBalance, setIsOpen, isOpen, token_id }: any) {
@@ -12,6 +13,19 @@ export default function RelistModal({ storageBalance, setIsOpen, isOpen, token_i
 	const [storageAmount, setStorageAmount] = useState("")
 	const [price, setPrice] = useState("")
 	const walletId = nearWallet.accountId
+
+
+	const evmList = async () => {
+		const zetaContractMarket = '0x894e97fEbBAfB2beaF8d3f207520Ca81047DD471'
+
+		const { data } = useContractRead({
+			address: zetaContractMarket,
+			abi: contract.marketAbi,
+			functionName: 'getAllDappsListed'
+		})
+
+		console.log(data)
+	}
 
 	useEffect(() => {
 		nearWallet.startUp()

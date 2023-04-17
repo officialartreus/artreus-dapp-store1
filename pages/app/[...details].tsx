@@ -9,6 +9,12 @@ import { utils } from 'near-api-js'
 import { GetServerSidePropsContext } from 'next'
 import RelistModal from '@/components/AppDetails/RelistModal'
 
+import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useSigner } from 'wagmi'
+
+import contract from '../../contracts-connector/evm/addresses.json'
+
+
+
 const AppDetails = (path: { path: string }) => {
 
 	let [isOpen, setIsOpen] = useState(false)
@@ -69,6 +75,10 @@ const AppDetails = (path: { path: string }) => {
 			}
 		} else console.log('Not Connected')
 	}
+
+
+
+	// evmList()
 
 
 	useEffect(() => {
@@ -132,7 +142,7 @@ const AppDetails = (path: { path: string }) => {
 
 	const imgSrc = data != null ? "https://ipfs.io/ipfs/" + data?.data?.images_url?.banner : '/images/Cyberpunk2b077_1.png'
 
-	console.log(Desc)
+
 	useEffect(() => {
 		let des = data?.data?.description
 		des = des.length > 300 ? des.slice(0, 300) : des

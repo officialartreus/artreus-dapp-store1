@@ -15,7 +15,7 @@ import {
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 
 import UAuth, { UserInfo } from '@uauth/js'
-
+import { useIsMounted } from "../hooks/useIsMounted";
 
 const icons = [
   ['profile-circle.png', '/myapss'],
@@ -24,12 +24,12 @@ const icons = [
 ]
 
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
+  const mounted = useIsMounted()
 
   const [selected, setSelected] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
   const [connected, setConnected] = useState(false)
 
-  const [useRBK, setUseRBK] = useState(false)
   const [udUser, setUdUser] = useState<UserInfo>()
   const [nearUserText, setNearUserText] = useState('')
 
@@ -42,6 +42,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const walletId = nearWallet.accountId
 
   const [uDauth, setUDauth] = useState<UAuth>()
+
   useEffect(() => {
     const uDauth = new UAuth({
       clientID: "37a2f337-c4b9-465d-86df-efa58498ac20",
@@ -85,7 +86,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
     check()
   }
 
-
+  // login 
   useEffect(() => {
     async function login() {
       if (selected == 'RBK' && !isConnected) {
@@ -153,14 +154,13 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <div>
-        <Head>
-          <title>Artreus DApp Store</title>
-          <meta name="description" content="Artreus DApp Store" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/images/icons/logo.svg" />
-        </Head>
-      </div>
+      <Head>
+        <title>Artreus DApp Store</title>
+        <meta name="description" content="Artreus DApp Store" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/images/icons/logo.svg" />
+      </Head>
+
 
       <header>
         <nav className='relative'>
@@ -181,7 +181,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
                 ))}
 
                 <div >
-                  {isConnected ?
+                  {mounted && isConnected ?
                     <CustomButton /> :
                     (<button onClick={handleConnectButton} type="button" className='flex text-white bg-[#6039CF] hover:bg-[#8061D9] h-[38px] items-center rounded-[8px] gap-[8px] px-[12px] '>
                       {connected ? (

@@ -1,6 +1,7 @@
 import { NEAR_MARKETPLACE_ADDRESS } from "@/config/constants"
 import { get_sales_by_nft_contract_id, nft_tokens } from "@/contracts-connector/near/near-interface"
-
+import { useContractRead } from "wagmi"
+import contract from '../../contracts-connector/evm/addresses.json'
 
 export async function getListedNft(limit: number, id: string) {
     let l = []
@@ -93,4 +94,37 @@ export async function getListedNfts(limit: number) {
     } catch (e) {
         console.log(e)
     }
+}
+
+export const getAllDappsListed = async (limit: number) => {
+    const zetaContractMarket = '0x894e97fEbBAfB2beaF8d3f207520Ca81047DD471'
+
+    const { data: readData } = useContractRead({
+        address: zetaContractMarket,
+        abi: contract.marketAbi,
+        functionName: 'getAllDappsListed'
+    })
+
+    let newerData = readData?.filter(async (data: any, index: number) => {
+
+        if (data.uri != '') {
+            let a;
+            await fetch("https://ipfs.io/ipfs/" + data.uri, {
+                method: 'GET',
+                redirect: 'follow'
+            })
+                .then(response => response.json().then(res => {
+                    a = res
+                }))
+                .catch(error => console.log('error', error));
+
+            return a;
+        }
+
+    })
+
+    newerData = await Promise.all(newerData)
+
+    newerData = newerData.filter((data: any) => data != undefined)
+    return (newerData)
 }

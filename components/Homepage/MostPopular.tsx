@@ -52,12 +52,12 @@ export const MostPopular = ({ data }: any) => {
     return (
         <div>
             <div className="flex space-x-5 ">
-                {data ? data.map((data: any) => {
-
+                {data ? data.map((data: any, i) => {
+                    console.log(data)
                     const encoded = window.btoa(`${data.id}`)
 
-                    return <Link key={data.id} href={`/app/${encoded}`}>
-                        <Card key={data.data.id} src={`https://ipfs.io/ipfs/${data.data.images_url?.icon}`} name={data.data.name} icon={'game'} />
+                    return <Link key={i} href={`/app/${encoded}`}>
+                        <Card key={i} src={`https://ipfs.io/ipfs/${data.images_url?.icon}`} name={data.name} icon={'game'} />
                     </Link>
                 })
                     :
