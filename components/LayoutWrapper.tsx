@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { ConnectModal, CustomButton } from './Utils'
 import { Icon } from './Utils/Icon'
 
+
 import {
   ConnectButton,
   useConnectModal,
@@ -15,6 +16,7 @@ import {
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 
 import UAuth, { UserInfo } from '@uauth/js'
+import { useIsMounted } from '@/hooks/useIsMounted'
 
 
 const icons = [
@@ -25,6 +27,7 @@ const icons = [
 
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
+  const mounted = useIsMounted()
   const [selected, setSelected] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
   const [connected, setConnected] = useState(false)
@@ -181,7 +184,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
                 ))}
 
                 <div >
-                  {isConnected ?
+                  {mounted && isConnected ?
                     <CustomButton /> :
                     (<button onClick={handleConnectButton} type="button" className='flex text-white bg-[#6039CF] hover:bg-[#8061D9] h-[38px] items-center rounded-[8px] gap-[8px] px-[12px] '>
                       {connected ? (
