@@ -41,7 +41,7 @@ const Telos: Chain = {
 };
 
 const Shardeum: Chain = {
-  id: 8081,
+  id: 8082,
   name: 'Shardeum',
   network: ' Shardeum',
   iconUrl: '/images/icons/shardeum-logo.svg',
@@ -53,15 +53,15 @@ const Shardeum: Chain = {
   },
   rpcUrls: {
     default: {
-      http: ['https://liberty20.shardeum.org/'],
+      http: ['https://sphinx.shardeum.org/'],
     },
     public: {
-      http: ['https://liberty20.shardeum.org/'],
+      http: ['https://sphinx.shardeum.org/'],
     },
   },
   blockExplorers: {
     default: {
-      name: 'Shardeum', url: 'https://explorer-liberty20.shardeum.org/'
+      name: 'Shardeum', url: 'https://explorer-sphinx.shardeum.org/'
     },
   },
   testnet: false,
@@ -176,12 +176,13 @@ const IoTex: Chain = {
 };
 
 
-const { chains, provider } = configureChains(
+export const { chains, provider } = configureChains(
   [Caduceus, IoTex, polygon, Telos, Shardeum, arbitrum, Toronet, ZetaChain],
   [
     publicProvider()
   ]
 );
+
 
 const { connectors } = getDefaultWallets({
   appName: 'Artreus DApp Store',

@@ -10,7 +10,7 @@ import { nearWallet } from '../contracts-connector/near/near-interface'
 
 import { useEffect, useState } from "react";
 import contract from '../contracts-connector/evm/addresses.json'
-import { useContractRead } from "wagmi";
+import { useContractRead, useChainId } from "wagmi";
 import { useIsMounted } from "@/hooks/useIsMounted";
 
 
@@ -19,12 +19,20 @@ import { useIsMounted } from "@/hooks/useIsMounted";
 export default function Home() {
   const [data, setData] = useState([]);
 
+  const chai = useChainId()
+  console.log(chai)
+
+  const chainsXid = {
+
+  }
+
   const mounted = useIsMounted()
   const zetaContractMarket = '0x894e97fEbBAfB2beaF8d3f207520Ca81047DD471'
+  const shardeumMarketContract = '0x49CEeDeB77B25b0d4AbbF280423d435378D9A584'
 
   const { data: readData } = useContractRead({
-    address: zetaContractMarket,
-    abi: contract.marketAbi,
+    address: shardeumMarketContract,
+    abi: contract.shardMArketAbi,
     functionName: 'getAllDappsListed'
   })
 
@@ -81,6 +89,7 @@ export default function Home() {
     'A Plague Tale Requiem 4.png'
   ]
 
+  console.log(data)
 
   return (
     <>
