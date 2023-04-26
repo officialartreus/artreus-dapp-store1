@@ -19,6 +19,7 @@ const AppDetails = (path: { path: string }) => {
 
 	let [isOpen, setIsOpen] = useState(false)
 	const [token_id, settoken_id] = useState('')
+	const [nftAddress, setnftAddress] = useState('')
 
 	const [Desc, setDesc] = useState('desc1')
 
@@ -41,6 +42,9 @@ const AppDetails = (path: { path: string }) => {
 		owner_id: ''
 	});
 	const walletId = nearWallet.accountId
+
+
+	const { address, isConnected } = useAccount();
 
 
 	async function BuyOffer() {
@@ -83,20 +87,29 @@ const AppDetails = (path: { path: string }) => {
 
 	useEffect(() => {
 
-		const [token_id] = window.atob(path.path).split('/')
-		settoken_id(token_id)
+		if (nearWallet.connected) {
+			const [token_id] = window.atob(path.path).split('/')
+			settoken_id(token_id)
 
-		nearWallet.startUp()
+			nearWallet.startUp()
 
-		setTimeout(() => {
-			getStorageBalance()
-			MarketPlaceNfts(String(token_id))
-		}, 2000);
+			setTimeout(() => {
+				getStorageBalance()
+				MarketPlaceNfts(String(token_id))
+			}, 2000);
+		}
+		if (isConnected) {
+			const [nft] = window.atob(path.path).split('/')
+			setnftAddress(nft)
+		}
+
 	}, [token_id])
 
 	const MarketPlaceNfts = async (token_id: string) => {
 		setData(await getListedNft(200, token_id))
 	}
+
+	return
 
 	if (data == null) {
 		return

@@ -26,10 +26,10 @@ const Telos: Chain = {
   },
   rpcUrls: {
     default: {
-      http: ['https://testnet.telos.net/evm'],
+      http: ['http://141.193.240.11:8000/evm'],
     },
     public: {
-      http: ['https://testnet.telos.net/evm'],
+      http: ['http://141.193.240.11:8000/evm'],
     },
   },
   blockExplorers: {

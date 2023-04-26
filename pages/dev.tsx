@@ -5,7 +5,11 @@ import { nft_mint, nft_total_supply, nearWallet } from '../contracts-connector/n
 
 import contract from '../contracts-connector/evm/addresses.json'
 
-import { useAccount, useChainId, useContractRead, useContractWrite, usePrepareContractWrite, useSigner } from 'wagmi'
+import { useAccount, useNetwork, useChainId, useContractRead, useContractWrite, usePrepareContractWrite, useSigner } from 'wagmi'
+
+import { Dialog, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
+import Link from 'next/link';
 
 import { utils } from 'near-api-js';
 import { Input, UploadButton } from '@/components/Utils';
@@ -13,6 +17,7 @@ import { Contract } from 'ethers/lib/ethers';
 
 import { ContractFactory, ethers } from 'ethers';
 import { getMarketAddress } from '@/hooks/selectChain';
+
 
 export default function Dev() {
 
@@ -26,13 +31,9 @@ export default function Dev() {
   const [nftContract, setNftContract] = React.useState<Contract>()
 
   const { address, isConnected } = useAccount()
-
-  const zetaContractMarket = '0x894e97fEbBAfB2beaF8d3f207520Ca81047DD471'
-  const shardeumMarketContract = '0x49CEeDeB77B25b0d4AbbF280423d435378D9A584'
-  const cmpContract = '0xea781635AC8bDdAca2BDC7C2043A7573C7092786'
+  const { chain } = useNetwork();
 
   const { data: Signer, error: err, isLoading, refetch } = useSigner()
-
 
 
   // const { data } = useContractRead({
@@ -175,9 +176,10 @@ export default function Dev() {
 
   const evmChainMint = async (name: string, maxSupply: number, uri: string) => {
 
+
     if (Signer != undefined) {
       const factory = new ContractFactory(contract.minterAbi, contract.nftContractByteCode, Signer);
-      const nftCon = await factory.deploy(name, maxSupply, uri, getMarketAddress());
+      const nftCon = await factory.deploy(name, maxSupply, uri, getMarketAddress(chain));
       await nftCon.deployed()
       setNftContract(nftCon);
     }
@@ -208,27 +210,26 @@ export default function Dev() {
 
   const handleMint = async () => {
 
-    if (name == '' && desc == '' && supply == 0 && Object.keys(fileObject).length < 3) {
-      alert('Please fill all compulsory fields')
-      return
-    }
+    // if (name == '' && desc == '' && supply == 0 && Object.keys(fileObject).length < 3) {
+    //   alert('Please fill all compulsory fields')
+    //   return
+    // }
 
-    setUploadStatus(0)
-    const data: any = await UploadImages(fileObject, name, desc, "image")
+    // setUploadStatus(0)
+    // const data: any = await UploadImages(fileObject, name, desc, "image")
 
-    if (!data) {
-      alert('Error... Please Try Again Later')
-      return
-    }
+    // if (!data) {
+    //   alert('Error... Please Try Again Later')
+    //   return
+    // }
 
     if (nearWallet.connected) {
-      handleNearSubmit(data)
+      // handleNearSubmit(data)
     } else if (isConnected) {
-      evmChainMint(name, supply, 'data[2].toString()')
+      evmChainMint(name, supply, "data[2].toString()")
     } else {
       alert('Not Connected')
     }
-
   }
 
 
@@ -281,33 +282,57 @@ export default function Dev() {
 }
 
 
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-
-import { useNetwork } from 'wagmi'
-
-
 function MyModal({ mintData }: any) {
 
   const [isOpen, setIsOpen] = useState(true)
+  const [price, setprice] = useState(0)
   const { chain } = useNetwork()
+
 
 
   function closeModal() {
     setIsOpen(false)
   }
 
-  useEffect(() => {
-    if (mintData != undefined && !isOpen) {
-      setIsOpen(true)
-      console.log(mintData)
+  if (mintData != undefined && !isOpen) {
+    setIsOpen(true)
+    console.log(mintData)
+  }
+  // useEffect(() => {
+  // }, [mintData])
+
+  const getAppPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val: any = e.target.value
+    if (val == '') {
+      setprice(0)
+      return
     }
-  }, [mintData])
+    setprice(val)
+  }
 
+  const { config } = usePrepareContractWrite({
+    address: getMarketAddress(chain),
+    abi: contract.marketAbi,
+    functionName: 'List',
+    args: [0, ethers.utils.parseEther(price.toString()), mintData?.address,],
+    overrides: {
+      value: ethers.utils.parseEther('0.02'),
+    },
+  })
+  const { data: ListTx, write } = useContractWrite(config)
 
+  console.log(ListTx)
 
+  const listEVMApp = () => {
 
+    if (price <= 0) {
+      alert('price too small')
+      return
+    }
 
+    write?.()
+
+  }
 
   return (
     <>
@@ -337,7 +362,7 @@ function MyModal({ mintData }: any) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-4 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
@@ -351,8 +376,36 @@ function MyModal({ mintData }: any) {
                     <p className="text-sm mt-3 text-gray-500">
                       To view this transaction on your blockchain explorer:
                     </p>
-                    <a className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/evm/tx/${mintData?.deployTransaction.hash}`} target='_blank' >Click Here</a>
+                    <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/evm/tx/${mintData?.deployTransaction.hash}`} target='_blank' >Click Here</Link>
                   </div>
+
+                  <div>
+                    <p className="text-sm my-3 mt-5 text-gray-500">
+                      List your app right away! If you don't it will be lost forever!
+                    </p>
+                    {ListTx ? (
+                      <div>
+                        <div className="mt-4">
+                          <p className="text-sm text-gray-500">
+                            App Listed Successfully!!
+                          </p>
+                          <p className="text-sm mt-3 text-gray-500">
+                            To view this transaction on your blockchain explorer:
+                          </p>
+                          <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/evm/tx/${ListTx?.hash}`} target='_blank' >Click Here</Link>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <label className="text-sm text-gray-500">App Price * ({price.toString()} {chain?.nativeCurrency?.symbol}) </label>
+                        <Input placeholder='Enter Your App Price' label="" type='number' onChange={getAppPrice} />
+                        <button className="text-sm rounded-lg text-brandpink0 mt-0 p-2 bg-blue-100 hover:bg-blue-200 " onClick={listEVMApp}>List Now!</button>
+                      </div>
+                    )}
+
+
+                  </div>
+
 
                   <div className="mt-4">
                     <button

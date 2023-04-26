@@ -1,6 +1,5 @@
 
 import contract from '../contracts-connector/evm/addresses.json'
-import { useIsMounted } from './useIsMounted'
 
 const chainsXid = {
     7001: "zeta",
@@ -10,13 +9,12 @@ const chainsXid = {
     4690: "iotex",
     8081: "shardeum",
     8082: "shardeum",
+    137: "polygon",
+    42161: "arbitrum"
 }
 
-export const getMarketAddress = () => {
-
-    const chainId = Number(window.ethereum.chainId).toString()
-    return contract[`${getChain(chainId)}MarketAddress`]
-
+export const getMarketAddress = (chain) => {
+    return contract[`${getChain(chain?.id)}MarketAddress`]
 }
 
 export const getChain = (id: number) => {
