@@ -13,6 +13,7 @@ import { useAccount, useContractRead, useContractWrite, useNetwork, usePrepareCo
 
 import contract from '../../contracts-connector/evm/addresses.json'
 import { getMarketAddress } from '@/hooks/selectChain'
+import { ethers } from 'ethers'
 
 
 
@@ -20,31 +21,15 @@ const AppDetails = (path: { path: string }) => {
 
 	let [isOpen, setIsOpen] = useState(false)
 	const [token_id, settoken_id] = useState('')
+	const [fprice, setfprice] = useState('0')
+
 	const [nftAddress, setnftAddress] = useState('')
 	const { chain } = useNetwork();
 
 	const [Desc, setDesc] = useState('desc1')
 
 	const [storageBalance, setStorageBalance] = useState('0')
-	const [data, setData] = useState({
-		id: 0,
-		price: '',
-		data: {
-			name: '',
-			description: '',
-			images_url: {
-				icon: '',
-				banner: '',
-				image1: '',
-				image2: '',
-				image3: '',
-				appFile: ''
-			}
-		},
-		owner_id: ''
-	});
-	const walletId = nearWallet.accountId
-
+	const [data, setData] = useState();
 
 	const { address, isConnected } = useAccount();
 
@@ -64,7 +49,6 @@ const AppDetails = (path: { path: string }) => {
 		}
 	}
 
-
 	async function getStorageBalance() {
 		if (nearWallet.connected) {
 			try {
@@ -82,11 +66,6 @@ const AppDetails = (path: { path: string }) => {
 		} else console.log('Not Connected')
 	}
 
-
-
-	// evmList()
-
-
 	useEffect(() => {
 
 		if (nearWallet.connected) {
@@ -97,64 +76,64 @@ const AppDetails = (path: { path: string }) => {
 			setTimeout(() => {
 				getStorageBalance()
 				MarketPlaceNfts(String(token_id))
+
 			}, 2000);
 			return
 		}
 		if (isConnected) {
 			const [nft] = window.atob(path.path).split('/')
 			setnftAddress(nft)
+			setTimeout(() => {
+				saveData()
+			}, 2000);
 			return
 		}
 		alert("Connect Your Wallet To View Listed Apps on Your Blockchain")
-	}, [token_id])
+	}, [token_id, nftAddress])
 
 	const MarketPlaceNfts = async (token_id: string) => {
 		setData(await getListedNft(200, token_id))
 	}
 
-	const { data: readData } = useContractRead({
+	const { data: readBlockData } = useContractRead({
 		address: getMarketAddress(chain),
 		abi: contract.marketAbi,
 		functionName: 'dappInfo',
 		args: [nftAddress]
 	})
 
-	console.log(readData)
-	const getAllDappsListeds = async (limit: number) => {
-		let newerData;
-		let a;
-		await fetch("https://ipfs.io/ipfs/" + readData?.uri, {
+
+	const getADapp = async () => {
+		if (readBlockData == undefined) {
+			return
+		}
+		let a = await fetch("https://ipfs.io/ipfs/" + readBlockData?.uri, {
 			method: 'GET',
 			redirect: 'follow'
 		})
 			.then(response => response.json().then(res => {
-				a = res
+				return res
 			}))
 			.catch(error => console.log('error', error));
 
-		// return {
-		// 	owner: data.owner,
-		// 	nft_contract: data.nft,
-		// 	data: a
-		// };
-
-
-
-
-		if (newerData != undefined) {
-			newerData = await Promise.all(newerData)
-			newerData = newerData.filter((data: any) => data != undefined)
-			setData(newerData)
-		}
+		return {
+			owner: readBlockData?.owner,
+			price: readBlockData?.price?.toString(),
+			noDownloads: readBlockData?.numberOfDownloads?.toString(),
+			data: await a,
+			totalSupply: readBlockData?.Ids?.toString(),
+		};
 	}
 
-	if (data == null) {
-		return
+	const saveData = async () => {
+		setData(await getADapp())
 	}
+
+	// console.log(data)
 
 	const handleRelist = () => {
 		if (nearWallet.connected) {
-			if (data.owner_id != walletId) return
+			if (data?.owner_id != walletId) return
 			setIsOpen(true)
 		} else if (isConnected) {
 			// listEVMApp()
@@ -163,27 +142,35 @@ const AppDetails = (path: { path: string }) => {
 		}
 	}
 
-	// const { config } = usePrepareContractWrite({
-	// 	address: getMarketAddress(chain),
-	// 	abi: contract.marketAbi,
-	// 	functionName: 'List',
-	// 	args: [ethers.utils.parseEther(price.toString()), mintData?.address],
-	// 	overrides: {
-	// 		value: ethers.utils.parseEther('0.02'),
-	// 	},
-	// })
-	// const { data: ListTx, write } = useContractWrite(config)
+	const { config: evmListConfig } = usePrepareContractWrite({
+		address: getMarketAddress(chain),
+		abi: contract.marketAbi,
+		functionName: 'List',
+		args: [ethers.utils.parseEther(fprice.toString()), nftAddress],
+		overrides: {
+			value: ethers.utils.parseEther('0.02'),
+		},
+	})
 
-	// const listEVMApp = () => {
-	// 	if (price <= 0) {
-	// 		alert('price too small')
-	// 		return
-	// 	}
-	// 	write?.()
-	// }
+	const { data: ListTx, write: ListEVM } = useContractWrite(evmListConfig)
+
+
+	const { config: evmBuyConfig } = usePrepareContractWrite({
+		address: getMarketAddress(chain),
+		abi: contract.marketAbi,
+		functionName: 'Purchase',
+		args: [nftAddress],
+		overrides: {
+			value: ethers.utils.parseEther(fprice),
+		},
+	})
+
+	console.log(nftAddress)
+
+	const { data: BuyTx, write: BuyEVM } = useContractWrite(evmBuyConfig)
 
 	const handleUnlist = async () => {
-		if (data.owner_id != walletId) return
+		if (data?.owner_id != walletId) return
 
 		try {
 			const tx = await remove_sale({
@@ -206,7 +193,11 @@ const AppDetails = (path: { path: string }) => {
 			} catch (err) {
 				console.log(err)
 			}
-		} else {
+		}
+		else if (isConnected) {
+
+		}
+		else {
 			alert('You`re not Connected')
 		}
 	}
@@ -215,11 +206,22 @@ const AppDetails = (path: { path: string }) => {
 
 
 	useEffect(() => {
+		if (!data) return
 		let des = data?.data?.description
-		des = des.length > 300 ? des.slice(0, 300) : des
+		des = des?.length > 300 ? des?.slice(0, 300) : des
 		setDesc(des)
+
+		if (isConnected) setfprice(ethers.utils.formatEther(data?.price).toString())
+		else setfprice(utils.format.formatNearAmount(data?.price))
+
 	}, [data])
 
+
+	if (!data) {
+		return
+	}
+
+	const walletId = address || nearWallet.accountId
 
 	return (
 		<>
@@ -249,7 +251,7 @@ const AppDetails = (path: { path: string }) => {
 					<div className='space-y-6'>
 						<div className='w-[742px] p-[30px] bg-[#FFFFFF] rounded-[24px] flex '>
 							<div className='flex-1 space-y-3'>
-								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='capitalize text-[#6039CF]'>{data.owner_id}</span></p>
+								<p className="font-meduim text-[14px] text-[#000000]">Created By: <span className='capitalize text-[#6039CF]'>{data?.owner_id || data.owner}</span></p>
 								<p className="font-semibold text-[32px] text-[#000000]">{data?.data?.name}</p>
 								<p className='text-[14px]'>
 									{Desc}
@@ -302,11 +304,11 @@ const AppDetails = (path: { path: string }) => {
 								<div className='flex ml-3 space-y-2 flex-col m-auto'>
 									<div className='flex items-center'>
 										<Icon classes='mr-2 ' name='truck.svg' size={20} />
-										<p className='text-[14px]'>2555 Supply</p>
+										<p className='text-[14px]'>{data?.totalSupply} Supply</p>
 									</div>
 									<div className='flex items-center'>
 										<Icon classes='mr-2' name='receive-square.svg' size={20} />
-										<p className='text-[14px]'>1000 Downloads</p>
+										<p className='text-[14px]'>{data?.numberOfDownloads || 0} Downloads</p>
 									</div>
 								</div>
 							</div>
@@ -330,31 +332,33 @@ const AppDetails = (path: { path: string }) => {
 							<div className='px-5 py-2 justify-between flex'>
 								<div className=''>
 									<p className='text-[#FF9CBF] tracking-tight  font-medium text-[14px] '>Current Price</p>
-									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>{utils.format.formatNearAmount(data.price)} NEAR</p>
+									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>
+										{fprice} {chain?.nativeCurrency.symbol || "NEAR"}
+									</p>
 								</div>
 								<div className=''>
 									<p className='text-[#FF9CBF] tracking-tight  font-medium text-[14px] '>24H Volume</p>
-									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>15.25 NEAR</p>
+									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>15.25 {chain?.nativeCurrency.symbol || "NEAR"}</p>
 								</div>
 								<div className=''>
 									<p className='text-[#FF9CBF] tracking-tight  font-medium text-[14px] '>Total Volume</p>
-									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>15.25 NEAR</p>
+									<p className='text-[#4d4d4d] tracking-tight font-semibold text-[24px] '>15.25 {chain?.nativeCurrency.symbol || "NEAR"}</p>
 								</div>
 							</div>
 
 							<div className='px-5 flex space-x-3'>
 
 
-								<button className={`${data.owner_id == walletId ? 'bg-[#6039CF]' : 'bg-[#D3D3D3] '} bg-[#6039CF] rounded-[12px] pointer w-[280px] h-[48px] flex items-center justify-center`}
+								<button className={`${data?.owner_id || data.owner == walletId ? 'bg-[#6039CF]' : 'bg-[#D3D3D3] '} bg-[#6039CF] rounded-[12px] pointer w-[280px] h-[48px] flex items-center justify-center`}
 									onClick={Number(data.price) > 0 ? handleUnlist : handleRelist}
-									disabled={data.owner_id != walletId}>
+									disabled={data?.owner_id || data.owner != walletId}>
 									<Icon classes='mr-5' name='document.svg' size={20} />
 									<p className='text-[#FFFFFF] text-[16px] font-semibold'>{Number(data.price) > 0 ? 'Unlist' : 'Relist'}</p>
 								</button>
 
 								{Number(data.price) > 0 ?
 									(
-										data.owner_id != walletId ?
+										data?.owner_id || data.owner != walletId ?
 											(
 												<button className={`bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
 													onClick={handleBuy}>
@@ -377,7 +381,7 @@ const AppDetails = (path: { path: string }) => {
 									(
 										<a href={`https://ipfs.io/ipfs/${data.data.images_url?.appFile}`} download={data.data.name}>
 											<button className={`bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
-												disabled={data.owner_id != walletId}
+												disabled={data?.owner_id != walletId}
 											>
 												<Icon classes='mr-5' name='document.svg' size={20} />
 												<p className='text-[#A6A6A6] text-[16px] font-semibold'>Download App</p>

@@ -22,8 +22,6 @@ export default function Home() {
 
   const { chain } = useNetwork();
 
-  console.log(chain)
-
   const mounted = useIsMounted()
 
 
@@ -74,7 +72,6 @@ export default function Home() {
     //   MarketPlaceNfts()
     // }, 2000);
 
-    console.log(readData)
     getAllDappsListeds(20)
   }, [readData, getMarketAddress(chain)])
 
@@ -94,8 +91,6 @@ export default function Home() {
     'Cyberpunk2077_1.png',
     'A Plague Tale Requiem 4.png'
   ]
-
-  console.log(data)
 
   return (
     <>

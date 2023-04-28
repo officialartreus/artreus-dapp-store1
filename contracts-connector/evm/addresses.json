@@ -1,5 +1,5 @@
 {
-    "cmpMarketAddress": "0x784987F958A7106bEbD0e80D628e280aDba5c726",
+    "cmpMarketAddress": "0x1a1Ff78E0AA7726a24c24c4f97c6FA364f4CC3B4",
     "telosMarketAddress": "0x9bCFe693a5CCAa16a627A58077d531c9042b59b0",
     "polygonMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
     "zetaMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
@@ -104,6 +104,11 @@
                     "internalType": "uint256",
                     "name": "Ids",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
                 }
             ],
             "stateMutability": "view",
@@ -245,11 +250,6 @@
                     "internalType": "address",
                     "name": "nft_contract",
                     "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "id",
-                    "type": "uint256"
                 }
             ],
             "name": "getBaseUri",

@@ -125,7 +125,7 @@ const Caduceus: Chain = {
   id: 512512,
   name: 'Caduceus',
   network: 'Caduceus',
-  iconUrl: '/images/icons/iotex-logo.svg',
+  iconUrl: '/images/icons/cmp-logo.png',
   iconBackground: '#fff',
   nativeCurrency: {
     decimals: 18,
