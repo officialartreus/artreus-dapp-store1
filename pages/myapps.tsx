@@ -3,12 +3,21 @@ import { Icon } from '@/components/Utils'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
+import contract from '../contracts-connector/evm/addresses.json'
+import { useAccount, useContractRead, useNetwork } from "wagmi";
+import { getMarketAddress } from "@/hooks/selectChain";
+
 import { nearWallet, nft_tokens_for_owner } from '@/contracts-connector/near/near-interface'
 
 
 const Myapps = () => {
   const [view, setView] = useState('grid')
   const [data, setData] = useState('')
+
+  const { chain } = useNetwork();
+
+  const { address, isConnected } = useAccount()
+
 
   useEffect(() => {
     nearWallet.startUp()
@@ -27,7 +36,7 @@ const Myapps = () => {
     }
 
     try {
-      let newerData = l.map(async (e) => {
+      let newerData = l.map(async (e: any) => {
         let a = await fetch("https://ipfs.io/ipfs/" + e.metadata.media, {
           method: 'GET',
           redirect: 'follow'
@@ -50,15 +59,56 @@ const Myapps = () => {
   }
 
   console.log(data)
-  useEffect(() => {
-    setTimeout(() => {
-      main()
-    }, 2000);
-  }, [])
+
 
   const handleViewChange = (view: string) => {
     setView(view)
   }
+
+  const { data: readData } = useContractRead({
+    address: getMarketAddress(chain),
+    abi: contract.marketAbi,
+    functionName: 'DevListedDapps',
+    args: [address]
+  })
+
+  const getAllDappsListeds = async (limit: number) => {
+    let newerData = readData?.map(async (data: any, index: number) => {
+      if (data.uri != '') {
+        let a;
+        await fetch("https://ipfs.io/ipfs/" + data.uri, {
+          method: 'GET',
+          redirect: 'follow'
+        })
+          .then(response => response.json().then(res => {
+            a = res
+          }))
+          .catch(error => console.log('error', error));
+        return {
+          owner: data.owner,
+          nft_contract: data.nft,
+          data: a
+        };
+      }
+    })
+
+    if (newerData != undefined) {
+      newerData = await Promise.all(newerData)
+      newerData = newerData.filter((data: any) => data != undefined)
+      setData(newerData)
+    }
+  }
+
+  useEffect(() => {
+    if (nearWallet.connected)
+      setTimeout(() => {
+        main()
+      }, 2000);
+    else if (isConnected)
+      getAllDappsListeds(20)
+    else alert("You're not connected")
+  }, [readData, getMarketAddress(chain), isConnected, address])
+
 
 
   return (

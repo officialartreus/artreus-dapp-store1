@@ -9,7 +9,7 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, arbitrum, Chain } from 'wagmi/chains';
+import { mainnet, polygon, arbitrum, Chain, polygonMumbai, arbitrumGoerli } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 
 
@@ -88,7 +88,7 @@ const ZetaChain: Chain = {
   },
   blockExplorers: {
     default: {
-      name: 'ZetaChain', url: 'https://explorer.zetachain.com'
+      name: 'ZetaChain', url: 'https://explorer.zetachain.com/evm'
     },
   },
   testnet: true,
@@ -177,7 +177,7 @@ const IoTex: Chain = {
 
 
 export const { chains, provider } = configureChains(
-  [Caduceus, IoTex, polygon, Telos, Shardeum, arbitrum, Toronet, ZetaChain],
+  [Caduceus, IoTex, polygonMumbai, Telos, Shardeum, Toronet, ZetaChain],
   [
     publicProvider()
   ]

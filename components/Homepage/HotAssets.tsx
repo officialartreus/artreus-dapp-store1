@@ -17,7 +17,7 @@ export const HotAssets = (props: Props) => {
                     {data ? data.map((data: any, i: number) => {
                         if (i > len) return
                         return (
-                            <div key={data.id}>
+                            <div key={i}>
                                 <MiniCards data={data} />
                             </div>
                         )

@@ -8,15 +8,14 @@ import { OwnedCards } from '../Utils/Cards'
 
 export const GridView = ({ data }: any) => {
 
-    console.log(data)
     return (
         <div className="flex mt-[34px] gap-[29px]">
 
-            {data ? data.map((data: any) => {
+            {data ? data.map((data: any, i: number) => {
 
-                const encoded = window.btoa(`${data.token_id}`)
+                const encoded = window.btoa(`${data.token_id || data.nft_contract}`)
 
-                return <Link key={data.token_id} href={`/app/${encoded}`}>
+                return <Link key={i} href={`/app/${encoded}`}>
                     <Image className='w-[82px] h-[82px] rounded-[11px] image-center' unoptimized width={20} height={40} src={"https://ipfs.io/ipfs/" + data.data?.images_url?.icon} alt={data.data?.name} />
                 </Link>
             }) : (
@@ -45,10 +44,10 @@ export const ListView = ({ data }: any) => {
     return (
         <div className="flex  flex-wrap mt-[34px] gap-[29px]">
 
-            {data ? data.map((data: any) => {
-                const encoded = window.btoa(`${data.token_id}`)
+            {data ? data.map((data: any, i: number) => {
+                const encoded = window.btoa(`${data.token_id || data.nft_contract}`)
 
-                return <Link key={data.token_id} href={`/app/${encoded}`}>
+                return <Link key={i} href={`/app/${encoded}`}>
                     <OwnedCards data={data} />
                 </Link>
             }) :

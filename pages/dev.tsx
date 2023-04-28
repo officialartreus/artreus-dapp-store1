@@ -35,19 +35,6 @@ export default function Dev() {
 
   const { data: Signer, error: err, isLoading, refetch } = useSigner()
 
-
-  // const { data } = useContractRead({
-  //   address: shardeumMarketContract,
-  //   abi: contract.marketAbi,
-  //   functionName: 'getAllDappsListed'
-  // })
-
-  // getMarketAddress()
-
-
-  // console.log(getMarketAddress())
-
-
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const txhash = urlParams.get('transactionHashes')
@@ -56,10 +43,6 @@ export default function Dev() {
       window.location.replace(window.location.origin + '/myapps')
     }
   }, [])
-
-
-  // console.log(data)
-
 
   useEffect(() => {
     nearWallet.startUp()
@@ -176,14 +159,16 @@ export default function Dev() {
 
   const evmChainMint = async (name: string, maxSupply: number, uri: string) => {
 
-
-    if (Signer != undefined) {
-      const factory = new ContractFactory(contract.minterAbi, contract.nftContractByteCode, Signer);
-      const nftCon = await factory.deploy(name, maxSupply, uri, getMarketAddress(chain));
-      await nftCon.deployed()
-      setNftContract(nftCon);
+    try {
+      if (Signer != undefined) {
+        const factory = new ContractFactory(contract.minterAbi, contract.nftContractByteCode, Signer);
+        const nftCon = await factory.deploy(name, maxSupply, uri, getMarketAddress(chain));
+        await nftCon.deployed()
+        setNftContract(nftCon);
+      }
+    } catch (err) {
+      console.log(err)
     }
-
   }
 
   const handleNearSubmit = async (data: any) => {
@@ -210,23 +195,23 @@ export default function Dev() {
 
   const handleMint = async () => {
 
-    // if (name == '' && desc == '' && supply == 0 && Object.keys(fileObject).length < 3) {
-    //   alert('Please fill all compulsory fields')
-    //   return
-    // }
+    if (name == '' && desc == '' && supply == 0 && Object.keys(fileObject).length < 3) {
+      alert('Please fill all compulsory fields')
+      return
+    }
 
-    // setUploadStatus(0)
-    // const data: any = await UploadImages(fileObject, name, desc, "image")
+    setUploadStatus(0)
+    const data: any = await UploadImages(fileObject, name, desc, "image")
 
-    // if (!data) {
-    //   alert('Error... Please Try Again Later')
-    //   return
-    // }
+    if (!data) {
+      alert('Error... Please Try Again Later')
+      return
+    }
 
     if (nearWallet.connected) {
-      // handleNearSubmit(data)
+      handleNearSubmit(data)
     } else if (isConnected) {
-      evmChainMint(name, supply, "data[2].toString()")
+      evmChainMint(name, supply, data[2].toString())
     } else {
       alert('Not Connected')
     }
@@ -245,7 +230,6 @@ export default function Dev() {
           <p> <strong>*</strong>  fields are compulsory</p>
           <div>
 
-
             <div className='mt-4'>
               <Input placeholder='Enter Your App or Game Name' label="Name *" type='text' onChange={handleNameChange} />
 
@@ -255,7 +239,6 @@ export default function Dev() {
 
               <label>Description *</label>
               <textarea className='placeholder-black/50 block bg-[#2F2F2F1A] outline-[#AEACAB] w-full p-2 mt-2 rounded-md' rows={4} placeholder='Enter a Short Description' name="Description *" onChange={handleDescChange} />
-
 
               <div className='flex flex-col'>
                 <UploadButton handleChange={handleFilesChange} />
@@ -288,18 +271,15 @@ function MyModal({ mintData }: any) {
   const [price, setprice] = useState(0)
   const { chain } = useNetwork()
 
-
-
   function closeModal() {
     setIsOpen(false)
   }
 
-  if (mintData != undefined && !isOpen) {
-    setIsOpen(true)
-    console.log(mintData)
-  }
-  // useEffect(() => {
-  // }, [mintData])
+  useEffect(() => {
+    if (mintData != undefined && !isOpen) {
+      setIsOpen(true)
+    }
+  }, [mintData])
 
   const getAppPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val: any = e.target.value
@@ -314,24 +294,19 @@ function MyModal({ mintData }: any) {
     address: getMarketAddress(chain),
     abi: contract.marketAbi,
     functionName: 'List',
-    args: [0, ethers.utils.parseEther(price.toString()), mintData?.address,],
+    args: [ethers.utils.parseEther(price.toString()), mintData?.address],
     overrides: {
       value: ethers.utils.parseEther('0.02'),
     },
   })
   const { data: ListTx, write } = useContractWrite(config)
 
-  console.log(ListTx)
-
   const listEVMApp = () => {
-
     if (price <= 0) {
       alert('price too small')
       return
     }
-
     write?.()
-
   }
 
   return (
@@ -376,7 +351,7 @@ function MyModal({ mintData }: any) {
                     <p className="text-sm mt-3 text-gray-500">
                       To view this transaction on your blockchain explorer:
                     </p>
-                    <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/evm/tx/${mintData?.deployTransaction.hash}`} target='_blank' >Click Here</Link>
+                    <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/tx/${mintData?.deployTransaction.hash}`} target='_blank' >Click Here</Link>
                   </div>
 
                   <div>
@@ -392,7 +367,7 @@ function MyModal({ mintData }: any) {
                           <p className="text-sm mt-3 text-gray-500">
                             To view this transaction on your blockchain explorer:
                           </p>
-                          <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/evm/tx/${ListTx?.hash}`} target='_blank' >Click Here</Link>
+                          <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/tx/${ListTx?.hash}`} target='_blank' >Click Here</Link>
                         </div>
                       </div>
                     ) : (

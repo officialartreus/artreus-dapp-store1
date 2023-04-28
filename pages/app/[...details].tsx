@@ -9,9 +9,10 @@ import { utils } from 'near-api-js'
 import { GetServerSidePropsContext } from 'next'
 import RelistModal from '@/components/AppDetails/RelistModal'
 
-import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useSigner } from 'wagmi'
+import { useAccount, useContractRead, useContractWrite, useNetwork, usePrepareContractWrite, useSigner } from 'wagmi'
 
 import contract from '../../contracts-connector/evm/addresses.json'
+import { getMarketAddress } from '@/hooks/selectChain'
 
 
 
@@ -20,6 +21,7 @@ const AppDetails = (path: { path: string }) => {
 	let [isOpen, setIsOpen] = useState(false)
 	const [token_id, settoken_id] = useState('')
 	const [nftAddress, setnftAddress] = useState('')
+	const { chain } = useNetwork();
 
 	const [Desc, setDesc] = useState('desc1')
 
@@ -92,37 +94,93 @@ const AppDetails = (path: { path: string }) => {
 			settoken_id(token_id)
 
 			nearWallet.startUp()
-
 			setTimeout(() => {
 				getStorageBalance()
 				MarketPlaceNfts(String(token_id))
 			}, 2000);
+			return
 		}
 		if (isConnected) {
 			const [nft] = window.atob(path.path).split('/')
 			setnftAddress(nft)
+			return
 		}
-
+		alert("Connect Your Wallet To View Listed Apps on Your Blockchain")
 	}, [token_id])
 
 	const MarketPlaceNfts = async (token_id: string) => {
 		setData(await getListedNft(200, token_id))
 	}
 
-	return
+	const { data: readData } = useContractRead({
+		address: getMarketAddress(chain),
+		abi: contract.marketAbi,
+		functionName: 'dappInfo',
+		args: [nftAddress]
+	})
+
+	console.log(readData)
+	const getAllDappsListeds = async (limit: number) => {
+		let newerData;
+		let a;
+		await fetch("https://ipfs.io/ipfs/" + readData?.uri, {
+			method: 'GET',
+			redirect: 'follow'
+		})
+			.then(response => response.json().then(res => {
+				a = res
+			}))
+			.catch(error => console.log('error', error));
+
+		// return {
+		// 	owner: data.owner,
+		// 	nft_contract: data.nft,
+		// 	data: a
+		// };
+
+
+
+
+		if (newerData != undefined) {
+			newerData = await Promise.all(newerData)
+			newerData = newerData.filter((data: any) => data != undefined)
+			setData(newerData)
+		}
+	}
 
 	if (data == null) {
 		return
 	}
 
 	const handleRelist = () => {
-		if (data.owner_id != walletId) return
 		if (nearWallet.connected) {
+			if (data.owner_id != walletId) return
 			setIsOpen(true)
+		} else if (isConnected) {
+			// listEVMApp()
 		} else {
 			alert('You`re not Connected')
 		}
 	}
+
+	// const { config } = usePrepareContractWrite({
+	// 	address: getMarketAddress(chain),
+	// 	abi: contract.marketAbi,
+	// 	functionName: 'List',
+	// 	args: [ethers.utils.parseEther(price.toString()), mintData?.address],
+	// 	overrides: {
+	// 		value: ethers.utils.parseEther('0.02'),
+	// 	},
+	// })
+	// const { data: ListTx, write } = useContractWrite(config)
+
+	// const listEVMApp = () => {
+	// 	if (price <= 0) {
+	// 		alert('price too small')
+	// 		return
+	// 	}
+	// 	write?.()
+	// }
 
 	const handleUnlist = async () => {
 		if (data.owner_id != walletId) return

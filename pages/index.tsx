@@ -10,9 +10,9 @@ import { nearWallet } from '../contracts-connector/near/near-interface'
 
 import { useEffect, useState } from "react";
 import contract from '../contracts-connector/evm/addresses.json'
-import { useContractRead, useChainId } from "wagmi";
+import { useContractRead, useNetwork } from "wagmi";
 import { useIsMounted } from "@/hooks/useIsMounted";
-import { getMarketAddress } from "@/hooks/selectChain";
+import { getChain, getMarketAddress } from "@/hooks/selectChain";
 
 
 
@@ -20,21 +20,21 @@ import { getMarketAddress } from "@/hooks/selectChain";
 export default function Home() {
   const [data, setData] = useState([]);
 
-  const chai = useChainId()
-  console.log(chai)
+  const { chain } = useNetwork();
 
-
+  console.log(chain)
 
   const mounted = useIsMounted()
 
 
   const { data: readData } = useContractRead({
-    address: getMarketAddress(),
+    address: getMarketAddress(chain),
     abi: contract.marketAbi,
-    functionName: 'getAllDappsListed'
+    functionName: 'DevListedDapps',
+    args: ['0x77E0cCfd2bD810Ea247054c19A8f5911f252c1f7']
   })
 
-
+  console.log(readData)
   const getAllDappsListeds = async (limit: number) => {
     let newerData = readData?.map(async (data: any, index: number) => {
       if (data.uri != '') {
@@ -47,7 +47,11 @@ export default function Home() {
             a = res
           }))
           .catch(error => console.log('error', error));
-        return a;
+        return {
+          owner: data.owner,
+          nft_contract: data.nft,
+          data: a
+        };
       }
     })
 
@@ -63,6 +67,7 @@ export default function Home() {
     setData(() => { if (d) return d; else return [] })
   }
 
+
   useEffect(() => {
     // nearWallet.startUp()
     // setTimeout(() => {
@@ -71,8 +76,7 @@ export default function Home() {
 
     console.log(readData)
     getAllDappsListeds(20)
-  }, [readData, getMarketAddress()])
-
+  }, [readData, getMarketAddress(chain)])
 
   const src = [
     'A Plague Tale Requiem 2.png',

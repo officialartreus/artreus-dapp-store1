@@ -1,20 +1,14 @@
 {
-    "cmpMarketAddress": "0x6b187F6063D64d9354af97454Ce2eDA6cdC0bADC",
-    "telosMarketAddress": "0xd9145CCE52D386f254917e481eB44e9943F39138",
-    "shardeumMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
+    "cmpMarketAddress": "0x784987F958A7106bEbD0e80D628e280aDba5c726",
+    "telosMarketAddress": "0x9bCFe693a5CCAa16a627A58077d531c9042b59b0",
+    "polygonMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
     "zetaMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
+    "shardeumMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
     "toroMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
     "iotexMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
-    "polygonMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
-    "arbitrumMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
     "marketAbi": [
         {
             "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_offerId",
-                    "type": "uint256"
-                },
                 {
                     "internalType": "address",
                     "name": "nft_contract_address",
@@ -28,11 +22,6 @@
         },
         {
             "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_id",
-                    "type": "uint256"
-                },
                 {
                     "internalType": "uint256",
                     "name": "_price",
@@ -51,11 +40,6 @@
         },
         {
             "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_offerId",
-                    "type": "uint256"
-                },
                 {
                     "internalType": "address",
                     "name": "nft_contract_address",
@@ -191,42 +175,6 @@
             "type": "function"
         },
         {
-            "inputs": [
-                {
-                    "internalType": "string",
-                    "name": "token_uri",
-                    "type": "string"
-                }
-            ],
-            "name": "getADevListedDapp",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "address",
-                            "name": "nft",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "uri",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "owner",
-                            "type": "address"
-                        }
-                    ],
-                    "internalType": "struct ArtreusMarketPlace.DSInfo[]",
-                    "name": "",
-                    "type": "tuple[]"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
             "inputs": [],
             "name": "getAllDappsListed",
             "outputs": [
@@ -259,52 +207,6 @@
         {
             "inputs": [],
             "name": "getAllReListed",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "address",
-                            "name": "nft",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "uri",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "id",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "owner",
-                            "type": "address"
-                        }
-                    ],
-                    "internalType": "struct ArtreusMarketPlace.DSuser[]",
-                    "name": "",
-                    "type": "tuple[]"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "id_",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "nft_contract_",
-                    "type": "address"
-                }
-            ],
-            "name": "getAUserReListedDapp",
             "outputs": [
                 {
                     "components": [
@@ -420,7 +322,7 @@
         },
         {
             "inputs": [],
-            "name": "ListngPrice",
+            "name": "listCount",
             "outputs": [
                 {
                     "internalType": "uint256",
@@ -433,7 +335,7 @@
         },
         {
             "inputs": [],
-            "name": "offerCount",
+            "name": "ListngPrice",
             "outputs": [
                 {
                     "internalType": "uint256",

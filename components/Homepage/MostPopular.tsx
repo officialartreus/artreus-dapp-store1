@@ -52,8 +52,8 @@ export const MostPopular = ({ data }: any) => {
     return (
         <div>
             <div className="flex space-x-5 ">
-                {data ? data.map((datas: any, i) => {
-                    const encoded = window.btoa(`${datas.id}`)
+                {data ? data.map((datas: any, i: number) => {
+                    const encoded = window.btoa(`${datas.id || datas.nft_contract}`)
 
                     const { data } = datas
 

@@ -9,8 +9,7 @@ const chainsXid = {
     4690: "iotex",
     8081: "shardeum",
     8082: "shardeum",
-    137: "polygon",
-    42161: "arbitrum"
+    80001: "polygon"
 }
 
 export const getMarketAddress = (chain) => {
