@@ -294,7 +294,7 @@ function MyModal({ mintData }: any) {
     address: getMarketAddress(chain),
     abi: contract.marketAbi,
     functionName: 'List',
-    args: [ethers.utils.parseEther(price.toString()), mintData?.address],
+    args: [0, ethers.utils.parseEther(price.toString()), mintData?.address],
     overrides: {
       value: ethers.utils.parseEther('0.02'),
     },

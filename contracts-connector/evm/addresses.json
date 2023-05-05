@@ -2,429 +2,15 @@
     "cmpMarketAddress": "0x1a1Ff78E0AA7726a24c24c4f97c6FA364f4CC3B4",
     "telosMarketAddress": "0x9bCFe693a5CCAa16a627A58077d531c9042b59b0",
     "polygonMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
-    "zetaMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
+    "zetaMarketAddress": "0xA0F4De86FcbbbDEEb4C0Ca295EE4bE016FA9Ac34",
     "shardeumMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
     "toroMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
     "iotexMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
     "marketAbi": [
         {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "nft_contract_address",
-                    "type": "address"
-                }
-            ],
-            "name": "cancelOffer",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_price",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "_nft_contract",
-                    "type": "address"
-                }
-            ],
-            "name": "List",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "nft_contract_address",
-                    "type": "address"
-                }
-            ],
-            "name": "Purchase",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
             "inputs": [],
             "stateMutability": "nonpayable",
             "type": "constructor"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "nft_contract",
-                    "type": "address"
-                }
-            ],
-            "name": "balanceofContract",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "dappInfo",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "owner",
-                    "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "price",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "numberOfDownloads",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "Ids",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "string",
-                    "name": "uri",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "name": "dappProfile",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "nft",
-                    "type": "address"
-                },
-                {
-                    "internalType": "string",
-                    "name": "uri",
-                    "type": "string"
-                },
-                {
-                    "internalType": "address",
-                    "name": "owner",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "user_address",
-                    "type": "address"
-                }
-            ],
-            "name": "DevListedDapps",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "address",
-                            "name": "nft",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "uri",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "owner",
-                            "type": "address"
-                        }
-                    ],
-                    "internalType": "struct ArtreusMarketPlace.DSInfo[]",
-                    "name": "",
-                    "type": "tuple[]"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "getAllDappsListed",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "address",
-                            "name": "nft",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "uri",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "owner",
-                            "type": "address"
-                        }
-                    ],
-                    "internalType": "struct ArtreusMarketPlace.DSInfo[]",
-                    "name": "",
-                    "type": "tuple[]"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "getAllReListed",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "address",
-                            "name": "nft",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "uri",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "id",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "owner",
-                            "type": "address"
-                        }
-                    ],
-                    "internalType": "struct ArtreusMarketPlace.DSuser[]",
-                    "name": "",
-                    "type": "tuple[]"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "nft_contract",
-                    "type": "address"
-                }
-            ],
-            "name": "getBaseUri",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "nft_contract",
-                    "type": "address"
-                }
-            ],
-            "name": "getLimitedDownloads",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "nft_contract",
-                    "type": "address"
-                }
-            ],
-            "name": "getNumberOfDownloads",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "nft_contract",
-                    "type": "address"
-                }
-            ],
-            "name": "getOwner",
-            "outputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "listCount",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "ListngPrice",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "user_address",
-                    "type": "address"
-                }
-            ],
-            "name": "PurchaseDapps",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "address",
-                            "name": "nft",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "string",
-                            "name": "uri",
-                            "type": "string"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "id",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "owner",
-                            "type": "address"
-                        }
-                    ],
-                    "internalType": "struct ArtreusMarketPlace.DSuser[]",
-                    "name": "",
-                    "type": "tuple[]"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "userFunds",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        }
-    ],
-    "shardMArketAbi": [
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_offerId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "nft_contract_address",
-                    "type": "address"
-                }
-            ],
-            "name": "cancelOffer",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
         },
         {
             "inputs": [
@@ -450,6 +36,19 @@
             "type": "function"
         },
         {
+            "inputs": [],
+            "name": "ListngPrice",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "inputs": [
                 {
                     "internalType": "uint256",
@@ -466,11 +65,6 @@
             "outputs": [],
             "stateMutability": "payable",
             "type": "function"
-        },
-        {
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
         },
         {
             "inputs": [
@@ -499,11 +93,16 @@
                     "type": "address"
                 }
             ],
-            "name": "dappInfo",
+            "name": "devDappInfo",
             "outputs": [
                 {
                     "internalType": "address",
                     "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "nft",
                     "type": "address"
                 },
                 {
@@ -518,7 +117,66 @@
                 },
                 {
                     "internalType": "uint256",
-                    "name": "Ids",
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "totalSupply",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "devDapps",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "nft",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "price",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "numberOfDownloads",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "totalSupply",
                     "type": "uint256"
                 }
             ],
@@ -527,14 +185,96 @@
         },
         {
             "inputs": [],
-            "name": "getAllDappsListed",
+            "name": "devListCount",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "emptyDappInfo",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "nft",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "price",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "numberOfDownloads",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "totalSupply",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "user_address",
+                    "type": "address"
+                }
+            ],
+            "name": "getADevDapps",
             "outputs": [
                 {
                     "components": [
                         {
                             "internalType": "address",
+                            "name": "owner",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
                             "name": "nft",
                             "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "price",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "numberOfDownloads",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "id",
+                            "type": "uint256"
                         },
                         {
                             "internalType": "string",
@@ -542,12 +282,12 @@
                             "type": "string"
                         },
                         {
-                            "internalType": "address",
-                            "name": "owner",
-                            "type": "address"
+                            "internalType": "uint256",
+                            "name": "totalSupply",
+                            "type": "uint256"
                         }
                     ],
-                    "internalType": "struct ArtreusMarketPlace.DSInfo[]",
+                    "internalType": "struct ArtreusMarketPlace.DappInfo[]",
                     "name": "",
                     "type": "tuple[]"
                 }
@@ -557,14 +297,34 @@
         },
         {
             "inputs": [],
-            "name": "getAllReListed",
+            "name": "getAllDevDapps",
             "outputs": [
                 {
                     "components": [
                         {
                             "internalType": "address",
+                            "name": "owner",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
                             "name": "nft",
                             "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "price",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "numberOfDownloads",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "id",
+                            "type": "uint256"
                         },
                         {
                             "internalType": "string",
@@ -573,16 +333,11 @@
                         },
                         {
                             "internalType": "uint256",
-                            "name": "id",
+                            "name": "totalSupply",
                             "type": "uint256"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "owner",
-                            "type": "address"
                         }
                     ],
-                    "internalType": "struct ArtreusMarketPlace.DSuser[]",
+                    "internalType": "struct ArtreusMarketPlace.DappInfo[]",
                     "name": "",
                     "type": "tuple[]"
                 }
@@ -596,11 +351,6 @@
                     "internalType": "address",
                     "name": "nft_contract",
                     "type": "address"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "id",
-                    "type": "uint256"
                 }
             ],
             "name": "getBaseUri",
@@ -672,51 +422,6 @@
             "type": "function"
         },
         {
-            "inputs": [],
-            "name": "ListngPrice",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [],
-            "name": "offerCount",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "name": "userFunds",
-            "outputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
             "inputs": [
                 {
                     "internalType": "address",
@@ -724,14 +429,34 @@
                     "type": "address"
                 }
             ],
-            "name": "UserNft",
+            "name": "getUserDapps",
             "outputs": [
                 {
                     "components": [
                         {
                             "internalType": "address",
+                            "name": "owner",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
                             "name": "nft",
                             "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "price",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "numberOfDownloads",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "id",
+                            "type": "uint256"
                         },
                         {
                             "internalType": "string",
@@ -740,18 +465,238 @@
                         },
                         {
                             "internalType": "uint256",
-                            "name": "id",
+                            "name": "totalSupply",
                             "type": "uint256"
-                        },
+                        }
+                    ],
+                    "internalType": "struct ArtreusMarketPlace.DappInfo[]",
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getUserListedDapps",
+            "outputs": [
+                {
+                    "components": [
                         {
                             "internalType": "address",
                             "name": "owner",
                             "type": "address"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "nft",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "price",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "numberOfDownloads",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "id",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "uri",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "totalSupply",
+                            "type": "uint256"
                         }
                     ],
-                    "internalType": "struct ArtreusMarketPlace.DSuser[]",
+                    "internalType": "struct ArtreusMarketPlace.DappInfo[]",
                     "name": "",
                     "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "userDappInfo",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "nft",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "price",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "numberOfDownloads",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "totalSupply",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "userDapps",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "nft",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "price",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "numberOfDownloads",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "totalSupply",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "userListCount",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "userListedDapps",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "nft",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "price",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "numberOfDownloads",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "string",
+                    "name": "uri",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "totalSupply",
+                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",

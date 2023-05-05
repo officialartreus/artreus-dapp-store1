@@ -92,7 +92,7 @@ export const CountDownCard = () => {
 
 export const MiniCards = ({ data }: any) => {
 	if (data) {
-		const encoded = window.btoa(`${data.id || data.nft_contract}`)
+		const encoded = window.btoa(`${data.token_id || data.nft_contract}/${data.id}`)
 		return (
 			<div>
 				<div className="rounded-md flex w-[261px]">

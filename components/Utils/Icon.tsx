@@ -8,10 +8,7 @@ type Props = {
 export const Icon = (props: Props) => {
     if (typeof props.size == 'number') {
         return (
-            <div>
-                <Image unoptimized className={`${props.classes}`} width={props.size} alt={props.name} height={props.size} src={`/images/icons/${props.name}`} />
-
-            </div>
+            <Image unoptimized className={`${props.classes}`} width={props.size} alt={props.name} height={props.size} src={`/images/icons/${props.name}`} />
         )
     } else {
         return (

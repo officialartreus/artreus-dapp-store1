@@ -10,7 +10,7 @@ import { nearWallet } from '../contracts-connector/near/near-interface'
 
 import { useEffect, useState } from "react";
 import contract from '../contracts-connector/evm/addresses.json'
-import { useContractRead, useNetwork } from "wagmi";
+import { useAccount, useContractRead, useNetwork } from "wagmi";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import { getChain, getMarketAddress } from "@/hooks/selectChain";
 
@@ -19,20 +19,17 @@ import { getChain, getMarketAddress } from "@/hooks/selectChain";
 
 export default function Home() {
   const [data, setData] = useState([]);
-
+  const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
-
-  const mounted = useIsMounted()
-
 
   const { data: readData } = useContractRead({
     address: getMarketAddress(chain),
     abi: contract.marketAbi,
-    functionName: 'DevListedDapps',
-    args: ['0x77E0cCfd2bD810Ea247054c19A8f5911f252c1f7']
+    functionName: 'getAllDevDapps'
   })
 
-  console.log(readData)
+  // console.log(readData)
+
   const getAllDappsListeds = async (limit: number) => {
     let newerData = readData?.map(async (data: any, index: number) => {
       if (data.uri != '') {
@@ -48,7 +45,8 @@ export default function Home() {
         return {
           owner: data.owner,
           nft_contract: data.nft,
-          data: a
+          data: a,
+          id: data.id
         };
       }
     })
@@ -65,14 +63,18 @@ export default function Home() {
     setData(() => { if (d) return d; else return [] })
   }
 
-
   useEffect(() => {
-    // nearWallet.startUp()
-    // setTimeout(() => {
-    //   MarketPlaceNfts()
-    // }, 2000);
 
-    getAllDappsListeds(20)
+    nearWallet.startUp()
+    if (nearWallet.connected) {
+      setTimeout(() => {
+        MarketPlaceNfts()
+      }, 2000);
+    }
+    if (isConnected) {
+      getAllDappsListeds(20)
+    }
+
   }, [readData, getMarketAddress(chain)])
 
   const src = [
@@ -91,6 +93,8 @@ export default function Home() {
     'Cyberpunk2077_1.png',
     'A Plague Tale Requiem 4.png'
   ]
+
+  console.log(data)
 
   return (
     <>

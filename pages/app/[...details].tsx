@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 
 import { Footer, getListedNft, Icon } from '@/components/Utils'
 import { MostPopular } from '@/components/Homepage'
@@ -9,19 +9,18 @@ import { utils } from 'near-api-js'
 import { GetServerSidePropsContext } from 'next'
 import RelistModal from '@/components/AppDetails/RelistModal'
 
-import { useAccount, useContractRead, useContractWrite, useNetwork, usePrepareContractWrite, useSigner } from 'wagmi'
+import { useAccount, useContractRead, useContractWrite, useNetwork, usePrepareContractWrite, useSigner, useWaitForTransaction } from 'wagmi'
 
 import contract from '../../contracts-connector/evm/addresses.json'
 import { getMarketAddress } from '@/hooks/selectChain'
 import { ethers } from 'ethers'
 
 
-
 const AppDetails = (path: { path: string }) => {
-
 	let [isOpen, setIsOpen] = useState(false)
-	const [token_id, settoken_id] = useState('')
+	const [token_id, settoken_id] = useState(0)
 	const [fprice, setfprice] = useState('0')
+	const [functCall, setfunctCall] = useState('devDappInfo')
 
 	const [nftAddress, setnftAddress] = useState('')
 	const { chain } = useNetwork();
@@ -68,11 +67,11 @@ const AppDetails = (path: { path: string }) => {
 
 	useEffect(() => {
 
+		nearWallet.startUp()
 		if (nearWallet.connected) {
 			const [token_id] = window.atob(path.path).split('/')
-			settoken_id(token_id)
+			settoken_id(Number(token_id))
 
-			nearWallet.startUp()
 			setTimeout(() => {
 				getStorageBalance()
 				MarketPlaceNfts(String(token_id))
@@ -81,7 +80,12 @@ const AppDetails = (path: { path: string }) => {
 			return
 		}
 		if (isConnected) {
-			const [nft] = window.atob(path.path).split('/')
+			const [nft, id] = window.atob(path.path).split('/')
+			setnftAddress(nft)
+			settoken_id(Number(id))
+
+			if (id == '0') setfunctCall('devDappInfo')
+			else setfunctCall('userDappInfo')
 			setnftAddress(nft)
 			setTimeout(() => {
 				saveData()
@@ -98,10 +102,9 @@ const AppDetails = (path: { path: string }) => {
 	const { data: readBlockData } = useContractRead({
 		address: getMarketAddress(chain),
 		abi: contract.marketAbi,
-		functionName: 'dappInfo',
-		args: [nftAddress]
+		functionName: functCall,
+		args: token_id != 0 ? [nftAddress, token_id] : [nftAddress]
 	})
-
 
 	const getADapp = async () => {
 		if (readBlockData == undefined) {
@@ -119,9 +122,10 @@ const AppDetails = (path: { path: string }) => {
 		return {
 			owner: readBlockData?.owner,
 			price: readBlockData?.price?.toString(),
-			noDownloads: readBlockData?.numberOfDownloads?.toString(),
+			numberOfDownloads: readBlockData?.numberOfDownloads?.toString(),
 			data: await a,
-			totalSupply: readBlockData?.Ids?.toString(),
+			totalSupply: readBlockData?.totalSupply?.toString(),
+			id: readBlockData?.id?.toString(),
 		};
 	}
 
@@ -129,45 +133,37 @@ const AppDetails = (path: { path: string }) => {
 		setData(await getADapp())
 	}
 
-	// console.log(data)
-
 	const handleRelist = () => {
-		if (nearWallet.connected) {
-			if (data?.owner_id != walletId) return
+		if (nearWallet.connected || isConnected) {
+			if (data?.owner_id || data?.owner != walletId) return
 			setIsOpen(true)
-		} else if (isConnected) {
-			// listEVMApp()
 		} else {
 			alert('You`re not Connected')
 		}
 	}
 
-	const { config: evmListConfig } = usePrepareContractWrite({
-		address: getMarketAddress(chain),
-		abi: contract.marketAbi,
-		functionName: 'List',
-		args: [ethers.utils.parseEther(fprice.toString()), nftAddress],
-		overrides: {
-			value: ethers.utils.parseEther('0.02'),
-		},
-	})
-
-	const { data: ListTx, write: ListEVM } = useContractWrite(evmListConfig)
-
-
 	const { config: evmBuyConfig } = usePrepareContractWrite({
 		address: getMarketAddress(chain),
 		abi: contract.marketAbi,
 		functionName: 'Purchase',
-		args: [nftAddress],
+		args: [token_id, nftAddress],
 		overrides: {
 			value: ethers.utils.parseEther(fprice),
 		},
 	})
 
-	console.log(nftAddress)
+	const { data: BuyTx, write: BuyEVM, error: buyTxError } = useContractWrite(evmBuyConfig)
 
-	const { data: BuyTx, write: BuyEVM } = useContractWrite(evmBuyConfig)
+	const { data: waittx, isError, isLoading } = useWaitForTransaction({
+		hash: BuyTx?.hash,
+	})
+
+	useLayoutEffect(() => {
+		if (waittx) {
+			if (!isError)
+				window.location.replace(window.location.origin + '/myapps')
+		}
+	}, [waittx])
 
 	const handleUnlist = async () => {
 		if (data?.owner_id != walletId) return
@@ -195,7 +191,8 @@ const AppDetails = (path: { path: string }) => {
 			}
 		}
 		else if (isConnected) {
-
+			console.log(buyTxError)
+			BuyEVM?.()
 		}
 		else {
 			alert('You`re not Connected')
@@ -220,6 +217,8 @@ const AppDetails = (path: { path: string }) => {
 	if (!data) {
 		return
 	}
+
+	console.log(data)
 
 	const walletId = address || nearWallet.accountId
 
@@ -308,7 +307,7 @@ const AppDetails = (path: { path: string }) => {
 									</div>
 									<div className='flex items-center'>
 										<Icon classes='mr-2' name='receive-square.svg' size={20} />
-										<p className='text-[14px]'>{data?.numberOfDownloads || 0} Downloads</p>
+										<p className='text-[14px]'>{data?.numberOfDownloads} Downloads</p>
 									</div>
 								</div>
 							</div>
@@ -631,7 +630,11 @@ const AppDetails = (path: { path: string }) => {
 				</div>
 			</div>
 			<Footer />
-			<RelistModal storageBalance={storageBalance} setIsOpen={setIsOpen} isOpen={isOpen} token_id={token_id} />
+			{isConnected ?
+				<RelistModal storageBalance={''} setIsOpen={setIsOpen} data={{ token_id, nftAddress }} isOpen={isOpen} token_id={''} />
+				:
+				<RelistModal storageBalance={storageBalance} setIsOpen={setIsOpen} isOpen={isOpen} token_id={token_id} />
+			}
 		</>
 	)
 }

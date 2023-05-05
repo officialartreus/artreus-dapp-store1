@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 type prop = React.HTMLProps<HTMLButtonElement> & {
-  handleChange: (e: {} | null) => void,
+  handleChange: (e: {}) => void,
 }
 
 export function UploadButton({ handleChange, ...props }: prop) {

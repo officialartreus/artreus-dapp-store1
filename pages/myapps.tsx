@@ -12,12 +12,11 @@ import { nearWallet, nft_tokens_for_owner } from '@/contracts-connector/near/nea
 
 const Myapps = () => {
   const [view, setView] = useState('grid')
-  const [data, setData] = useState('')
+  const [devData, setDevData] = useState('')
+  const [userData, setUserData] = useState('')
 
   const { chain } = useNetwork();
-
   const { address, isConnected } = useAccount()
-
 
   useEffect(() => {
     nearWallet.startUp()
@@ -58,22 +57,26 @@ const Myapps = () => {
     }
   }
 
-  console.log(data)
-
-
   const handleViewChange = (view: string) => {
     setView(view)
   }
 
-  const { data: readData } = useContractRead({
+  const { data: readUserData } = useContractRead({
     address: getMarketAddress(chain),
     abi: contract.marketAbi,
-    functionName: 'DevListedDapps',
+    functionName: 'getUserDapps',
     args: [address]
   })
 
-  const getAllDappsListeds = async (limit: number) => {
-    let newerData = readData?.map(async (data: any, index: number) => {
+  const { data: readDevData } = useContractRead({
+    address: getMarketAddress(chain),
+    abi: contract.marketAbi,
+    functionName: 'getADevDapps',
+    args: [address]
+  })
+
+  const getAllDevDapps = async (limit: number) => {
+    let newerData = readDevData?.map(async (data: any, index: number) => {
       if (data.uri != '') {
         let a;
         await fetch("https://ipfs.io/ipfs/" + data.uri, {
@@ -87,7 +90,8 @@ const Myapps = () => {
         return {
           owner: data.owner,
           nft_contract: data.nft,
-          data: a
+          data: a,
+          id: data.id
         };
       }
     })
@@ -95,21 +99,50 @@ const Myapps = () => {
     if (newerData != undefined) {
       newerData = await Promise.all(newerData)
       newerData = newerData.filter((data: any) => data != undefined)
-      setData(newerData)
+      setDevData(newerData)
     }
   }
 
+  const getAllUserDapps = async (limit: number) => {
+    let newerData = readUserData?.map(async (data: any, index: number) => {
+      if (data.uri != '') {
+        let a;
+        await fetch("https://ipfs.io/ipfs/" + data.uri, {
+          method: 'GET',
+          redirect: 'follow'
+        })
+          .then(response => response.json().then(res => {
+            a = res
+          }))
+          .catch(error => console.log('error', error));
+        return {
+          owner: data.owner,
+          nft_contract: data.nft,
+          data: a,
+          id: data.id
+        };
+      }
+    })
+
+    if (newerData != undefined) {
+      newerData = await Promise.all(newerData)
+      newerData = newerData.filter((data: any) => data != undefined)
+      setUserData(newerData)
+    }
+  }
+
+  console.log(userData)
   useEffect(() => {
     if (nearWallet.connected)
       setTimeout(() => {
         main()
       }, 2000);
-    else if (isConnected)
-      getAllDappsListeds(20)
+    else if (isConnected) {
+      getAllUserDapps(20)
+      getAllDevDapps(20)
+    }
     else alert("You're not connected")
-  }, [readData, getMarketAddress(chain), isConnected, address])
-
-
+  }, [readDevData, readUserData, getMarketAddress(chain), isConnected, address])
 
   return (
     <div className='ml-[128px]'>
@@ -136,6 +169,10 @@ const Myapps = () => {
 
       <div className="absolute flex flex-col top-[440px] myapp w-[1190px] h-[598px] p-[32px] border-[3px] border-[#FF0660]">
 
+        <div className='bg-[#212121] rounded-[25px] mb-6 w-auto flex h-[40px] items-center justify-center '>
+          <p className='text-white'>Listed Dapps</p>
+        </div>
+        {/* <p className='text-2xl'>Dev Listed Dapps</p> */}
         <div className="flex">
           <div className='bg-[#212121] rounded-[55px] flex h-[40px] w-[108px] items-center justify-center '>
             <Icon classes='w-[24px] h-[24px] ml-[-10px] mr-[5px]' name='add.svg' size={20} />
@@ -154,8 +191,18 @@ const Myapps = () => {
         </div>
 
         {view == 'grid' ?
-          (data.length > 0 ? <GridView data={data} /> : <GridView />) :
-          (data.length > 0 ? <ListView data={data} /> : <ListView />)
+          (devData.length > 0 ? <GridView data={devData} /> : <GridView />) :
+          (devData.length > 0 ? <ListView data={devData} /> : <ListView />)
+        }
+
+
+        <div className='bg-[#212121] rounded-[25px] my-6 mt-16 w-auto flex h-[40px] items-center justify-center '>
+          <p className='text-white'>Bought Dapps</p>
+        </div>
+
+        {view == 'grid' ?
+          (userData.length > 0 ? <GridView data={userData} /> : <GridView />) :
+          (userData.length > 0 ? <ListView data={userData} /> : <ListView />)
         }
 
         <div className='mt-auto ml-auto'>
@@ -163,13 +210,6 @@ const Myapps = () => {
         </div>
 
       </div>
-
-
-
-
-
-
-
       <div className="p-16 h-[150px]"></div>
 
     </div>

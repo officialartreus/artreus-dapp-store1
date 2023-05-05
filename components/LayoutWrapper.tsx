@@ -34,8 +34,6 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const [nearUserText, setNearUserText] = useState('')
 
   const { openConnectModal } = useConnectModal();
-  const { openAccountModal } = useAccountModal();
-  const { openChainModal } = useChainModal();
   const { address, isConnected } = useAccount()
   const { disconnectAsync } = useDisconnect()
 
@@ -133,7 +131,6 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
       setConnected(false)
     }
   }, [nearWallet.connected, udUser, isConnected])
-
 
   useEffect(() => {
     if (uDauth != undefined && udUser == undefined) {
