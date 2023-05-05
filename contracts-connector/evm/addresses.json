@@ -1,8 +1,8 @@
 {
-    "cmpMarketAddress": "0x1a1Ff78E0AA7726a24c24c4f97c6FA364f4CC3B4",
-    "telosMarketAddress": "0x9bCFe693a5CCAa16a627A58077d531c9042b59b0",
-    "polygonMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
+    "cmpMarketAddress": "0x0Cf3adaCF39196332E424449F9dfAA09387E1417",
+    "telosMarketAddress": "0x2441C227Cd508a3029aa6b8D4a30180F4987d143",
     "zetaMarketAddress": "0xA0F4De86FcbbbDEEb4C0Ca295EE4bE016FA9Ac34",
+    "polygonMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
     "shardeumMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
     "toroMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
     "iotexMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
