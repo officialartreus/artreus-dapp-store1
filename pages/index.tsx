@@ -1,84 +1,116 @@
-import { Card, MiniCards } from "@/components/Cards";
-import { Icon } from "@/components/Icon";
-import Image from "next/image";
-import Hotlist from '../components/Hotlist';
-const mostPopular = [
-  {
-    src: 'A_Plague_Tale_Requiem_1.jpg',
-    name: 'Plague Tale Requiem',
-    icon: 'game',
-  },
-  {
-    src: 'Crossfire_Legion.jpg',
-    name: 'Crossfire Legion',
-    icon: 'gamepad',
-  },
-  {
-    src: 'Gamedec.png',
-    name: 'Gamedec',
-    icon: 'gamepad',
-  },
-  {
-    src: 'Assassin-s_Creed_Valhalla.png',
-    name: 'Assassin`s Creed Valhalla',
-    icon: 'gamepad',
-  },
-  {
-    src: 'HordeCore.jpg',
-    name: 'HordeCore',
-    icon: 'gamepad',
-  },
-  {
-    src: 'Kitaria_Fables_2.jpg',
-    name: 'Kitaria Fables',
-    icon: 'gamepad',
-  },
 
-]
+import { Icon } from "@/components/Utils/Icon";
+import Image from "next/image";
+import { Hero, HotAssets, MostPopular } from "@/components/Homepage";
+import Link from "next/link";
+import { HotLists } from "@/components/Homepage/HotLists";
+import { Footer, getListedNfts, } from "@/components/Utils";
+
+import { nearWallet } from '../contracts-connector/near/near-interface'
+
+import { useEffect, useState } from "react";
+import contract from '../contracts-connector/evm/addresses.json'
+import { useContractRead, useNetwork } from "wagmi";
+import { useIsMounted } from "@/hooks/useIsMounted";
+import { getChain, getMarketAddress } from "@/hooks/selectChain";
+
+
+
 
 export default function Home() {
+  const [data, setData] = useState([]);
+
+  const { chain } = useNetwork();
+
+  const mounted = useIsMounted()
+
+
+  const { data: readData } = useContractRead({
+    address: getMarketAddress(chain),
+    abi: contract.marketAbi,
+    functionName: 'DevListedDapps',
+    args: ['0x77E0cCfd2bD810Ea247054c19A8f5911f252c1f7']
+  })
+
+  console.log(readData)
+  const getAllDappsListeds = async (limit: number) => {
+    let newerData = readData?.map(async (data: any, index: number) => {
+      if (data.uri != '') {
+        let a;
+        await fetch("https://ipfs.io/ipfs/" + data.uri, {
+          method: 'GET',
+          redirect: 'follow'
+        })
+          .then(response => response.json().then(res => {
+            a = res
+          }))
+          .catch(error => console.log('error', error));
+        return {
+          owner: data.owner,
+          nft_contract: data.nft,
+          data: a
+        };
+      }
+    })
+
+    if (newerData != undefined) {
+      newerData = await Promise.all(newerData)
+      newerData = newerData.filter((data: any) => data != undefined)
+      setData(newerData)
+    }
+  }
+
+  const MarketPlaceNfts = async () => {
+    const d = await getListedNfts(20)
+    setData(() => { if (d) return d; else return [] })
+  }
+
+
+  useEffect(() => {
+    // nearWallet.startUp()
+    // setTimeout(() => {
+    //   MarketPlaceNfts()
+    // }, 2000);
+
+    getAllDappsListeds(20)
+  }, [readData, getMarketAddress(chain)])
+
+  const src = [
+    'A Plague Tale Requiem 2.png',
+    'Kitaria_Fables_2.jpg',
+    'Gamedec.png',
+    'A Plague Tale Requiem 10.png', 'Crossfire Legion - Base Defense 2.jpg',
+    'A Plague Tale Requiem 11.png',
+    'Gamedec-1.png',
+    'Crookz Key Art.jpg',
+    'HordeCore Screenshot 02.png', 'Crossfire_Legion.jpg',
+    'A Plague Tale Requiem 11.png', 'Crookz Key Art.jpg',
+    'Cyberpunk2077 13.png', 'Cyberpunk2077 8.png',
+    'A Plague Tale Requiem 4.png',
+    'Gamedec-5.png',
+    'Cyberpunk2077_1.png',
+    'A Plague Tale Requiem 4.png'
+  ]
+
   return (
     <>
-      <div className="ml-[3rem]">
-        <div className='hero'>
-          {/* <Image alt='' className="w-full h-[480px] z-[-1000]" width={200} height={200} src='/images/Assassin-s_Creed_Valhalla.png' /> */}
-        </div>
+      <Hero />
 
-
-        <div className='hero2 overflow-hidden m-auto w-[100%] max-h-[480px]'>
-          {/* <Image unoptimized alt='' className="w-[100%] object-cover h-[480px]" width={200} height={200} src='/images/Assassin-s_Creed_Valhalla.png' /> */}
-        </div>
-        <div className="h-[180px]"></div>
-      </div>
-
+      {/* most popular  */}
       <section className="ml-20">
         <div>
           <p className="text-[32px] font-semibold my-2  mb-4">Most Popular Games</p>
-          <div className="flex space-x-5 ">
-
-            {
-              mostPopular.map((game, index) => (
-                <Card key={index} src={game.src} name={game.name} icon={game.icon} />
-              ))
-            }
-          </div>
         </div>
-
+        {data.length > 0 ? <MostPopular data={data} /> : <MostPopular />}
       </section>
 
-      <section className="ml-20 mt-10">
-        <div>
-          <p className="text-[32px] font-semibold my-2 mb-4">Recently Added</p>
-          <div className="flex flex-wrap gap-[10px]">
-            {Array(16).fill(true).map((val, i) => {
-              return (
-                <MiniCards key={i} />
-              )
-            })}
-          </div>
-        </div>
-      </section>
+      {/* recently added  */}
+      <div className='mt-10 ml-20'>
+        <p className="text-[32px] font-semibold my-2 mb-4">Recently Added</p>
+        {data.length > 1 ? <HotAssets len={12} data={data} /> : <HotAssets len={12} />}
+      </div>
 
+      {/* Purchase and Sell  */}
       <section className="ml-20 mt-[70px]">
         <div className="relative">
           <Image unoptimized alt='' className="rounded-[30px] border-[3px] border-[#FF3880] w-[100%] object-cover h-[300px]" width={200} height={200} src='/images/Battle.png' />
@@ -87,29 +119,25 @@ export default function Home() {
               Purchase and Sell <br />
               in Game assets
             </p>
+            <Link href={'/buyassets'}>
+              <div className="flex mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
+                <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
+                <p className="ml-[5px] text-xl">Buy Assets</p>
+              </div>
+            </Link>
 
-            <div className="flex mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
-              <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
-              <p className="ml-[5px] text-xl">Buy Assets</p>
-            </div>
 
           </div>
         </div>
       </section>
 
-      <section className="ml-20 mt-10">
-        <div>
-          <p className="text-[32px] font-semibold my-2 mb-4">Hot Assets</p>
-          <div className="flex flex-wrap gap-[10px]">
-            {Array(16).fill(true).map((val, i) => {
-              return (
-                <MiniCards key={i} />
-              )
-            })}
-          </div>
-        </div>
-      </section>
+      {/* hot assets  */}
+      <div className='mt-10 ml-20'>
+        <p className="text-[32px] font-semibold my-2 mb-4">Hot Assets</p>
+        <HotAssets len={12} />
+      </div>
 
+      {/* Cyberpunk2077_1  */}
       <section className="ml-20 mt-[70px]">
         <div className="relative">
           <Image unoptimized alt='' className="object-center rounded-[30px] border-[3px] border-[#FF3880] w-[100%] object-cover h-[430px]" width={200} height={200} src='/images/Cyberpunk2077_1.png' />
@@ -119,6 +147,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Buy and Sell NFTs section  */}
       <section className="ml-20 relative mt-[70px]">
         <div className="cloud-section w-[100%] overflow-hidden h-[312px]">
 
@@ -139,15 +168,93 @@ export default function Home() {
               NFTs
             </p>
 
-            <div className="flex ml-auto object-right mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
-              <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
-              <p className="ml-[5px] text-xl">Buy NFTs</p>
-            </div>
+            <Link href={'/buynft'}>
+              <div className="flex ml-auto object-right mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
+                <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
+                <p className="ml-[5px] text-xl">Buy NFTs</p>
+              </div>
+            </Link>
 
           </div>
         </div>
       </section>
       <Hotlist/>
+
+
+      {/* Hotlists nfts section  */}
+      <div className='mt-10 ml-20'>
+        <p className="text-[32px] text-[#4D4D4D] font-semibold my-2 mb-4">Hotlists NFTs</p>
+
+
+        <div className="w-[1203px] h-[495px] rounded-[24px] border-[2px] border-[#E6E6E6]">
+
+          <div className="border-b h-[69px] px-[30px] flex ">
+
+            <div className="space-x-[32px] flex items-end">
+              <button className="border-b-[3px] font-semibold text-[24px] border-[#FFC005]">Trending</button>
+              <button className="font-semibold text-[#212121] text-[24px] ">Popular</button>
+            </div>
+
+
+            <div className="flex space-x-[11px] ml-auto items-center">
+              <div className='bg-[#EBEBEB] rounded-[12px] items-center justify-center w-[137px] h-[38px] flex'>
+
+                <p className='text-[18px] text-center font-medium text-[#292D32] '>Ethereum</p>
+
+                <Icon classes='ml-2 w-[12px] h-[12px]' name='Vector 91.svg' size={20} />
+              </div>
+
+              <div className='bg-[#EBEBEB] rounded-[12px] items-center justify-center w-[102px] h-[38px] flex'>
+
+                <p className='text-[18px] text-center font-medium text-[#292D32] '>15hrs</p>
+
+                <Icon classes='ml-2 w-[12px] h-[12px]' name='Vector 91.svg' size={20} />
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className="p-[30px]">
+            <HotLists len={16} />
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* images section  */}
+      <div className='mt-10'>
+        <div className="flex flex-wrap">
+          {src.map((src, i) => (
+            <Image key={i} unoptimized className="w-[196px] h-[97px] rounded-[11px] mr-[16px] mb-[15px]" alt={src} width={200} height={200} src={'/images/' + src} />
+          ))}
+        </div>
+      </div>
+
+
+      <div className='mt-10 ml-20'>
+
+        <div className="mt-[45px]">
+          <p className="text-[32px] text-[#4D4D4D] font-semibold my-2  mb-4">Top Nfts</p>
+          <MostPopular />
+        </div>
+
+        <div className="mt-[45px]">
+          <p className="text-[32px] text-[#4D4D4D] font-semibold my-2  mb-4">Nft Games</p>
+          <MostPopular />
+        </div>
+
+        <div className="mt-[45px]">
+          <p className="text-[32px] text-[#4D4D4D] font-semibold my-2  mb-4">Nft Apps</p>
+          <MostPopular />
+        </div>
+
+      </div>
+
+      <div className="h-[110px]"></div>
+
+      <Footer />
 
     </>
   )
