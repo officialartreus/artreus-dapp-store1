@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Footer, getListedNft, Icon } from '@/components/Utils'
 import { MostPopular } from '@/components/Homepage'
@@ -66,7 +66,6 @@ const AppDetails = (path: { path: string }) => {
 	}
 
 	useEffect(() => {
-
 		nearWallet.startUp()
 		if (nearWallet.connected) {
 			const [token_id] = window.atob(path.path).split('/')
@@ -92,7 +91,9 @@ const AppDetails = (path: { path: string }) => {
 			}, 2000);
 			return
 		}
+
 		alert("Connect Your Wallet To View Listed Apps on Your Blockchain")
+		return
 	}, [token_id, nftAddress])
 
 	const MarketPlaceNfts = async (token_id: string) => {
@@ -158,7 +159,7 @@ const AppDetails = (path: { path: string }) => {
 		hash: BuyTx?.hash,
 	})
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (waittx) {
 			if (!isError)
 				window.location.replace(window.location.origin + '/myapps')
