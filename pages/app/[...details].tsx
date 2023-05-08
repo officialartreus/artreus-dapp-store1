@@ -8,11 +8,13 @@ import { NEAR_MARKETPLACE_ADDRESS } from '@/config/constants'
 import { utils } from 'near-api-js'
 import { GetServerSidePropsContext } from 'next'
 import RelistModal from '@/components/AppDetails/RelistModal'
+import { useAccount } from 'wagmi'
 
 const AppDetails = (path: { path: string }) => {
 
 	let [isOpen, setIsOpen] = useState(false)
 	const [token_id, settoken_id] = useState('')
+	const { address, isConnected } = useAccount()
 
 	const [Desc, setDesc] = useState('desc1')
 
@@ -217,18 +219,20 @@ const AppDetails = (path: { path: string }) => {
 								</div>
 							</div>
 
-							<div>
-								<div className='flex ml-3 space-y-2 flex-col m-auto'>
-									<div className='flex items-center'>
-										<Icon classes='mr-2 ' name='truck.svg' size={20} />
-										<p className='text-[14px]'>2555 Supply</p>
-									</div>
-									<div className='flex items-center'>
-										<Icon classes='mr-2' name='receive-square.svg' size={20} />
-										<p className='text-[14px]'>1000 Downloads</p>
+							{isConnected && (
+								<div>
+									<div className='flex ml-3 space-y-2 flex-col m-auto'>
+										<div className='flex items-center'>
+											<Icon classes='mr-2 ' name='truck.svg' size={20} />
+											<p className='text-[14px]'>2555 Supply</p>
+										</div>
+										<div className='flex items-center'>
+											<Icon classes='mr-2' name='receive-square.svg' size={20} />
+											<p className='text-[14px]'>1000 Downloads</p>
+										</div>
 									</div>
 								</div>
-							</div>
+							)}
 
 						</div>
 

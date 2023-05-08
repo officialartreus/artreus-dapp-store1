@@ -1,6 +1,5 @@
 import { nearWallet } from '@/contracts-connector/near/near-interface'
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { ConnectModal, CustomButton } from './Utils'
@@ -8,7 +7,6 @@ import { Icon } from './Utils/Icon'
 
 
 import {
-  ConnectButton,
   useConnectModal,
   useAccountModal,
   useChainModal,
@@ -17,6 +15,8 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi'
 
 import UAuth, { UserInfo } from '@uauth/js'
 import { useIsMounted } from '@/hooks/useIsMounted'
+import { OnlyDeskop } from './Utils/OnlyDeskop'
+import useWindowSize from '@/hooks/useWindowSize'
 
 
 const icons = [
@@ -31,6 +31,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const [selected, setSelected] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
   const [connected, setConnected] = useState(false)
+  const winSize = useWindowSize()
 
   const [useRBK, setUseRBK] = useState(false)
   const [udUser, setUdUser] = useState<UserInfo>()
@@ -41,6 +42,8 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const { openChainModal } = useChainModal();
   const { address, isConnected } = useAccount()
   const { disconnectAsync } = useDisconnect()
+
+
 
   const walletId = nearWallet.accountId
 
@@ -138,7 +141,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
 
   useEffect(() => {
-    if (uDauth != undefined && udUser == undefined) {
+    if (uDauth != undefined && udUser != undefined) {
       try {
         uDauth.user()
           .then((user) => {
@@ -153,6 +156,9 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
     }
   }, [uDauth])
 
+  if (winSize?.width < 760) {
+    return <OnlyDeskop />
+  }
 
   return (
     <>
@@ -161,7 +167,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
           <title>Artreus DApp Store</title>
           <meta name="description" content="Artreus DApp Store" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/images/icons/logo.svg" />
+          <link rel="icon" href="/images/icons/logo-p.svg" />
         </Head>
       </div>
 
@@ -237,16 +243,10 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
                 <Icon classes='w-[24px] m-auto' name={'information.svg'} size={26} />
               </div>
             </div>
-
-
           </div>
         </nav>
       </header>
-
-
       <div>{children}</div>
-
-
       <div className="bg-[#FFFFFF] pt-[69px] w-[1440px] ">
         <div className="border-t ml-20 border-[#FF0660] w-[1270px]" />
 
@@ -260,6 +260,8 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
       </div>
       <ConnectModal isOpen={isOpen} setSelected={setSelected} setIsOpen={setIsOpen} />
+
+
     </>
   )
 }

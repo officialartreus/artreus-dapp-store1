@@ -27,7 +27,7 @@ export default function Home() {
     }, 2000);
   }, [])
 
-  console.log(data)
+  // console.log(data)
 
   const src = [
     'A Plague Tale Requiem 2.png',
