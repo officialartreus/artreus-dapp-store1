@@ -133,7 +133,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   }, [nearWallet.connected, udUser, isConnected])
 
   useEffect(() => {
-    if (uDauth != undefined && udUser == undefined) {
+    if (uDauth != undefined && udUser != undefined) {
       try {
         uDauth.user()
           .then((user) => {

@@ -5,7 +5,7 @@ import { nft_mint, nft_total_supply, nearWallet } from '../contracts-connector/n
 
 import contract from '../contracts-connector/evm/addresses.json'
 
-import { useAccount, useNetwork, useChainId, useContractRead, useContractWrite, usePrepareContractWrite, useSigner } from 'wagmi'
+import { useAccount, useNetwork, useChainId, useContractRead, useContractWrite, usePrepareContractWrite, useSigner, useWaitForTransaction } from 'wagmi'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
@@ -22,13 +22,14 @@ import { getMarketAddress } from '@/hooks/selectChain';
 export default function Dev() {
 
   const [fileObject, setFileObject] = React.useState({})
-  const [supply, setSupply] = React.useState(0)
+  const [supply, setSupply] = React.useState(30)
   const [tsupply, settSupply] = React.useState({})
-  const [name, setName] = React.useState('')
+  const [name, setName] = React.useState('name')
   const [desc, setDesc] = React.useState('')
   const [mintText, setMintText] = React.useState('Create Item')
   const [uploadStatus, setUploadStatus] = React.useState(0)
   const [nftContract, setNftContract] = React.useState<Contract>()
+  const [uri, seturi] = useState('uri')
 
   const { address, isConnected } = useAccount()
   const { chain } = useNetwork();
@@ -157,19 +158,19 @@ export default function Dev() {
     setDesc(val)
   }
 
-  const evmChainMint = async (name: string, maxSupply: number, uri: string) => {
+  const { config } = usePrepareContractWrite({
+    address: getMarketAddress(chain),
+    abi: contract.marketAbi,
+    functionName: 'MintDapp',
+    args: [name, supply, uri],
+  })
 
-    try {
-      if (Signer != undefined) {
-        const factory = new ContractFactory(contract.minterAbi, contract.nftContractByteCode, Signer);
-        const nftCon = await factory.deploy(name, maxSupply, uri, getMarketAddress(chain));
-        await nftCon.deployed()
-        setNftContract(nftCon);
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  const { data: MintTx, write: MintDapp, error: errr } = useContractWrite(config)
+
+  const { data: waittx } = useWaitForTransaction({
+    hash: MintTx?.hash,
+  })
+  console.log(waittx?.logs[0])
 
   const handleNearSubmit = async (data: any) => {
 
@@ -195,23 +196,24 @@ export default function Dev() {
 
   const handleMint = async () => {
 
-    if (name == '' && desc == '' && supply == 0 && Object.keys(fileObject).length < 3) {
-      alert('Please fill all compulsory fields')
-      return
-    }
+    // if (name == '' && desc == '' && supply == 0 && Object.keys(fileObject).length < 3) {
+    //   alert('Please fill all compulsory fields')
+    //   return
+    // }
 
-    setUploadStatus(0)
-    const data: any = await UploadImages(fileObject, name, desc, "image")
+    // setUploadStatus(0)
+    // const data: any = await UploadImages(fileObject, name, desc, "image")
 
-    if (!data) {
-      alert('Error... Please Try Again Later')
-      return
-    }
+    // if (!data) {
+    //   alert('Error... Please Try Again Later')
+    //   return
+    // }
 
     if (nearWallet.connected) {
       handleNearSubmit(data)
     } else if (isConnected) {
-      evmChainMint(name, supply, data[2].toString())
+      // seturi(data[2].toString())
+      MintDapp?.()
     } else {
       alert('Not Connected')
     }
@@ -250,7 +252,7 @@ export default function Dev() {
                   <input type="submit" value={mintText} className={`cursor-pointer py-2 px-4  font-bold`} onClick={() => {
                     handleMint()
                   }} />
-                  {nftContract && <MyModal mintData={nftContract} />}
+                  {waittx && <MyModal mintData={waittx} />}
 
                 </div>
 
@@ -294,12 +296,16 @@ function MyModal({ mintData }: any) {
     address: getMarketAddress(chain),
     abi: contract.marketAbi,
     functionName: 'List',
-    args: [0, ethers.utils.parseEther(price.toString()), mintData?.address],
+    args: [0, ethers.utils.parseEther(price.toString()), mintData?.logs[0].address],
     overrides: {
       value: ethers.utils.parseEther('0.02'),
     },
   })
   const { data: ListTx, write } = useContractWrite(config)
+
+  const { data: waittx } = useWaitForTransaction({
+    hash: ListTx?.hash,
+  })
 
   const listEVMApp = () => {
     if (price <= 0) {
@@ -351,7 +357,7 @@ function MyModal({ mintData }: any) {
                     <p className="text-sm mt-3 text-gray-500">
                       To view this transaction on your blockchain explorer:
                     </p>
-                    <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/tx/${mintData?.deployTransaction.hash}`} target='_blank' >Click Here</Link>
+                    <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/tx/${mintData?.logs[0].transactionHash}`} target='_blank' >Click Here</Link>
                   </div>
 
                   <div>
@@ -367,7 +373,7 @@ function MyModal({ mintData }: any) {
                           <p className="text-sm mt-3 text-gray-500">
                             To view this transaction on your blockchain explorer:
                           </p>
-                          <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/tx/${ListTx?.hash}`} target='_blank' >Click Here</Link>
+                          <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/tx/${waittx?.logs[0].transactionHash}`} target='_blank' >Click Here</Link>
                         </div>
                       </div>
                     ) : (

@@ -61,7 +61,7 @@ const Shardeum: Chain = {
   },
   blockExplorers: {
     default: {
-      name: 'Shardeum', url: 'https://explorer-sphinx.shardeum.org/'
+      name: 'Shardeum', url: 'https://explorer-sphinx.shardeum.org/tx/'
     },
   },
   testnet: false,
@@ -148,6 +148,60 @@ const Caduceus: Chain = {
   testnet: true,
 };
 
+const Bitgert: Chain = {
+  id: 64668,
+  name: 'Bitgert',
+  network: 'Bitgert',
+  iconUrl: '/images/icons/iotex-logo.svg',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Bitgert',
+    symbol: 'Brise',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://testnet-rpc.brisescan.com'],
+    },
+    public: {
+      http: ['https://testnet-rpc.brisescan.com'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Bitgert', url: 'https://testnet-explorer.brisescan.com/'
+    },
+  },
+  testnet: true,
+};
+
+const Core: Chain = {
+  id: 1116,
+  name: 'Core DAO',
+  network: 'Core DAO',
+  iconUrl: '/images/icons/iotex-logo.svg',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'CORE',
+    symbol: 'CORE',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://rpc.coredao.org/'],
+    },
+    public: {
+      http: ['https://rpc.coredao.org/'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Core', url: 'https://scan.coredao.org/'
+    },
+  },
+  testnet: true,
+};
+
 const IoTex: Chain = {
   id: 4690,
   name: 'IoTex',
@@ -177,7 +231,7 @@ const IoTex: Chain = {
 
 
 export const { chains, provider } = configureChains(
-  [Caduceus, IoTex, polygonMumbai, Telos, Shardeum, Toronet, ZetaChain],
+  [ZetaChain, Caduceus, Bitgert, IoTex, polygonMumbai, Core, Telos, Shardeum, Toronet],
   [
     publicProvider()
   ]

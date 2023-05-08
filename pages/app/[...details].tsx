@@ -299,18 +299,20 @@ const AppDetails = (path: { path: string }) => {
 								</div>
 							</div>
 
-							<div>
-								<div className='flex ml-3 space-y-2 flex-col m-auto'>
-									<div className='flex items-center'>
-										<Icon classes='mr-2 ' name='truck.svg' size={20} />
-										<p className='text-[14px]'>{data?.totalSupply} Supply</p>
-									</div>
-									<div className='flex items-center'>
-										<Icon classes='mr-2' name='receive-square.svg' size={20} />
-										<p className='text-[14px]'>{data?.numberOfDownloads} Downloads</p>
+							{isConnected && (
+								<div>
+									<div className='flex ml-3 space-y-2 flex-col m-auto'>
+										<div className='flex items-center'>
+											<Icon classes='mr-2 ' name='truck.svg' size={20} />
+											<p className='text-[14px]'>{data?.totalSupply} Supply</p>
+										</div>
+										<div className='flex items-center'>
+											<Icon classes='mr-2' name='receive-square.svg' size={20} />
+											<p className='text-[14px]'>{data?.numberOfDownloads} Downloads</p>
+										</div>
 									</div>
 								</div>
-							</div>
+							)}
 
 						</div>
 
