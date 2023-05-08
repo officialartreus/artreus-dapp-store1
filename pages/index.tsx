@@ -28,7 +28,7 @@ export default function Home() {
     functionName: 'getAllDevDapps'
   })
 
-  // console.log(readData)
+  console.log(readData)
 
   const getAllDappsListeds = async (limit: number) => {
     let newerData = readData?.map(async (data: any, index: number) => {
@@ -75,7 +75,7 @@ export default function Home() {
       getAllDappsListeds(20)
     }
 
-  }, [readData, getMarketAddress(chain)])
+  }, [readData, getMarketAddress(chain), nearWallet.connected])
 
   const src = [
     'A Plague Tale Requiem 2.png',
@@ -93,8 +93,6 @@ export default function Home() {
     'Cyberpunk2077_1.png',
     'A Plague Tale Requiem 4.png'
   ]
-
-  console.log(data)
 
   return (
     <>

@@ -16,6 +16,7 @@ export default function RelistModal({ storageBalance, setIsOpen, isOpen, token_i
 	const { chain } = useNetwork();
 	const [storageAmount, setStorageAmount] = useState("")
 	const [price, setPrice] = useState("0")
+	const [enableList, setenableList] = useState(false)
 
 	const walletId = nearWallet.accountId
 
@@ -27,6 +28,7 @@ export default function RelistModal({ storageBalance, setIsOpen, isOpen, token_i
 		overrides: {
 			value: ethers.utils.parseEther('0.02'),
 		},
+		enabled: enableList
 	})
 
 	const { data: ListTx, write: ListEVMDapps } = useContractWrite(evmListConfig)
@@ -44,6 +46,8 @@ export default function RelistModal({ storageBalance, setIsOpen, isOpen, token_i
 	async function approve() {
 		if (price != '') {
 			if (isConnected) {
+				setenableList(true)
+
 				ListEVMDapps?.()
 			} else {
 				try {

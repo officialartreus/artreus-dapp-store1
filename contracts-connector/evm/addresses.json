@@ -1,11 +1,11 @@
 {
-    "cmpMarketAddress": "0x39554d614969400FF7cFf10cDB00A10EC5E6a893",
-    "telosMarketAddress": "0xdE15B6c447D1323FD84E5569FD89B99e625CfaEb",
-    "zetaMarketAddress": "0x522c90EA944eCA7942BDFaC4c9A6CF5Fe266A9e9",
+    "cmpMarketAddress": "0xb268476D7f54b1B49D0995dFC6383CA51Bd7f0D9",
+    "telosMarketAddress": "0x784987F958A7106bEbD0e80D628e280aDba5c726",
+    "zetaMarketAddress": "0x37aE1eEA0AE2Ed44c07786e5dD98d92dDf5DDf74",
     "toroMarketAddress": "0xCE384154c1e5DFe0e455b3F12CF1143d50d947E7",
-    "polygonMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
-    "shardeumMarketAddress": "0x49CEeDeB77B25b0d4AbbF280423d435378D9A584",
-    "iotexMarketAddress": "0x4d24066Bd9439951DcAeA467b9fAF4f2Ec169D69",
+    "polygonMarketAddress": "",
+    "shardeumMarketAddress": "",
+    "iotexMarketAddress": "",
     "marketAbi": [
         {
             "inputs": [],

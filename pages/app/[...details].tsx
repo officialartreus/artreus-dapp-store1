@@ -9,7 +9,7 @@ import { utils } from 'near-api-js'
 import { GetServerSidePropsContext } from 'next'
 import RelistModal from '@/components/AppDetails/RelistModal'
 
-import { useAccount, useContractRead, useContractWrite, useNetwork, usePrepareContractWrite, useSigner, useWaitForTransaction } from 'wagmi'
+import { useAccount, useContractRead, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 
 import contract from '../../contracts-connector/evm/addresses.json'
 import { getMarketAddress } from '@/hooks/selectChain'
@@ -18,6 +18,7 @@ import { ethers } from 'ethers'
 
 const AppDetails = (path: { path: string }) => {
 	let [isOpen, setIsOpen] = useState(false)
+	let [enableBuy, setenableBuy] = useState(false)
 	const [token_id, settoken_id] = useState(0)
 	const [fprice, setfprice] = useState('0')
 	const [functCall, setfunctCall] = useState('devDappInfo')
@@ -31,7 +32,7 @@ const AppDetails = (path: { path: string }) => {
 	const [data, setData] = useState();
 
 	const { address, isConnected } = useAccount();
-
+	const walletId = address || nearWallet.accountId
 
 	async function BuyOffer() {
 		try {
@@ -66,10 +67,12 @@ const AppDetails = (path: { path: string }) => {
 	}
 
 	useEffect(() => {
+
 		nearWallet.startUp()
 		if (nearWallet.connected) {
-			const [token_id] = window.atob(path.path).split('/')
-			settoken_id(Number(token_id))
+			const [token_id, id] = window.atob(path.path).split('/')
+			console.log(window.atob(path.path).split('/'))
+			settoken_id(Number(id))
 
 			setTimeout(() => {
 				getStorageBalance()
@@ -92,9 +95,9 @@ const AppDetails = (path: { path: string }) => {
 			return
 		}
 
-		alert("Connect Your Wallet To View Listed Apps on Your Blockchain")
+		// alert("Connect Your Wallet To View Listed Apps on Your Blockchain")
 		return
-	}, [token_id, nftAddress])
+	}, [token_id, nftAddress, nearWallet.connected, isConnected])
 
 	const MarketPlaceNfts = async (token_id: string) => {
 		setData(await getListedNft(200, token_id))
@@ -151,6 +154,7 @@ const AppDetails = (path: { path: string }) => {
 		overrides: {
 			value: ethers.utils.parseEther(fprice),
 		},
+		enabled: enableBuy
 	})
 
 	const { data: BuyTx, write: BuyEVM, error: buyTxError } = useContractWrite(evmBuyConfig)
@@ -193,7 +197,11 @@ const AppDetails = (path: { path: string }) => {
 		}
 		else if (isConnected) {
 			console.log(buyTxError)
-			BuyEVM?.()
+			setenableBuy(true)
+			setTimeout(() => {
+				console.log(evmBuyConfig)
+				BuyEVM?.()
+			}, 1000);
 		}
 		else {
 			alert('You`re not Connected')
@@ -219,9 +227,9 @@ const AppDetails = (path: { path: string }) => {
 		return
 	}
 
-	console.log(data)
+	// console.log(data)
 
-	const walletId = address || nearWallet.accountId
+
 
 	return (
 		<>

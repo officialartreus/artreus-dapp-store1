@@ -5,7 +5,7 @@ import { nft_mint, nft_total_supply, nearWallet } from '../contracts-connector/n
 
 import contract from '../contracts-connector/evm/addresses.json'
 
-import { useAccount, useNetwork, useChainId, useContractRead, useContractWrite, usePrepareContractWrite, useSigner, useWaitForTransaction } from 'wagmi'
+import { useAccount, useNetwork, useContractWrite, usePrepareContractWrite, useSigner, useWaitForTransaction } from 'wagmi'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
@@ -13,28 +13,28 @@ import Link from 'next/link';
 
 import { utils } from 'near-api-js';
 import { Input, UploadButton } from '@/components/Utils';
-import { Contract } from 'ethers/lib/ethers';
 
-import { ContractFactory, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { getMarketAddress } from '@/hooks/selectChain';
+import useDebounce from '@/hooks/useDebounce';
 
 
 export default function Dev() {
 
   const [fileObject, setFileObject] = React.useState({})
-  const [supply, setSupply] = React.useState(30)
-  const [tsupply, settSupply] = React.useState({})
-  const [name, setName] = React.useState('name')
+  const [supply, setSupply] = React.useState(0)
+  const [name, setName] = React.useState('')
   const [desc, setDesc] = React.useState('')
-  const [mintText, setMintText] = React.useState('Create Item')
-  const [uploadStatus, setUploadStatus] = React.useState(0)
-  const [nftContract, setNftContract] = React.useState<Contract>()
-  const [uri, seturi] = useState('uri')
+  const [mintText, setMintText] = React.useState('Upload Items')
+  const [uploadStatus, setUploadStatus] = React.useState(-1)
+  const [uri, seturi] = useState('')
 
   const { address, isConnected } = useAccount()
   const { chain } = useNetwork();
 
-  const { data: Signer, error: err, isLoading, refetch } = useSigner()
+  const dbName = useDebounce(name, 1000)
+  const dbSupply = useDebounce(supply, 1000)
+  const dbUri = useDebounce(uri, 10)
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -105,7 +105,7 @@ export default function Dev() {
 
   useEffect(() => {
     if (uploadStatus > 0)
-      setMintText(`Minting ... ${uploadStatus}%`)
+      setMintText(`Uploading ... ${uploadStatus}%`)
   }, [uploadStatus])
 
   const UploadImages: any = async (files: any, item_name: any, description: any, category: any) => {
@@ -162,7 +162,8 @@ export default function Dev() {
     address: getMarketAddress(chain),
     abi: contract.marketAbi,
     functionName: 'MintDapp',
-    args: [name, supply, uri],
+    args: [dbName, dbSupply, dbUri],
+    enabled: Boolean(dbUri)
   })
 
   const { data: MintTx, write: MintDapp, error: errr } = useContractWrite(config)
@@ -170,7 +171,6 @@ export default function Dev() {
   const { data: waittx } = useWaitForTransaction({
     hash: MintTx?.hash,
   })
-  console.log(waittx?.logs[0])
 
   const handleNearSubmit = async (data: any) => {
 
@@ -195,25 +195,27 @@ export default function Dev() {
   }
 
   const handleMint = async () => {
+    if (name == '' && desc == '' && supply == 0 && Object.keys(fileObject).length < 3) {
+      alert('Please fill all compulsory fields')
+      return
+    }
 
-    // if (name == '' && desc == '' && supply == 0 && Object.keys(fileObject).length < 3) {
-    //   alert('Please fill all compulsory fields')
-    //   return
-    // }
+    setUploadStatus(0)
+    const data: any = await UploadImages(fileObject, name, desc, "image")
 
-    // setUploadStatus(0)
-    // const data: any = await UploadImages(fileObject, name, desc, "image")
-
-    // if (!data) {
-    //   alert('Error... Please Try Again Later')
-    //   return
-    // }
+    if (!data) {
+      alert('Error... Please Try Again Later')
+      return
+    }
 
     if (nearWallet.connected) {
       handleNearSubmit(data)
     } else if (isConnected) {
-      // seturi(data[2].toString())
-      MintDapp?.()
+      seturi(data[2].toString())
+      setTimeout(() => {
+        MintDapp?.()
+        setUploadStatus(-1)
+      }, 2000);
     } else {
       alert('Not Connected')
     }
@@ -251,7 +253,7 @@ export default function Dev() {
                 <div style={{ width: `${uploadStatus}%` }} className={`rounded-l-md ${uploadStatus > 0 ? 'bg-[#6039CF]' : 'bg-brandpink0'}`}>
                   <input type="submit" value={mintText} className={`cursor-pointer py-2 px-4  font-bold`} onClick={() => {
                     handleMint()
-                  }} />
+                  }} disabled={uploadStatus > 0} />
                   {waittx && <MyModal mintData={waittx} />}
 
                 </div>
@@ -303,7 +305,7 @@ function MyModal({ mintData }: any) {
   })
   const { data: ListTx, write } = useContractWrite(config)
 
-  const { data: waittx } = useWaitForTransaction({
+  const { data: listwaittx } = useWaitForTransaction({
     hash: ListTx?.hash,
   })
 
@@ -373,7 +375,7 @@ function MyModal({ mintData }: any) {
                           <p className="text-sm mt-3 text-gray-500">
                             To view this transaction on your blockchain explorer:
                           </p>
-                          <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/tx/${waittx?.logs[0].transactionHash}`} target='_blank' >Click Here</Link>
+                          <Link className="text-sm text-brandpink0 " href={`${chain?.blockExplorers?.default.url}/tx/${listwaittx?.transactionHash}`} target='_blank' >Click Here</Link>
                         </div>
                       </div>
                     ) : (
