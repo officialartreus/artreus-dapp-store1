@@ -55,7 +55,6 @@ export const MostPopular = ({ data }: any) => {
                 {data ? data.map((datas: any, i: number) => {
                     const encoded = window.btoa(`${datas.token_id || datas.nft_contract}/${datas.id}`)
                     const { data } = datas
-                    console.log(data)
 
                     return <Link key={i} href={`/app/${encoded}`}>
                         <Card key={i} src={`https://ipfs.io/ipfs/${data.images_url?.icon}`} name={data.name} icon={'game'} />

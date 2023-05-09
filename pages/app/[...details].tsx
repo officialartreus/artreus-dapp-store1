@@ -18,18 +18,19 @@ import { ethers } from 'ethers'
 
 const AppDetails = (path: { path: string }) => {
 	let [isOpen, setIsOpen] = useState(false)
-	let [enableBuy, setenableBuy] = useState(false)
-	const [token_id, settoken_id] = useState(0)
-	const [fprice, setfprice] = useState('0')
-	const [functCall, setfunctCall] = useState('devDappInfo')
-
-	const [nftAddress, setnftAddress] = useState('')
-	const { chain } = useNetwork();
+	const [token_id, settoken_id] = useState('0')
 
 	const [Desc, setDesc] = useState('desc1')
 
 	const [storageBalance, setStorageBalance] = useState('0')
 	const [data, setData] = useState();
+
+	const [enableBuy, setenableBuy] = useState(false)
+	const [fprice, setfprice] = useState('0')
+	const [functCall, setfunctCall] = useState('devDappInfo')
+
+	const [nftAddress, setnftAddress] = useState('')
+	const { chain } = useNetwork();
 
 	const { address, isConnected } = useAccount();
 	const walletId = address || nearWallet.accountId
@@ -72,7 +73,7 @@ const AppDetails = (path: { path: string }) => {
 		if (nearWallet.connected) {
 			const [token_id, id] = window.atob(path.path).split('/')
 			console.log(window.atob(path.path).split('/'))
-			settoken_id(Number(id))
+			settoken_id((id))
 
 			setTimeout(() => {
 				getStorageBalance()
@@ -103,13 +104,14 @@ const AppDetails = (path: { path: string }) => {
 		setData(await getListedNft(200, token_id))
 	}
 
-	const { data: readBlockData } = useContractRead({
+	const { data: readBlockData, error: getDappErr } = useContractRead({
 		address: getMarketAddress(chain),
 		abi: contract.marketAbi,
 		functionName: functCall,
-		args: token_id != 0 ? [nftAddress, token_id] : [nftAddress]
+		args: token_id != '0' ? [nftAddress, token_id] : [nftAddress]
 	})
 
+	console.log(getDappErr)
 	const getADapp = async () => {
 		if (readBlockData == undefined) {
 			return
