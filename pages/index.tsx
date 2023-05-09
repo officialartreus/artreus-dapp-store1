@@ -106,7 +106,7 @@ export default function Home() {
       {/* recently added  */}
       <div className='mt-10 ml-20'>
         <p className="text-[32px] font-semibold my-2 mb-4">Recently Added</p>
-        {data.length > 1 ? <HotAssets len={12} data={data} /> : <HotAssets len={12} />}
+        {data.length > 0 ? <HotAssets len={12} data={data} /> : <HotAssets len={12} />}
       </div>
 
       {/* Purchase and Sell  */}
