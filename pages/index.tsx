@@ -11,8 +11,7 @@ import { nearWallet } from '../contracts-connector/near/near-interface'
 import { useEffect, useState } from "react";
 import contract from '../contracts-connector/evm/addresses.json'
 import { useAccount, useContractRead, useNetwork } from "wagmi";
-import { useIsMounted } from "@/hooks/useIsMounted";
-import { getChain, getMarketAddress } from "@/hooks/selectChain";
+import { getMarketAddress } from "@/hooks/selectChain";
 
 
 
