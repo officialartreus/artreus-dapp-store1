@@ -9,7 +9,7 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { mainnet, polygon, arbitrum, Chain, polygonMumbai, arbitrumGoerli } from 'wagmi/chains';
+import { Chain, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 
 
@@ -26,10 +26,10 @@ const Telos: Chain = {
   },
   rpcUrls: {
     default: {
-      http: ['http://141.193.240.11:8000/evm'],
+      http: ['https://141.193.240.11:8000/evm'],
     },
     public: {
-      http: ['http://141.193.240.11:8000/evm'],
+      http: ['https://141.193.240.11:8000/evm'],
     },
   },
   blockExplorers: {

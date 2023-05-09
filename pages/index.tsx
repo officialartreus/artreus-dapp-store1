@@ -28,8 +28,6 @@ export default function Home() {
     functionName: 'getAllDevDapps'
   })
 
-  console.log(readData)
-
   const getAllDappsListeds = async (limit: number) => {
     let newerData = readData?.map(async (data: any, index: number) => {
       if (data.uri != '') {

@@ -1,3 +1,5 @@
+
+
 import { NEAR_MARKETPLACE_ADDRESS } from '@/config/constants'
 import { nearWallet, nft_approve, storage_deposit } from '@/contracts-connector/near/near-interface'
 import { Dialog, Transition } from '@headlessui/react'
@@ -5,7 +7,7 @@ import { Fragment, useState, useEffect } from 'react'
 import contract from '../../contracts-connector/evm/addresses.json'
 import { utils } from 'near-api-js'
 
-import { useAccount, useContractRead, useContractWrite, useNetwork, usePrepareContractWrite, useSigner } from 'wagmi'
+import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi'
 import { getMarketAddress } from '@/hooks/selectChain'
 import { ethers } from 'ethers'
 
@@ -20,11 +22,13 @@ export default function RelistModal({ storageBalance, setIsOpen, isOpen, token_i
 
 	const walletId = nearWallet.accountId
 
+
+
 	const { config: evmListConfig } = usePrepareContractWrite({
 		address: getMarketAddress(chain),
 		abi: contract.marketAbi,
 		functionName: 'List',
-		args: [data.token_id, ethers.utils.parseEther(price.toString()), data.nftAddress],
+		args: [data?.token_id, ethers.utils.parseEther(price.toString()), data?.nftAddress],
 		overrides: {
 			value: ethers.utils.parseEther('0.02'),
 		},
@@ -47,8 +51,9 @@ export default function RelistModal({ storageBalance, setIsOpen, isOpen, token_i
 		if (price != '') {
 			if (isConnected) {
 				setenableList(true)
-
-				ListEVMDapps?.()
+				setTimeout(() => {
+					ListEVMDapps?.()
+				}, 1000);
 			} else {
 				try {
 					const tx = await nft_approve({

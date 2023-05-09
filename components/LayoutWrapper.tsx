@@ -81,11 +81,9 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
         setSelected(null)
         return
       }
-
       setSelected(null)
       setIsOpen(true)
     }
-
     check()
   }
 

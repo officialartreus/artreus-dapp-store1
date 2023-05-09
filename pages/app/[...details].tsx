@@ -17,21 +17,17 @@ import { ethers } from 'ethers'
 
 
 const AppDetails = (path: { path: string }) => {
-	let [isOpen, setIsOpen] = useState(false)
+
+	const [isOpen, setIsOpen] = useState(false)
 	const [token_id, settoken_id] = useState('0')
-
 	const [Desc, setDesc] = useState('desc1')
-
 	const [storageBalance, setStorageBalance] = useState('0')
 	const [data, setData] = useState();
-
 	const [enableBuy, setenableBuy] = useState(false)
 	const [fprice, setfprice] = useState('0')
 	const [functCall, setfunctCall] = useState('devDappInfo')
-
-	const [nftAddress, setnftAddress] = useState('')
+	const [nftAddress, setnftAddress] = useState()
 	const { chain } = useNetwork();
-
 	const { address, isConnected } = useAccount();
 	const walletId = address || nearWallet.accountId
 
@@ -67,11 +63,19 @@ const AppDetails = (path: { path: string }) => {
 		} else console.log('Not Connected')
 	}
 
+	console.log(data)
+	console.log(token_id)
+
 	useEffect(() => {
+		if (!walletId) {
+			alert("Kindly Connect your wallet to view to view This app")
+			window.location.replace(window.location.origin)
+			return
+		}
 
 		nearWallet.startUp()
 		if (nearWallet.connected) {
-			const [token_id, id] = window.atob(path.path).split('/')
+			const [nft, id] = window.atob(path.path).split('/')
 			console.log(window.atob(path.path).split('/'))
 			settoken_id((id))
 
@@ -108,10 +112,11 @@ const AppDetails = (path: { path: string }) => {
 		address: getMarketAddress(chain),
 		abi: contract.marketAbi,
 		functionName: functCall,
-		args: token_id != '0' ? [nftAddress, token_id] : [nftAddress]
+		args: token_id != '0' ? [nftAddress, token_id] : [nftAddress],
+		enabled: nftAddress
 	})
 
-	console.log(getDappErr)
+
 	const getADapp = async () => {
 		if (readBlockData == undefined) {
 			return

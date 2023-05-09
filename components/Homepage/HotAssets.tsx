@@ -9,6 +9,7 @@ type Props = {
 
 export const HotAssets = (props: Props) => {
     const { data, len } = props
+    console.log(data)
     return (
         <div>
             <section className="">
