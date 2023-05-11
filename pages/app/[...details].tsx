@@ -63,8 +63,13 @@ const AppDetails = (path: { path: string }) => {
 		} else console.log('Not Connected')
 	}
 
-	console.log(data)
-	console.log(token_id)
+	const { data: readBlockData, error: getDappErr } = useContractRead({
+		address: getMarketAddress(chain),
+		abi: contract.marketAbi,
+		functionName: functCall,
+		args: token_id != '0' ? [nftAddress, token_id] : [nftAddress],
+		enabled: nftAddress
+	})
 
 	useEffect(() => {
 		if (!walletId) {
@@ -75,7 +80,7 @@ const AppDetails = (path: { path: string }) => {
 
 		nearWallet.startUp()
 		if (nearWallet.connected) {
-			const [nft, id] = window.atob(path.path).split('/')
+			const [id, _] = window.atob(path.path).split('/')
 			console.log(window.atob(path.path).split('/'))
 			settoken_id((id))
 
@@ -102,20 +107,11 @@ const AppDetails = (path: { path: string }) => {
 
 		// alert("Connect Your Wallet To View Listed Apps on Your Blockchain")
 		return
-	}, [token_id, nftAddress, nearWallet.connected, isConnected])
+	}, [token_id, nftAddress, readBlockData, nearWallet.connected, isConnected])
 
 	const MarketPlaceNfts = async (token_id: string) => {
 		setData(await getListedNft(200, token_id))
 	}
-
-	const { data: readBlockData, error: getDappErr } = useContractRead({
-		address: getMarketAddress(chain),
-		abi: contract.marketAbi,
-		functionName: functCall,
-		args: token_id != '0' ? [nftAddress, token_id] : [nftAddress],
-		enabled: nftAddress
-	})
-
 
 	const getADapp = async () => {
 		if (readBlockData == undefined) {
@@ -144,9 +140,11 @@ const AppDetails = (path: { path: string }) => {
 		setData(await getADapp())
 	}
 
+	// console.log(((data?.owner_id || data?.owner)) != walletId)
+
 	const handleRelist = () => {
 		if (nearWallet.connected || isConnected) {
-			if (data?.owner_id || data?.owner != walletId) return
+			if ((data?.owner_id || data?.owner) != walletId) return
 			setIsOpen(true)
 		} else {
 			alert('You`re not Connected')
@@ -178,7 +176,7 @@ const AppDetails = (path: { path: string }) => {
 	}, [waittx])
 
 	const handleUnlist = async () => {
-		if (data?.owner_id != walletId) return
+		if ((data?.owner_id || data?.owner) != walletId) return
 
 		try {
 			const tx = await remove_sale({
@@ -233,10 +231,6 @@ const AppDetails = (path: { path: string }) => {
 	if (!data) {
 		return
 	}
-
-	// console.log(data)
-
-
 
 	return (
 		<>
@@ -366,16 +360,17 @@ const AppDetails = (path: { path: string }) => {
 							<div className='px-5 flex space-x-3'>
 
 
-								<button className={`${data?.owner_id || data.owner == walletId ? 'bg-[#6039CF]' : 'bg-[#D3D3D3] '} bg-[#6039CF] rounded-[12px] pointer w-[280px] h-[48px] flex items-center justify-center`}
+								<button className={`${(data?.owner_id || data?.owner) == walletId ? 'bg-[#6039CF]' : 'bg-[#D3D3D3] '} rounded-[12px] pointer w-[280px] h-[48px] flex items-center justify-center`}
 									onClick={Number(data.price) > 0 ? handleUnlist : handleRelist}
-									disabled={data?.owner_id || data.owner != walletId}>
+									disabled={(data?.owner_id || data?.owner) != walletId}
+								>
 									<Icon classes='mr-5' name='document.svg' size={20} />
 									<p className='text-[#FFFFFF] text-[16px] font-semibold'>{Number(data.price) > 0 ? 'Unlist' : 'Relist'}</p>
 								</button>
 
 								{Number(data.price) > 0 ?
 									(
-										data?.owner_id || data.owner != walletId ?
+										(data?.owner_id || data?.owner) != walletId ?
 											(
 												<button className={`bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
 													onClick={handleBuy}>

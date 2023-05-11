@@ -72,7 +72,7 @@ export default function Home() {
       getAllDappsListeds(20)
     }
 
-  }, [readData, getMarketAddress(chain), nearWallet.connected])
+  }, [readData, getMarketAddress(chain), nearWallet.connected], isConnected)
 
   const src = [
     'A Plague Tale Requiem 2.png',
@@ -222,13 +222,13 @@ export default function Home() {
       </div>
 
       {/* images section  */}
-      <div className='mt-10'>
+      {/* <div className='mt-10'>
         <div className="flex flex-wrap">
           {src.map((src, i) => (
             <Image key={i} unoptimized className="w-[196px] h-[97px] rounded-[11px] mr-[16px] mb-[15px]" alt={src} width={200} height={200} src={'/images/' + src} />
           ))}
         </div>
-      </div>
+      </div> */}
 
 
       <div className='mt-10 ml-20'>

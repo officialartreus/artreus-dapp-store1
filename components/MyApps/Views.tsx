@@ -7,13 +7,13 @@ import { OwnedCards } from '../Utils/Cards'
 
 
 export const GridView = ({ data }: any) => {
-
+    console.log(data)
     return (
         <div className="flex mt-[34px] gap-[29px]">
 
             {data ? data.map((data: any, i: number) => {
 
-                const encoded = window.btoa(`${data.token_id || data.nft_contract}/${data.id}`)
+                const encoded = window.btoa(`${(data.token_id || data.nft_contract)}/${data.id}`)
 
                 return <Link key={i} href={`/app/${encoded}`}>
                     <Image className='w-[82px] h-[82px] rounded-[11px] image-center' unoptimized width={20} height={40} src={"https://ipfs.io/ipfs/" + data.data?.images_url?.icon} alt={data.data?.name} />

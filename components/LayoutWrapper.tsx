@@ -246,7 +246,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
             <div className="border-t ml-20 border-[#FF0660] w-[1270px]" />
 
             <div className="flex items-center h-[48px] justify-center space-x-[15px]">
-              <p className="text-[#5D50C6] text-[12px]">Copyright 2022 Artreus.</p>
+              <p className="text-[#5D50C6] text-[12px]">Copyright 2023 Artreus.</p>
               <p className="text-[#5D50C6] text-[12px]">All right reserved</p>
               <p className="text-[#5D50C6] text-[12px]">Terms</p>
               <p className="text-[#5D50C6] text-[12px]">Privacy policy</p>

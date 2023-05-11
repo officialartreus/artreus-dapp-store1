@@ -14,6 +14,7 @@ const Myapps = () => {
   const [view, setView] = useState('grid')
   const [devData, setDevData] = useState('')
   const [userData, setUserData] = useState('')
+  const [data, setData] = useState('')
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount()
@@ -167,49 +168,84 @@ const Myapps = () => {
 
       </div>
 
-      <div className="absolute flex flex-col top-[440px] myapp w-[1190px] h-[598px] p-[32px] border-[3px] border-[#FF0660]">
+      {!data ?
+        (
+          <div className="absolute flex flex-col top-[440px] myapp w-[1190px] h-[598px] p-[32px] border-[3px] border-[#FF0660]">
 
-        <div className='bg-[#212121] rounded-[25px] mb-6 w-auto flex h-[40px] items-center justify-center '>
-          <p className='text-white'>Listed Dapps</p>
-        </div>
-        {/* <p className='text-2xl'>Dev Listed Dapps</p> */}
-        <div className="flex">
-          <div className='bg-[#212121] rounded-[55px] flex h-[40px] w-[108px] items-center justify-center '>
-            <Icon classes='w-[24px] h-[24px] ml-[-10px] mr-[5px]' name='add.svg' size={20} />
-            <p className='text-white'>Add</p>
+            <div className='bg-[#212121] rounded-[25px] mb-6 w-auto flex h-[40px] items-center justify-center '>
+              <p className='text-white'>Listed Dapps</p>
+            </div>
+            {/* <p className='text-2xl'>Dev Listed Dapps</p> */}
+            <div className="flex">
+              <div className='bg-[#212121] rounded-[55px] flex h-[40px] w-[108px] items-center justify-center '>
+                <Icon classes='w-[24px] h-[24px] ml-[-10px] mr-[5px]' name='add.svg' size={20} />
+                <p className='text-white'>Add</p>
+              </div>
+
+              <div className="flex ml-auto space-x-3 items-center">
+                <button onClick={() => handleViewChange('grid')}>
+                  <Icon classes='w-[24px] h-[24px] ' name='element-3.svg' size={20} />
+                </button>
+
+                <button onClick={() => handleViewChange('list')}>
+                  <Icon classes='w-[24px] h-[24px] ' name='row-vertical.svg' size={20} />
+                </button>
+              </div>
+            </div>
+
+            {view == 'grid' ?
+              (devData.length > 0 ? <GridView data={devData} /> : <GridView />) :
+              (devData.length > 0 ? <ListView data={devData} /> : <ListView />)
+            }
+
+
+            <div className='bg-[#212121] rounded-[25px] my-6 mt-16 w-auto flex h-[40px] items-center justify-center '>
+              <p className='text-white'>Bought Dapps</p>
+            </div>
+
+            {view == 'grid' ?
+              (userData.length > 0 ? <GridView data={userData} /> : <GridView />) :
+              (userData.length > 0 ? <ListView data={userData} /> : <ListView />)
+            }
+
+            <div className='mt-auto ml-auto'>
+              <Icon classes='w-[24px] h-[24px]' name='trash.svg' size={20} />
+            </div>
+
           </div>
+        )
+        :
+        (
+          <div className="absolute flex flex-col top-[440px] myapp w-[1190px] h-[598px] p-[32px] border-[3px] border-[#FF0660]">
+            <div className="flex">
+              <div className='bg-[#212121] rounded-[55px] flex h-[40px] w-[108px] items-center justify-center '>
+                <Icon classes='w-[24px] h-[24px] ml-[-10px] mr-[5px]' name='add.svg' size={20} />
+                <p className='text-white'>Add</p>
+              </div>
 
-          <div className="flex ml-auto space-x-3 items-center">
-            <button onClick={() => handleViewChange('grid')}>
-              <Icon classes='w-[24px] h-[24px] ' name='element-3.svg' size={20} />
-            </button>
+              <div className="flex ml-auto space-x-3 items-center">
+                <button onClick={() => handleViewChange('grid')}>
+                  <Icon classes='w-[24px] h-[24px] ' name='element-3.svg' size={20} />
+                </button>
 
-            <button onClick={() => handleViewChange('list')}>
-              <Icon classes='w-[24px] h-[24px] ' name='row-vertical.svg' size={20} />
-            </button>
+                <button onClick={() => handleViewChange('list')}>
+                  <Icon classes='w-[24px] h-[24px] ' name='row-vertical.svg' size={20} />
+                </button>
+              </div>
+            </div>
+
+            {view == 'grid' ?
+              (data.length > 0 ? <GridView data={data} /> : <GridView />) :
+              (data.length > 0 ? <ListView data={data} /> : <ListView />)
+            }
+
+            <div className='mt-auto ml-auto'>
+              <Icon classes='w-[24px] h-[24px]' name='trash.svg' size={20} />
+            </div>
+
           </div>
-        </div>
+        )}
 
-        {view == 'grid' ?
-          (devData.length > 0 ? <GridView data={devData} /> : <GridView />) :
-          (devData.length > 0 ? <ListView data={devData} /> : <ListView />)
-        }
-
-
-        <div className='bg-[#212121] rounded-[25px] my-6 mt-16 w-auto flex h-[40px] items-center justify-center '>
-          <p className='text-white'>Bought Dapps</p>
-        </div>
-
-        {view == 'grid' ?
-          (userData.length > 0 ? <GridView data={userData} /> : <GridView />) :
-          (userData.length > 0 ? <ListView data={userData} /> : <ListView />)
-        }
-
-        <div className='mt-auto ml-auto'>
-          <Icon classes='w-[24px] h-[24px]' name='trash.svg' size={20} />
-        </div>
-
-      </div>
       <div className="p-16 h-[150px]"></div>
 
     </div>
