@@ -8,10 +8,8 @@ import { Icon } from './Utils/Icon'
 
 import {
   useConnectModal,
-  useAccountModal,
-  useChainModal,
 } from '@rainbow-me/rainbowkit';
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect } from 'wagmi'
 
 import UAuth, { UserInfo } from '@uauth/js'
 import { useIsMounted } from '@/hooks/useIsMounted'
@@ -241,8 +239,8 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
               </div>
             </nav>
           </header>
-          <div>{children}</div>
-          <div className="bg-[#FFFFFF] pt-[69px] w-[1440px] ">
+          <div className='absolute'>{children}</div>
+          <div className="bg-[#FFFFFF] pt-[69px] w-[1440px]">
             <div className="border-t ml-20 border-[#FF0660] w-[1270px]" />
 
             <div className="flex items-center h-[48px] justify-center space-x-[15px]">

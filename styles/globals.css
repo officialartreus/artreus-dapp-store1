@@ -17,7 +17,7 @@
 }
 
 .h-fit {
-  height: fit-content;
+  height: fit-content !important;
 }
 
 .shadowPA {
