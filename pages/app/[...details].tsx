@@ -73,6 +73,10 @@ const AppDetails = (path: { path: string }) => {
 		enabled: nftAddress
 	})
 
+	console.log(token_id)
+	console.log(readBlockData)
+	console.log(nftAddress)
+
 	useEffect(() => {
 		if (!walletId) {
 			alert("Kindly Connect your wallet to view to view This app")
@@ -82,7 +86,7 @@ const AppDetails = (path: { path: string }) => {
 
 		nearWallet.startUp()
 		if (nearWallet.connected) {
-			const [id, _] = window.atob(path.path).split('/')
+			const [_, id] = window.atob(path.path).split('/')
 			settoken_id((id))
 
 			setTimeout(() => {
@@ -225,7 +229,7 @@ const AppDetails = (path: { path: string }) => {
 
 	}, [data])
 
-
+	// console.log(data)
 
 	if (!data) {
 		return <Loading />
