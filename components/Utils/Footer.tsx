@@ -36,21 +36,10 @@ export const Footer = () => {
 
 			<div className='mt-[57px] ml-auto flex space-x-[66px]'>
 				<div className='space-y-[26px]'>
-					<p className="font-semibold text-[24px]">Marketplace</p>
-					<p className="font-medium text-[#6039CF] text-[16px]">Explore</p>
-					<p className="font-medium text-[#6039CF] text-[16px]">Blog</p>
-					<p className="font-medium text-[#6039CF] text-[16px]">How it works</p>
-					<p className="font-medium text-[#6039CF] text-[16px]">Jobs</p>
-					<p className="font-medium text-[#6039CF] text-[16px]">Help Center</p>
-
-				</div>
-
-				<div className='space-y-[26px]'>
 					<p className="font-semibold text-[24px]">Dapp Store</p>
 					<p className="font-medium text-[#6039CF] text-[16px]">Apps</p>
 					<p className="font-medium text-[#6039CF] text-[16px]">Games</p>
 					<p className="font-medium text-[#6039CF] text-[16px]">Blog</p>
-					<p className="font-medium text-[#6039CF] text-[16px]">Jobs</p>
 					<p className="font-medium text-[#6039CF] text-[16px]">Help Center</p>
 
 				</div>

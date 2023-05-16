@@ -7,7 +7,6 @@ import { OwnedCards } from '../Utils/Cards'
 
 
 export const GridView = ({ data }: any) => {
-    console.log(data)
     return (
         <div className="flex mt-[34px] gap-[29px]">
 

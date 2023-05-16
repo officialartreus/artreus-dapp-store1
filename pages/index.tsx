@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import contract from '../contracts-connector/evm/addresses.json'
 import { useAccount, useContractRead, useNetwork } from "wagmi";
 import { getMarketAddress } from "@/hooks/selectChain";
+import Loading from "@/components/Utils/Loading";
 
 
 
@@ -66,10 +67,13 @@ export default function Home() {
     if (nearWallet.connected) {
       setTimeout(() => {
         MarketPlaceNfts()
-      }, 2000);
+        return
+      }, 5000);
     }
     if (isConnected) {
-      getAllDappsListeds(20)
+      setTimeout(() => {
+        getAllDappsListeds(20)
+      }, 5000);
     }
 
   }, [readData, getMarketAddress(chain), nearWallet.connected], isConnected)
@@ -90,6 +94,17 @@ export default function Home() {
     'Cyberpunk2077_1.png',
     'A Plague Tale Requiem 4.png'
   ]
+
+  if (isConnected || nearWallet.connected) {
+    if (!data) {
+      return (<Loading />)
+
+    } else {
+    }
+  } else {
+    alert('Connect Wallet to view Listed Dapps')
+    return
+  }
 
   return (
     <>
@@ -167,12 +182,12 @@ export default function Home() {
               NFTs
             </p>
 
-            <Link href={'/buynft'}>
-              <div className="flex ml-auto object-right mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
-                <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
-                <p className="ml-[5px] text-xl">Buy NFTs</p>
-              </div>
-            </Link>
+            {/* <Link href={'/buynft'}> */}
+            <div className="flex ml-auto object-right mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
+              <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
+              <p className="ml-[5px] text-xl">Coming Soon</p>
+            </div>
+            {/* </Link> */}
 
           </div>
         </div>
@@ -180,7 +195,7 @@ export default function Home() {
 
 
       {/* Hotlists nfts section  */}
-      <div className='mt-10 ml-20'>
+      {/* <div className='mt-10 ml-20'>
         <p className="text-[32px] text-[#4D4D4D] font-semibold my-2 mb-4">Hotlists NFTs</p>
 
 
@@ -219,7 +234,7 @@ export default function Home() {
 
         </div>
 
-      </div>
+      </div> */}
 
       {/* images section  */}
       {/* <div className='mt-10'>
@@ -237,17 +252,6 @@ export default function Home() {
           <p className="text-[32px] text-[#4D4D4D] font-semibold my-2  mb-4">Top Nfts</p>
           <MostPopular />
         </div>
-
-        <div className="mt-[45px]">
-          <p className="text-[32px] text-[#4D4D4D] font-semibold my-2  mb-4">Nft Games</p>
-          <MostPopular />
-        </div>
-
-        <div className="mt-[45px]">
-          <p className="text-[32px] text-[#4D4D4D] font-semibold my-2  mb-4">Nft Apps</p>
-          <MostPopular />
-        </div>
-
       </div>
 
       <div className="h-[110px]"></div>
