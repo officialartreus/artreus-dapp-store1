@@ -130,12 +130,12 @@ export default function Home() {
                   Purchase and Sell <br />
                   in Game assets
                 </p>
-                <Link href={'/buyassets'}>
-                  <div className="flex mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
-                    <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
-                    <p className="ml-[5px] text-xl">Buy Assets</p>
-                  </div>
-                </Link>
+                {/* <Link href={'/buyassets'}> */}
+                <div className="flex items-center mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
+                  <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
+                  <p className="ml-[5px] text-xl">Coming soon</p>
+                </div>
+                {/* </Link> */}
 
 
               </div>
@@ -180,7 +180,7 @@ export default function Home() {
                 </p>
 
                 {/* <Link href={'/buynft'}> */}
-                <div className="flex ml-auto object-right mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
+                <div className="flex items-center ml-auto object-right mt-6 w-fit p-1 px-3 bg-[#F5F5F5] rounded-[55px]">
                   <Icon classes='text-white h-[25px] w-[24px]' size={23} name='shop.png' />
                   <p className="ml-[5px] text-xl">Coming Soon</p>
                 </div>
@@ -243,13 +243,16 @@ export default function Home() {
       </div> */}
 
 
-          <div className='mt-10 ml-20'>
 
-            <div className="mt-[45px]">
-              <p className="text-[32px] text-[#4D4D4D] font-semibold my-2  mb-4">Top Nfts</p>
-              <MostPopular />
+
+          <section className="ml-20 mt-10">
+            <div>
+              <p className="text-[32px] font-semibold my-2 mb-4">Recently Listed Games</p>
             </div>
-          </div>
+            {data.length > 0 ? <MostPopular data={data} /> : <MostPopular />}
+          </section>
+
+
 
           <div className="h-[110px]"></div>
 

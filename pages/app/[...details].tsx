@@ -73,10 +73,6 @@ const AppDetails = (path: { path: string }) => {
 		enabled: nftAddress
 	})
 
-	console.log(token_id)
-	console.log(readBlockData)
-	console.log(nftAddress)
-
 	useEffect(() => {
 		if (!walletId) {
 			alert("Kindly Connect your wallet to view to view This app")
@@ -203,10 +199,8 @@ const AppDetails = (path: { path: string }) => {
 			}
 		}
 		else if (isConnected) {
-			console.log(buyTxError)
 			setenableBuy(true)
 			setTimeout(() => {
-				console.log(evmBuyConfig)
 				BuyEVM?.()
 			}, 1000);
 		}
