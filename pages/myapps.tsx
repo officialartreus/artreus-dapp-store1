@@ -53,7 +53,7 @@ const Myapps = () => {
       })
 
       newerData = await Promise.all(newerData)
-      setData(newerData)
+      setDevData(newerData)
     }
     catch (e) {
       console.log(e)
@@ -172,9 +172,11 @@ const Myapps = () => {
 
             <div className="absolute flex flex-col top-[440px] myapp w-[1190px] h-fit p-[32px] border-[3px] border-[#FF0660]">
 
-              <div className='bg-[#212121] rounded-[25px] mb-6 w-auto flex h-[40px] items-center justify-center '>
-                <p className='text-white'>Listed Dapps</p>
-              </div>
+              {!nearWallet.connected &&
+                <div className='bg-[#212121] rounded-[25px] mb-6 w-auto flex h-[40px] items-center justify-center '>
+                  <p className='text-white'>Listed Dapps</p>
+                </div>
+              }
               {/* <p className='text-2xl'>Dev Listed Dapps</p> */}
               <div className="flex">
                 <div className='bg-[#212121] rounded-[55px] flex h-[40px] w-[108px] items-center justify-center '>
@@ -198,13 +200,21 @@ const Myapps = () => {
                 (devData.length > 0 ? <ListView data={devData} /> : <ListView />)
               }
 
-              <div className='bg-[#212121] mt-[4rem] rounded-[25px] mb-6 w-auto flex h-[40px] items-center justify-center '>
-                <p className='text-white'>Bought Dapps</p>
-              </div>
-              {view == 'grid' ?
-                (devData.length > 0 ? <GridView data={devData} /> : <GridView />) :
-                (devData.length > 0 ? <ListView data={devData} /> : <ListView />)
-              }
+              {nearWallet.connected ? '' :
+                (
+                  <div>
+                    <div className='bg-[#212121] mt-[4rem] rounded-[25px] mb-6 w-auto flex h-[40px] items-center justify-center '>
+                      <p className='text-white'>Bought Dapps</p>
+                    </div>
+                    {view == 'grid' ?
+                      (userData.length > 0 ? <GridView data={userData} /> : <GridView />) :
+                      (userData.length > 0 ? <ListView data={userData} /> : <ListView />)}
+                  </div>
+
+
+                )}
+
+
             </div>
           </div>
         </div>

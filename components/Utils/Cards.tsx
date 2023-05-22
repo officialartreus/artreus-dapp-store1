@@ -146,7 +146,7 @@ export const MiniCards = ({ data }: any) => {
 							))}
 						</div>
 						<Link href='/app/cyberpunk'>
-							<button className='text-white font-semibold h-[27px] w-[54px] bg-[#212121] rounded-2xl'>Get</button>
+							<button disabled className='text-white font-semibold h-[27px] w-[54px] bg-[#212121] rounded-2xl'>Get</button>
 						</Link>
 					</div>
 				</div>
@@ -218,7 +218,7 @@ export const Card = (props: Props) => {
 
 	return (
 		<>
-			<div className="card rounded-md bg-[#FFFFFF] w-[212px] h-[236px]">
+			<div className=" shadow-md rounded-md bg-[#FFFFFF] w-[212px] h-[236px]">
 				<div className={`rounded-t-[20px] bg-no-repeat bg-center w-[212px] h-[160px] bg-[url(/images/` + props.src + `)]`}>
 					<Image unoptimized className='rounded-t-[20px] w-[212px] h-[160px] ' src={props.src} width={212} height={212} alt={props.src} />
 				</div>

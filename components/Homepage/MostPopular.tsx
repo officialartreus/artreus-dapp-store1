@@ -57,6 +57,7 @@ export const MostPopular = ({ data }: any) => {
 
                     const { data } = datas
                     if (!data?.images_url.icon) return
+                    if (i > 5) return
 
                     return <Link key={i} href={`/app/${encoded}`}>
                         <Card key={i} src={`https://ipfs.io/ipfs/${data.images_url?.icon}`} name={data.name} icon={'game'} />

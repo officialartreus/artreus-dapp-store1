@@ -108,17 +108,30 @@ export default function Home() {
           <Hero />
 
           {/* most popular  */}
-          <section className="ml-20">
-            <div>
-              <p className="text-[32px] font-semibold my-2  mb-4">Most Popular Games</p>
+          <section className="ml-20 mt-6">
+            <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
+              <div className="flex items-center mb-6">
+                <p className="text-[32px] font-semibold flex-1">Most Popular Games</p>
+                <Link className="text-[20px] font-semibold p-0 m-0 text-[#212121]" href={'/'}>
+                  See More
+                </Link>
+              </div>
+              {data.length > 0 ? <MostPopular data={data} /> : <MostPopular />}
             </div>
-            {data.length > 0 ? <MostPopular data={data} /> : <MostPopular />}
           </section>
 
           {/* recently added  */}
           <div className='mt-10 ml-20'>
-            <p className="text-[32px] font-semibold my-2 mb-4">Recently Added</p>
-            {data.length > 0 ? <HotAssets len={12} data={data} /> : <HotAssets len={12} />}
+
+            <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
+              <div className="flex items-center mb-6">
+                <p className="text-[32px] font-semibold flex-1">Recently Added</p>
+                <Link className="text-[20px] font-semibold p-0 m-0 text-[#212121]" href={'/'}>
+                  See More
+                </Link>
+              </div>
+              {data.length > 0 ? <HotAssets len={12} data={data} /> : <HotAssets len={12} />}
+            </div>
           </div>
 
           {/* Purchase and Sell  */}
@@ -142,10 +155,21 @@ export default function Home() {
             </div>
           </section>
 
+
+
           {/* hot assets  */}
+
+
           <div className='mt-10 ml-20'>
-            <p className="text-[32px] font-semibold my-2 mb-4">Hot Assets</p>
-            <HotAssets len={12} />
+            <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
+              <div className="flex items-center mb-6">
+                <p className="text-[32px] font-semibold flex-1">Hot Assets (Coming Soon)</p>
+                <Link className="text-[20px] font-semibold p-0 m-0 text-[#212121]" href={'/'}>
+                  See More
+                </Link>
+              </div>
+              <HotAssets len={5} />
+            </div>
           </div>
 
           {/* Cyberpunk2077_1  */}
@@ -246,10 +270,16 @@ export default function Home() {
 
 
           <section className="ml-20 mt-10">
-            <div>
-              <p className="text-[32px] font-semibold my-2 mb-4">Recently Listed Games</p>
+
+            <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
+              <div className="flex items-center mb-6">
+                <p className="text-[32px] font-semibold flex-1">Recently Listed Games</p>
+                <Link className="text-[20px] font-semibold p-0 m-0 text-[#212121]" href={'/'}>
+                  See More
+                </Link>
+              </div>
+              {data.length > 0 ? <MostPopular data={data} /> : <MostPopular />}
             </div>
-            {data.length > 0 ? <MostPopular data={data} /> : <MostPopular />}
           </section>
 
 
