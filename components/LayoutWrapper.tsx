@@ -8,10 +8,8 @@ import { Icon } from './Utils/Icon'
 
 import {
   useConnectModal,
-  useAccountModal,
-  useChainModal,
 } from '@rainbow-me/rainbowkit';
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect } from 'wagmi'
 
 import UAuth, { UserInfo } from '@uauth/js'
 import { useIsMounted } from '@/hooks/useIsMounted'
@@ -168,7 +166,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
           <header>
             <nav className='relative'>
-              <div className='navbar w-[100%] fixed '>
+              <div className='navbar fixed w-[100%] '>
 
                 <div className='space-x-16 flex a-center justify-end bg-[#212121] py-2'>
 
@@ -208,7 +206,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
               </div>
 
 
-              <div className='fixed side-nav z-5104 w-[55px] h-[100vh] bg-[#212121]'>
+              <div className=' fixed side-nav z-5104 w-[55px] h-[100vh] bg-[#212121]'>
                 <div className='justify-center'>
                   <Link href={'/'}>
                     <Icon classes='pt-3 m-auto' name={'logo.svg'} size={35} />
@@ -241,19 +239,23 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
               </div>
             </nav>
           </header>
-          <div>{children}</div>
-          <div className="bg-[#FFFFFF] pt-[69px] w-[1440px] ">
-            <div className="border-t ml-20 border-[#FF0660] w-[1270px]" />
+          <div className=''>{children}</div>
 
-            <div className="flex items-center h-[48px] justify-center space-x-[15px]">
-              <p className="text-[#5D50C6] text-[12px]">Copyright 2023 Artreus.</p>
-              <p className="text-[#5D50C6] text-[12px]">All right reserved</p>
-              <p className="text-[#5D50C6] text-[12px]">Terms</p>
-              <p className="text-[#5D50C6] text-[12px]">Privacy policy</p>
+          {!location.href.includes('myapps') && (
+            <div className="bg-[#FFFFFF] pt-[69px] w-[1440px]">
+              <div className="border-t ml-20 border-[#FF0660] w-[1270px]" />
+
+              <div className="flex items-center h-[48px] justify-center space-x-[15px]">
+                <p className="text-[#5D50C6] text-[12px]">Copyright 2023 Artreus.</p>
+                <p className="text-[#5D50C6] text-[12px]">All right reserved</p>
+                <p className="text-[#5D50C6] text-[12px]">Terms</p>
+                <p className="text-[#5D50C6] text-[12px]">Privacy policy</p>
+
+              </div>
 
             </div>
+          )}
 
-          </div>
           <ConnectModal isOpen={isOpen} setSelected={setSelected} setIsOpen={setIsOpen} />
 
 

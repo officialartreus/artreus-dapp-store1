@@ -53,10 +53,11 @@ export const MostPopular = ({ data }: any) => {
         <div>
             <div className="flex space-x-5 ">
                 {data ? data.map((datas: any, i: number) => {
-                    const encoded = window.btoa(`${datas.id || datas.nft_contract}/${datas.id}`)
+                    const encoded = window.btoa(`${datas.nft_contract}/${datas.id}`)
 
                     const { data } = datas
                     if (!data?.images_url.icon) return
+                    if (i > 10) return
 
                     return <Link key={i} href={`/app/${encoded}`}>
                         <Card key={i} src={`https://ipfs.io/ipfs/${data.images_url?.icon}`} name={data.name} icon={'game'} />
