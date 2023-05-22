@@ -176,17 +176,20 @@ const AppDetails = (path: { path: string }) => {
 	const handleUnlist = async () => {
 		if ((data?.owner_id || data?.owner) != walletId) return
 
-		try {
-			const tx = await remove_sale({
-				nft_contract_id: 'newminter.danieldave.testnet',
-				contractId: NEAR_MARKETPLACE_ADDRESS,
-				token_id: String(token_id),
-				deposit: String('1')
-			})
+		if (nearWallet.connected) {
+			try {
+				const tx = await remove_sale({
+					nft_contract_id: 'newminter.danieldave.testnet',
+					contractId: NEAR_MARKETPLACE_ADDRESS,
+					token_id: String(token_id),
+					deposit: String('1')
+				})
 
-			return tx
-		} catch (unlistErr: any) {
-			console.log(unlistErr)
+				return tx
+			} catch (unlistErr: any) {
+				console.log(unlistErr)
+			}
+			return
 		}
 	}
 
