@@ -13,7 +13,7 @@ type GameData = {
 }[]
 
 
-export const MostPopular = ({ data }: any) => {
+export const MostPopular = ({ data, num }: any) => {
 
     const mostPopular = [
         {
@@ -48,18 +48,20 @@ export const MostPopular = ({ data }: any) => {
         },
 
     ]
+    let count = 0
 
     return (
         <div>
-            <div className="flex space-x-5 ">
+            <div className="grid grid-cols-4 lg:grid-cols-5 pc:grid-cols-6 gap-6 ">
                 {data ? data.map((datas: any, i: number) => {
-                    const encoded = window.btoa(`${datas.nft_contract}/${datas.id}`)
+                    const encoded = window.btoa(`${datas.nft_contract}/${datas.id}/${datas.chainId}`)
 
                     const { data } = datas
                     if (!data?.images_url.icon) return
-                    if (i > 10) return
+                    if (count == num) return
+                    count++
 
-                    return <Link key={i} href={`/app/${encoded}`}>
+                    return <Link key={i} target="_blank" href={`/app/${encoded}`}>
                         <Card key={i} src={`https://ipfs.io/ipfs/${data.images_url?.icon}`} name={data.name} icon={'game'} />
                     </Link>
                 })

@@ -37,6 +37,10 @@ module.exports = {
         brandblack3: "#a6a6a6",
         brandblack4: "#d3d3d3",
         brandblack4: "#d3d3d3",
+      },
+      screens: {
+        'pc': '1510px',
+        'ipad': '860px',
       }
     },
   },

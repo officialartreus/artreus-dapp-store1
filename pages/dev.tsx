@@ -28,6 +28,7 @@ export default function Dev() {
   const [mintText, setMintText] = React.useState('Upload Items')
   const [uploadStatus, setUploadStatus] = React.useState(-1)
   const [uri, seturi] = useState('')
+  const [textCount, settextCount] = useState(0)
 
   const { address, isConnected } = useAccount()
   const { chain } = useNetwork();
@@ -150,6 +151,8 @@ export default function Dev() {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val: any = e.target.value
+    if (val.length > 15) return
+    settextCount(val.length)
     setName(val)
   }
 
@@ -223,19 +226,18 @@ export default function Dev() {
 
 
   return (
-    <div className='ml-20'>
-      <div className='pt-20'></div>
-      <section className='md:mx-10 px-16 md:px-0'>
+    <div className=''>
+      <section className='md:mx-10 px-[30px] md:px-0'>
         <h1 className='text-2xl text-center md:text-3xl font-bold mb-4'>Create New Apps or Games
         </h1>
 
-        <div className='flex flex-col mt-6'>
+        <div className='flex pc:w-[1200px] mx-auto flex-col mt-6'>
           <p>Kindly fill the form below to list your App</p>
           <p> <strong>*</strong>  fields are compulsory</p>
           <div>
 
             <div className='mt-4'>
-              <Input placeholder='Enter Your App or Game Name' label="Name *" type='text' onChange={handleNameChange} />
+              <Input placeholder={`Enter Your App or Game Name`} label={`Name - max length ${textCount}/15 *`} type='text' maxLength={15} onChange={handleNameChange} />
 
               <Input placeholder='Enter Total Supply' label="Total Supply *" type='text' onChange={handleSupplyChange} />
 

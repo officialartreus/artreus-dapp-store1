@@ -94,7 +94,8 @@ const Myapps = () => {
           owner: data.owner,
           nft_contract: data.nft,
           data: a,
-          id: data.id
+          id: data.id,
+          chainId: chain.id
         };
       }
     })
@@ -122,7 +123,8 @@ const Myapps = () => {
           owner: data.owner,
           nft_contract: data.nft,
           data: a,
-          id: data.id
+          id: data.id,
+          chainId: chain.id
         };
       }
     })
@@ -151,10 +153,10 @@ const Myapps = () => {
     if (devData || data || userData) {
       return (
         <div className='relative '>
-          <div className='absolute ml-[128px] mb-[4rem]'>
+          <div className='px-[30px]'>
 
-            <div className="cloud-section p-[26px] mt-[140px] pb-[39px] relative w-[1192px] h-[270px] flex">
-              <Image className='w-[690px] absolute left-[-10px] top-[-60px] h-[322px] mb-[20px]' width={20} height={40} src={'/images/Splashes.svg'} alt='Splashes.svg' />
+            <div className="cloud-section p-[26px] mt-[35px] pb-[39px] relative w-[100%] h-[270px] flex">
+              <Image className='w-[60%] absolute left-[-10px] top-[-60px] h-[322px] mb-[20px]' width={20} height={40} src={'/images/Splashes.svg'} alt='Splashes.svg' />
               <p className='text-[#FFFFFF] flex mt-auto ml-auto text-[50px] font-bold '>My Art Space</p>
             </div>
 
@@ -170,7 +172,7 @@ const Myapps = () => {
 
             </div>
 
-            <div className="absolute flex flex-col top-[440px] myapp w-[1190px] h-fit p-[32px] border-[3px] border-[#FF0660]">
+            <div className="flex flex-col myapp mt-[30px] w-[100%] h-fit p-[32px] border-[3px] border-[#FF0660]">
 
               {!nearWallet.connected &&
                 <div className='bg-[#212121] rounded-[25px] mb-6 w-auto flex h-[40px] items-center justify-center '>

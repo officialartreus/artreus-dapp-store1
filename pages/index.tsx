@@ -3,9 +3,7 @@ import { Icon } from "@/components/Utils/Icon";
 import Image from "next/image";
 import { Hero, HotAssets, MostPopular } from "@/components/Homepage";
 import Link from "next/link";
-import { HotLists } from "@/components/Homepage/HotLists";
 import { Footer, getListedNfts, } from "@/components/Utils";
-
 import { nearWallet } from '../contracts-connector/near/near-interface'
 
 import { useEffect, useState } from "react";
@@ -45,7 +43,8 @@ export default function Home() {
           owner: data.owner,
           nft_contract: data.nft,
           data: a,
-          id: data.id
+          id: data.id,
+          chainId: chain?.id
         };
       }
     })
@@ -97,7 +96,6 @@ export default function Home() {
     'A Plague Tale Requiem 4.png'
   ]
 
-  console.log(data)
 
   if (isConnected || nearWallet.connected) {
     if (!data) {
@@ -108,25 +106,25 @@ export default function Home() {
           <Hero />
 
           {/* most popular  */}
-          <section className="ml-20 mt-6">
+          <section className="px-[30px]">
             <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
               <div className="flex items-center mb-6">
                 <p className="text-[32px] font-semibold flex-1">Most Popular Games</p>
-                <Link className="text-[20px] font-semibold p-0 m-0 text-[#212121]" href={'/'}>
+                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'mostpopular'}>
                   See More
                 </Link>
               </div>
-              {data.length > 0 ? <MostPopular data={data} /> : <MostPopular />}
+              {data.length > 0 ? <MostPopular num={6} data={data} /> : <MostPopular />}
             </div>
           </section>
 
           {/* recently added  */}
-          <div className='mt-10 ml-20'>
+          <div className='mt-10 px-[30px]'>
 
             <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
               <div className="flex items-center mb-6">
                 <p className="text-[32px] font-semibold flex-1">Recently Added</p>
-                <Link className="text-[20px] font-semibold p-0 m-0 text-[#212121]" href={'/'}>
+                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'recentlyadded'}>
                   See More
                 </Link>
               </div>
@@ -135,7 +133,7 @@ export default function Home() {
           </div>
 
           {/* Purchase and Sell  */}
-          <section className="ml-20 mt-[70px]">
+          <section className="px-[30px] mt-[70px]">
             <div className="relative">
               <Image unoptimized alt='' className="rounded-[30px] border-[3px] border-[#FF3880] w-[100%] object-cover h-[300px]" width={200} height={200} src='/images/Battle.png' />
               <div className="absolute top-[17%] left-[10%] ">
@@ -160,11 +158,11 @@ export default function Home() {
           {/* hot assets  */}
 
 
-          <div className='mt-10 ml-20'>
+          <div className='mt-10 px-[30px]'>
             <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
               <div className="flex items-center mb-6">
                 <p className="text-[32px] font-semibold flex-1">Hot Assets (Coming Soon)</p>
-                <Link className="text-[20px] font-semibold p-0 m-0 text-[#212121]" href={'/'}>
+                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'/'}>
                   See More
                 </Link>
               </div>
@@ -173,7 +171,7 @@ export default function Home() {
           </div>
 
           {/* Cyberpunk2077_1  */}
-          <section className="ml-20 mt-[70px]">
+          <section className="px-[30px] mt-[70px]">
             <div className="relative">
               <Image unoptimized alt='' className="object-center rounded-[30px] border-[3px] border-[#FF3880] w-[100%] object-cover h-[430px]" width={200} height={200} src='/images/Cyberpunk2077_1.png' />
               <div className="absolute top-[43%] left-[43%] ">
@@ -183,7 +181,7 @@ export default function Home() {
           </section>
 
           {/* Buy and Sell NFTs section  */}
-          <section className="ml-20 relative mt-[70px]">
+          <section className="px-[30px] relative mt-[70px]">
             <div className="cloud-section w-[100%] overflow-hidden h-[312px]">
 
               <div>
@@ -216,7 +214,7 @@ export default function Home() {
 
 
           {/* Hotlists nfts section  */}
-          {/* <div className='mt-10 ml-20'>
+          {/* <div className='mt-10 px-[30px]'>
         <p className="text-[32px] text-[#4D4D4D] font-semibold my-2 mb-4">Hotlists NFTs</p>
 
 
@@ -269,22 +267,22 @@ export default function Home() {
 
 
 
-          <section className="ml-20 mt-10">
+          <section className="px-[30px] my-10">
 
             <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
               <div className="flex items-center mb-6">
                 <p className="text-[32px] font-semibold flex-1">Recently Listed Games</p>
-                <Link className="text-[20px] font-semibold p-0 m-0 text-[#212121]" href={'/'}>
+                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'/'}>
                   See More
                 </Link>
               </div>
-              {data.length > 0 ? <MostPopular data={data} /> : <MostPopular />}
+              {data.length > 0 ? <MostPopular num={6} data={data} /> : <MostPopular />}
             </div>
           </section>
 
 
 
-          <div className="h-[110px]"></div>
+
 
           <Footer />
 

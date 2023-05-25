@@ -12,7 +12,7 @@ export const GridView = ({ data }: any) => {
 
             {data ? data.map((data: any, i: number) => {
 
-                const encoded = window.btoa(`${(data.nft_contract)}/${data.token_id || data.id}`)
+                const encoded = window.btoa(`${(data.nft_contract)}/${data.token_id || data.id}/${data.chainId}`)
 
                 return <Link key={i} href={`/app/${encoded}`}>
                     <Image className='w-[82px] h-[82px] rounded-[11px] image-center' unoptimized width={20} height={40} src={"https://ipfs.io/ipfs/" + data.data?.images_url?.icon} alt={data.data?.name} />
@@ -44,7 +44,7 @@ export const ListView = ({ data }: any) => {
         <div className="flex  flex-wrap mt-[34px] gap-[29px]">
 
             {data ? data.map((data: any, i: number) => {
-                const encoded = window.btoa(`${data.nft_contract}/${data.token_id || data.id}`)
+                const encoded = window.btoa(`${data.nft_contract}/${data.token_id || data.id}/${data.chainId}`)
 
                 return <Link key={i} href={`/app/${encoded}`}>
                     <OwnedCards data={data} />

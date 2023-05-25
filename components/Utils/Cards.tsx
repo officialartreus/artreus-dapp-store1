@@ -92,18 +92,17 @@ export const CountDownCard = () => {
 
 export const MiniCards = ({ data }: any) => {
 	if (data) {
-		if (!data?.data?.images_url?.icon) return
-		const encoded = window.btoa(`${data.nft_contract}/${data.id}`)
+		const encoded = window.btoa(`${data.nft_contract}/${data.id}/${data.chainId}`)
 		return (
 			<div>
-				<div className="rounded-md flex w-[261px]">
+				<div className="rounded-md flex w-[100%] p-2 border">
 					<div >
 						<Image className='minicard border-[3px] border-[#FF3880] object-cover w-[72px] h-[72px] ' src={`https://ipfs.io/ipfs/${data.data?.images_url?.icon}`} width={212} height={212} alt={''} />
 					</div>
 					<div className='ml-2'>
 						<div>
-							<Link href={`app/${encoded}`}>
-								<p className='text-[16px] font-semibold text-[#4D4D4D]'>{data.data.name}</p>
+							<Link target="_blank" href={`app/${encoded}`}>
+								<p className='text-[16px] font-semibold text-[#4D4D4D]'>{data.data.name.length > 15 ? `${data.data.name.slice(0, 15)} ...` : data.data.name}</p>
 							</Link>
 							<p className='text-[#FF3880] text-[12px]'>App / Games</p>
 
@@ -114,7 +113,7 @@ export const MiniCards = ({ data }: any) => {
 									<Icon classes='h-[20px] w-[16px] cursor-pointer' size={12} name='star.png' key={i} />
 								))}
 							</div>
-							<Link href={`app/${encoded}`}>
+							<Link target="_blank" href={`app/${encoded}`}>
 								<button className='text-white font-semibold h-[27px] w-[54px] bg-[#212121] rounded-2xl'>Get</button>
 							</Link>
 						</div>
@@ -127,9 +126,9 @@ export const MiniCards = ({ data }: any) => {
 
 	return (
 		<>
-			<div className="rounded-md flex w-[261px]">
+			<div className="rounded-md flex w-[100%] p-2 border">
 				<div >
-					<Image className='minicard border-[3px] border-[#FF3880] object-cover w-[72px] h-[72px] ' src={`/images/Magequit_Cover.jpg`} width={212} height={212} alt={''} />
+					<Image className='minicard border-[3px] border-[#FF3880] object-cover w-[72px] h-[72px] ' src={`/images/Magequit_Cover.jpg`} width={3} height={212} alt={''} />
 				</div>
 				<div className='ml-2'>
 					<div>
@@ -218,12 +217,12 @@ export const Card = (props: Props) => {
 
 	return (
 		<>
-			<div className=" shadow-md rounded-md bg-[#FFFFFF] w-[212px] h-[236px]">
-				<div className={`rounded-t-[20px] bg-no-repeat bg-center w-[212px] h-[160px] bg-[url(/images/` + props.src + `)]`}>
-					<Image unoptimized className='rounded-t-[20px] w-[212px] h-[160px] ' src={props.src} width={212} height={212} alt={props.src} />
+			<div className=" shadow-md rounded-md bg-[#FFFFFF] h-[236px]">
+				<div className={`rounded-t-[20px] bg-no-repeat bg-center  w-[100%] h-[160px] bg-[url(/images/` + props.src + `)]`}>
+					<Image unoptimized className='rounded-t-[20px] w-[100%] h-[160px] ' src={props.src} width={212} height={212} alt={props.src} />
 				</div>
 				<div className='p-2'>
-					<p className='mb-2 text-[#FF3880] text-lg'>{props.name}</p>
+					<p className='mb-2 text-[#FF3880] text-lg'>{props.name.length > 15 ? `${props.name.slice(0, 15)} ...` : props.name}</p>
 					<div className="flex justify-between ">
 						<div className='flex space-x-1'>
 							{Array(5).fill(true).map((_, i) => (

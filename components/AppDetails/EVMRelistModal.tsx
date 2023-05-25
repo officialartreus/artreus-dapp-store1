@@ -27,7 +27,7 @@ export default function EVMRelistModal({ setIsOpen, isOpen, data }: any) {
 		enabled: enableList
 	})
 
-	const { data: ListTx, write: ListEVMDapps } = useContractWrite(evmListConfig)
+	const { data: ListTx, write: ListEVMDapps, isLoading } = useContractWrite(evmListConfig)
 
 	useEffect(() => {
 		console.log(ListTx)
@@ -97,7 +97,7 @@ export default function EVMRelistModal({ setIsOpen, isOpen, data }: any) {
 													setPrice(e.target.value)
 												}} />
 
-											<button className='w-fit bg-[#6039CF] p-2 rounded-lg' onClick={approve}>Relist</button>
+											<button className='w-fit bg-[#6039CF] p-2 rounded-lg' onClick={approve}>{isLoading ? "Please Wait ..." : "Relist"}</button>
 										</div>
 
 									</div>
