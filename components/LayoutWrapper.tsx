@@ -150,7 +150,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   }, [uDauth])
 
   if (winSize.width != undefined) {
-    if (winSize.width < 760) {
+    if (winSize.width < 860) {
       return <OnlyDeskop />
     } else {
       return (
@@ -166,11 +166,11 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
           <header>
             <nav className='relative'>
-              <div className='navbar fixed w-[100%] '>
+              <div className='navbar fixed w-[100%]'>
 
                 <div className='space-x-16 flex a-center justify-end bg-[#212121] py-2'>
 
-                  <div className='flex bg-[#4D4D4D]  w-[30%] a-center p-2 rounded-xl'>
+                  <div className='flex bg-[#4D4D4D] w-[30%] a-center p-2 rounded-xl'>
                     <Icon classes='mr-2' name='search-icon.png' size={20} />
                     <input className='input flex-1 outline-none bg-transparent' type="text" placeholder='Games / Apps / Assets' />
                   </div>
@@ -239,11 +239,12 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
               </div>
             </nav>
           </header>
-          <div className=''>{children}</div>
+          <div className='h-[96px]'></div>
+          <div className='ml-[55px]'>{children}</div>
 
           {!location.href.includes('myapps') && (
-            <div className="bg-[#FFFFFF] pt-[69px] w-[1440px]">
-              <div className="border-t ml-20 border-[#FF0660] w-[1270px]" />
+            <div className="bg-[#FFFFFF] pt-[69px] flex items-center flex-col w-[100vw]">
+              <div className="border-t border-[#FF0660] w-[1270px]" />
 
               <div className="flex items-center h-[48px] justify-center space-x-[15px]">
                 <p className="text-[#5D50C6] text-[12px]">Copyright 2023 Artreus.</p>

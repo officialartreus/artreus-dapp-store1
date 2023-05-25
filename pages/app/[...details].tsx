@@ -74,6 +74,7 @@ const AppDetails = (path: { path: string }) => {
 	})
 
 	useEffect(() => {
+
 		if (!walletId) {
 			alert("Kindly Connect your wallet to view to view This app")
 			window.location.replace(window.location.origin)
@@ -82,7 +83,7 @@ const AppDetails = (path: { path: string }) => {
 
 		nearWallet.startUp()
 		if (nearWallet.connected) {
-			const [_, id] = window.atob(path.path).split('/')
+			const [_, id, __] = window.atob(path.path).split('/')
 			settoken_id((id))
 
 			setTimeout(() => {
@@ -92,9 +93,11 @@ const AppDetails = (path: { path: string }) => {
 			return
 		}
 		if (isConnected) {
-			const [nft, id] = window.atob(path.path).split('/')
+			const [nft, id, chain_Id] = window.atob(path.path).split('/')
 			setnftAddress(nft)
 			settoken_id(Number(id))
+
+			if (chain?.id != Number(chain_Id)) window.location.replace(window.location.origin)
 
 			if (id == '0') setfunctCall('devDappInfo')
 			else setfunctCall('userDappInfo')
@@ -160,9 +163,9 @@ const AppDetails = (path: { path: string }) => {
 		enabled: enableBuy
 	})
 
-	const { data: BuyTx, write: BuyEVM, error: buyTxError } = useContractWrite(evmBuyConfig)
+	const { data: BuyTx, write: BuyEVM, error: buyTxError, isLoading } = useContractWrite(evmBuyConfig)
 
-	const { data: waittx, isError, isLoading } = useWaitForTransaction({
+	const { data: waittx, isError, error: buyerror } = useWaitForTransaction({
 		hash: BuyTx?.hash,
 	})
 
@@ -170,6 +173,7 @@ const AppDetails = (path: { path: string }) => {
 		if (waittx) {
 			if (!isError)
 				window.location.replace(window.location.origin + '/myapps')
+			else console.log(buyerror)
 		}
 	}, [waittx])
 
@@ -202,10 +206,7 @@ const AppDetails = (path: { path: string }) => {
 			}
 		}
 		else if (isConnected) {
-			setenableBuy(true)
-			setTimeout(() => {
-				BuyEVM?.()
-			}, 1000);
+			BuyEVM?.()
 		}
 		else {
 			alert('You`re not Connected')
@@ -217,6 +218,7 @@ const AppDetails = (path: { path: string }) => {
 
 	useEffect(() => {
 		if (!data) return
+		setenableBuy(true)
 		let des = data?.data?.description
 		des = des?.length > 300 ? des?.slice(0, 300) : des
 		setDesc(des)
@@ -226,17 +228,14 @@ const AppDetails = (path: { path: string }) => {
 
 	}, [data])
 
-	// console.log(data)
+	console.log(data)
 
 	if (!data) {
 		return <Loading />
-	} else {
+	} else if (data.data != undefined) {
 		return (
 			<>
-				<div className='ml-20 text-[#7A7A7A]'>
-
-					{/* clear fix */}
-					<div className="absolte t-0 h-[80px]"></div>
+				<div className='px-[30px] text-[#7A7A7A]'>
 
 					<div className='flex space-x-[55px]'>
 						<div>
@@ -372,10 +371,11 @@ const AppDetails = (path: { path: string }) => {
 											(data?.owner_id || data?.owner) != walletId ?
 												(
 													<button className={`bg-[#6039CF] rounded-[12px] w-[280px] h-[48px] flex items-center justify-center`}
-														onClick={handleBuy}>
-
+														onClick={handleBuy}
+														disabled={isLoading}
+													>
 														<Icon classes='mr-5' name='document.svg' size={20} />
-														<p className='text-[#A6A6A6] text-[16px] font-semibold'>Buy</p>
+														<p className='text-[#A6A6A6] text-[16px] font-semibold'>{isLoading ? "Please Wait ..." : "Buy"}</p>
 													</button>
 												)
 												:
@@ -409,13 +409,13 @@ const AppDetails = (path: { path: string }) => {
 					</div>
 
 					<div className='mt-[30px]'>
-						<div className='bg-[#FCFCFC] flex space-x-[23px] p-[28px] rounded-[20px] w-[1194px] h-[287px] '>
+						<div className='bg-[#FCFCFC] p-[28px] rounded-[20px] h-[287px] grid grid-cols-3 w-[100vw] gap-[15px]'>
 
-							<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.data.images_url?.image1}`} />
+							<Image unoptimized alt='' className="rounded-[20px]  w-[100%] object-cover h-[230px]" width={2} height={200} src={`https://ipfs.io/ipfs/${data.data.images_url?.image1}`} />
 
-							<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.data.images_url?.image2}`} />
+							<Image unoptimized alt='' className="rounded-[20px]  w-[100%] object-cover h-[230px]" width={2} height={200} src={`https://ipfs.io/ipfs/${data.data.images_url?.image2}`} />
 
-							<Image unoptimized alt='' className="rounded-[20px]  w-[367px] object-cover h-[230px]" width={500} height={200} src={`https://ipfs.io/ipfs/${data.data.images_url?.image3}`} />
+							<Image unoptimized alt='' className="rounded-[20px]  w-[100%] object-cover h-[230px]" width={2} height={200} src={`https://ipfs.io/ipfs/${data.data.images_url?.image3}`} />
 
 						</div>
 					</div>
@@ -649,7 +649,7 @@ const AppDetails = (path: { path: string }) => {
 				}
 			</>
 		)
-	}
+	} else window.location.replace(window.location.origin)
 
 }
 

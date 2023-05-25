@@ -11,7 +11,7 @@ export const Hero = () => {
 
                 <div className='hero2 overflow-hidden m-auto w-[100%] max-h-[480px]'>
                 </div>
-                <div className="h-[220px]"></div>
+                <div className="h-[160px]"></div>
             </div>
 
             {/* four dots and banner images  */}

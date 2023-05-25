@@ -44,7 +44,7 @@ export const CustomButton = () => {
 							}
 							if (chain.unsupported) {
 								return (
-									<button onClick={openChainModal} type="button">
+									<button className='flex text-white bg-[#6039CF] h-[38px] items-center rounded-[8px] px-[8px] ' onClick={openChainModal} type="button">
 										Wrong network
 									</button>
 								);
