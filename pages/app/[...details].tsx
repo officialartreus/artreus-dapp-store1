@@ -237,9 +237,6 @@ const AppDetails = (path: { path: string }) => {
 			<>
 				<div className='px-[30px] text-[#7A7A7A]'>
 
-					{/* clear fix */}
-					<div className="absolte t-0 h-[80px]"></div>
-
 					<div className='flex space-x-[55px]'>
 						<div>
 							<Image unoptimized alt='' className="rounded-[20px]  w-[396px] object-cover h-[486px]" width={500} height={200} src={imgSrc} />
