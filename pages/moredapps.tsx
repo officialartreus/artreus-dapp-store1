@@ -96,15 +96,38 @@ const BuyAssets = () => {
             </div>
           </section>
 
-          <section className="mt-[80px]">
+          {/* most popular dapps  */}
+          <section className="mt-[50px]">
             <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
               <div className="flex items-center mb-6">
                 <p className="text-[32px] font-semibold flex-1">Most Popular Games</p>
-
               </div>
               {data?.length > 0 ? <MostPopular num={20} data={data} /> : <MostPopular />}
             </div>
           </section>
+
+
+          {/* recently added  */}
+          <div className='mt-[50px]'>
+            <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
+              <div className="flex items-center mb-6">
+                <p className="text-[32px] font-semibold flex-1">Recently Added Games</p>
+              </div>
+              {data.length > 0 ? <HotAssets len={12} data={data} /> : <HotAssets len={12} />}
+            </div>
+          </div>
+
+
+          {/* recently listed dapps  */}
+          <section className="mt-[50px] mb-[40px]">
+            <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
+              <div className="flex items-center mb-6">
+                <p className="text-[32px] font-semibold flex-1">Recently Listed Dapps</p>
+              </div>
+              {data.length > 0 ? <MostPopular num={6} data={data} /> : <MostPopular />}
+            </div>
+          </section>
+
         </div>
       )
     }

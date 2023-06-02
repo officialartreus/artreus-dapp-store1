@@ -110,7 +110,7 @@ export default function Home() {
             <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
               <div className="flex items-center mb-6">
                 <p className="text-[32px] font-semibold flex-1">Most Popular Games</p>
-                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'mostpopular'}>
+                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'moredapps'}>
                   See More
                 </Link>
               </div>
@@ -124,7 +124,7 @@ export default function Home() {
             <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
               <div className="flex items-center mb-6">
                 <p className="text-[32px] font-semibold flex-1">Recently Added</p>
-                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'recentlyadded'}>
+                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'moredapps'}>
                   See More
                 </Link>
               </div>
@@ -162,7 +162,7 @@ export default function Home() {
             <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
               <div className="flex items-center mb-6">
                 <p className="text-[32px] font-semibold flex-1">Hot Assets (Coming Soon)</p>
-                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'/'}>
+                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'moredapps'}>
                   See More
                 </Link>
               </div>
@@ -272,17 +272,13 @@ export default function Home() {
             <div className="bg-[#FFFFFF] shadow-md border border-[#e6e6e6] rounded-[12px] p-6">
               <div className="flex items-center mb-6">
                 <p className="text-[32px] font-semibold flex-1">Recently Listed Games</p>
-                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'/'}>
+                <Link className="text-[20px] p-0 m-0 text-[#212121]" href={'moredapps'}>
                   See More
                 </Link>
               </div>
               {data.length > 0 ? <MostPopular num={6} data={data} /> : <MostPopular />}
             </div>
           </section>
-
-
-
-
 
           <Footer />
 
