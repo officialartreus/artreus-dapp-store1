@@ -5,12 +5,20 @@ import LayoutWrapper from '@/components/LayoutWrapper'
 
 import '@rainbow-me/rainbowkit/styles.css';
 import {
+  connectorsForWallets,
   getDefaultWallets,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { Chain, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
+
+import {
+  injectedWallet,
+  rainbowWallet,
+  walletConnectWallet,
+} from '@rainbow-me/rainbowkit/wallets';
+import { CloverWallet } from '@/hooks/CLV';
 
 
 const Telos: Chain = {
@@ -229,19 +237,59 @@ const IoTex: Chain = {
   testnet: true,
 };
 
+const Clover: Chain = {
+  id: 1023,
+  name: 'Clover Testnet',
+  network: 'Clover',
+  iconUrl: '/images/icons/iotex-logo.svg',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Clover',
+    symbol: 'CLV',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://rpc.clover.finance'],
+    },
+    public: {
+      http: ['https://rpc.clover.finance'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Clover', url: 'https://testnet.iotexscan.io'
+    },
+  },
+  testnet: true,
+};
+
 
 export const { chains, provider } = configureChains(
-  [ZetaChain, Caduceus, Bitgert, IoTex, polygonMumbai, Core, Telos, Shardeum, Toronet],
+  [ZetaChain, Caduceus, Bitgert, IoTex, polygonMumbai, Core, Telos, Shardeum, Toronet, Clover],
   [
     publicProvider()
   ]
 );
 
 
-const { connectors } = getDefaultWallets({
-  appName: 'Artreus DApp Store',
-  chains
-});
+// const { connectors } = getDefaultWallets({
+//   appName: 'Artreus DApp Store',
+//   chains
+// });
+
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      injectedWallet({ chains }),
+      rainbowWallet({ chains }),
+      walletConnectWallet({ chains }),
+      CloverWallet({ chains })
+    ],
+  },
+]);
+
 
 const wagmiClient = createClient({
   autoConnect: true,
